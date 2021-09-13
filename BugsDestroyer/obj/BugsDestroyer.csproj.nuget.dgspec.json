@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {}
+    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {
+    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+        "projectUniqueName": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
         "projectName": "BugsDestroyer",
-        "projectPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+        "projectPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
         "packagesPath": "C:\\Users\\alec.ptt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\obj\\",
+        "outputPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\alec.ptt\\AppData\\Roaming\\NuGet\\NuGet.Config",
