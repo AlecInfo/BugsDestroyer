@@ -13,6 +13,9 @@ namespace BugsDestroyer
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+
+        private Texture2D Sol;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,6 +32,7 @@ namespace BugsDestroyer
             Window.IsBorderless = true;
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            IsMouseVisible = false;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -37,12 +41,12 @@ namespace BugsDestroyer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Sol = Content.Load<Texture2D>("Img/Decor/Sol");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
             // TODO: Add your update logic here
@@ -54,7 +58,15 @@ namespace BugsDestroyer
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+
+
+            _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
+
+            _spriteBatch.Draw(Sol, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0f);
+
+            _spriteBatch.End();
+
+
 
             base.Draw(gameTime);
         }
