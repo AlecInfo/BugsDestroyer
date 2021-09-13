@@ -179,11 +179,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
       "projectName": "BugsDestroyer",
       "projectPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
       "packagesPath": "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+      "projectName": "BugsDestroyer",
+      "projectPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+      "packagesPath": "C:\\Users\\alec.ptt\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\obj\\",
+>>>>>>> 29e82a19826ab2ab9f4883e2ce2b59f2e515bd3e
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Marco.Rdrgs2\\AppData\\Roaming\\NuGet\\NuGet.Config",
