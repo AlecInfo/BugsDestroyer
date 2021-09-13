@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "B15saNi7fMfgreqTum25N1G6X14JvikeIdyWSTpIZb3Ywor4x/AnpA7YSKfqNkOmEWt9tQn/f6glPWSOacPcsQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\rogue_like\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alec.ptt\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\alec.ptt\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+  ],
+  "logs": []
+}
