@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System;
+using System.Collections.Generic;
 
 namespace BugsDestroyer
 {
@@ -12,6 +16,8 @@ namespace BugsDestroyer
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            //_graphics.IsFullScreen = true;
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -19,6 +25,11 @@ namespace BugsDestroyer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Window.Position = new Point(0, 0);
+            Window.IsBorderless = true;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -27,7 +38,6 @@ namespace BugsDestroyer
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
