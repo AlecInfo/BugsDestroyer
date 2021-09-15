@@ -200,6 +200,12 @@
 /processorParam:TextureFormat=Color
 /build:Img/Perso/walking/walking6.png
 
+#begin Sounds/Music/Danger Escape.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Danger Escape.ogg
+
 #begin Sounds/Sfx/Keyboard-Typing-05-c-FesliyanStudios.com.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

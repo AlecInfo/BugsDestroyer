@@ -13,6 +13,7 @@ namespace BugsDestroyer
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        Song song;
 
         // Game
         Keys currentDirectionalKey;
@@ -52,6 +53,11 @@ namespace BugsDestroyer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // musique
+            this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
 
             // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol");
