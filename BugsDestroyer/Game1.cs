@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BugsDestroyer
 {
@@ -13,13 +14,21 @@ namespace BugsDestroyer
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // Game
+        Keys currentDirectionalKey;
+
+        // Perso
+        private Texture2D[] playerWalkingSprites = new Texture2D[7];
+        private Texture2D[] playerShotSprites = new Texture2D[3];
+        private Vector2 playerPos = new Vector2(100,100);
+        private int playerWalkingSpeed = 25;
+        private float playerRotation = 0f;
 
         private Texture2D Sol;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            //_graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -27,7 +36,6 @@ namespace BugsDestroyer
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             Window.Position = new Point(0, 0);
             Window.IsBorderless = true;
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -41,7 +49,18 @@ namespace BugsDestroyer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol");
+
+            // Perso
+            for (int x = 0; x < 7; x++) // load walking sprites
+            {
+                playerWalkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking"+x.ToString());
+            }
+            playerShotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
+            playerShotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
+            playerShotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
         }
 
         protected override void Update(GameTime gameTime)
@@ -49,20 +68,77 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-            // TODO: Add your update logic here
+            if (Keyboard.GetState().GetPressedKeys().Length != 0)
+            {
+                currentDirectionalKey = (Keyboard.GetState().GetPressedKeys().Last());
+            }
+            else
+            {
+                currentDirectionalKey = Keys.None;
+            }
+
+            // Perso
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                playerPos.X += playerWalkingSpeed / 1.4f;
+                playerPos.Y -= playerWalkingSpeed / 1.4f;
+                playerRotation = (float)Math.PI*7/4; //315
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                playerPos.X += playerWalkingSpeed / 1.4f;
+                playerPos.Y += playerWalkingSpeed / 1.4f;
+                playerRotation = (float)Math.PI / 4; // 45
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                playerPos.X -= playerWalkingSpeed / 1.4f;
+                playerPos.Y += playerWalkingSpeed / 1.4f;
+                playerRotation = (float)Math.PI*3/4; // 135
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                playerPos.X -= playerWalkingSpeed / 1.4f;
+                playerPos.Y -= playerWalkingSpeed / 1.4f;
+                playerRotation = (float)Math.PI*5/4; //225
+            }
+            else
+            {
+                if (currentDirectionalKey == Keys.D)
+                {
+                    playerPos.X += playerWalkingSpeed;
+                    playerRotation = 0; // 0
+                }
+                if (currentDirectionalKey == Keys.S)
+                {
+                    playerPos.Y += playerWalkingSpeed;
+                    playerRotation = (float)Math.PI/2; // 90
+                }
+                if (currentDirectionalKey == Keys.A)
+                {
+                    playerPos.X -= playerWalkingSpeed;
+                    playerRotation = (float)Math.PI; // 180
+                }
+                if (currentDirectionalKey == Keys.W)
+                {
+                    playerPos.Y -= playerWalkingSpeed;
+                    playerRotation = (float)Math.PI*1.5f; // 270
+                }
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
 
 
             _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
 
             _spriteBatch.Draw(Sol, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(playerWalkingSprites[0], playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width/2, playerWalkingSprites[0].Height/ 2), 1f, SpriteEffects.None, 0f);
 
             _spriteBatch.End();
 

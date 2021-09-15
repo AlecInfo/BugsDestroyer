@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {}
   },
   "projects": {
@@ -13,22 +12,9 @@
         "projectPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
         "packagesPath": "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\obj\\",
-=======
-    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
-        "projectName": "BugsDestroyer",
-        "projectPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
-        "packagesPath": "C:\\Users\\alec.ptt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\obj\\",
->>>>>>> ecc58a26f41c0e19452a04997478fb5cff3a8585
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alec.ptt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Marco.Rdrgs2\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.412\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.413\\RuntimeIdentifierGraph.json"
         }
       }
     }
