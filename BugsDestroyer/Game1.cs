@@ -21,10 +21,13 @@ namespace BugsDestroyer
         private Texture2D[] playerWalkingSprites = new Texture2D[7];
         private Texture2D[] playerShotSprites = new Texture2D[3];
         private Vector2 playerPos = new Vector2(100,100);
-        private int playerWalkingSpeed = 25;
+        private int playerWalkingSpeed = 10;
         private float playerRotation = 0f;
 
+        // Decor
         private Texture2D Sol;
+        private Texture2D Murs;
+        private Texture2D Glass;
 
         public Game1()
         {
@@ -52,6 +55,8 @@ namespace BugsDestroyer
 
             // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol");
+            Murs = Content.Load<Texture2D>("Img/Decor/mur0");
+            Glass = Content.Load<Texture2D>("Img/Decor/Glass");
 
             // Perso
             for (int x = 0; x < 7; x++) // load walking sprites
@@ -137,7 +142,10 @@ namespace BugsDestroyer
 
             _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
 
-            _spriteBatch.Draw(Sol, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(Sol, new Vector2(245,124), null, Color.White, 0f, Vector2.Zero, 0.90f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(Glass, new Vector2(245, 124), null, Color.White * 0.25f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+            
             _spriteBatch.Draw(playerWalkingSprites[0], playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width/2, playerWalkingSprites[0].Height/ 2), 1f, SpriteEffects.None, 0f);
 
             _spriteBatch.End();
