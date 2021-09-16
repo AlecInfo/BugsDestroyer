@@ -69,6 +69,7 @@ namespace BugsDestroyer
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 1f;
 
             // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol0");
