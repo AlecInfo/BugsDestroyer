@@ -55,31 +55,6 @@
           }
         }
       }
-    },
-    ".NETCoreApp,Version=v3.1/win-x64": {
-      "MonoGame.Content.Builder.Task/3.8.0.1641": {
-        "type": "package",
-        "build": {
-          "build/MonoGame.Content.Builder.Task.props": {},
-          "build/MonoGame.Content.Builder.Task.targets": {}
-        }
-      },
-      "MonoGame.Framework.DesktopGL/3.8.0.1641": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/MonoGame.Framework.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/MonoGame.Framework.dll": {}
-        },
-        "native": {
-          "runtimes/win-x64/native/SDL2.dll": {},
-          "runtimes/win-x64/native/soft_oal.dll": {}
-        },
-        "build": {
-          "build/MonoGame.Framework.DesktopGL.targets": {}
-        }
-      }
     }
   },
   "libraries": {
@@ -199,19 +174,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alec.ptt\\.nuget\\packages\\": {}
+    "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+      "projectUniqueName": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
       "projectName": "BugsDestroyer",
-      "projectPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
-      "packagesPath": "C:\\Users\\alec.ptt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3ème\\BugsDestroyer\\BugsDestroyer\\obj\\",
+      "projectPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+      "packagesPath": "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\alec.ptt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Marco.Rdrgs2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -223,7 +198,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -235,7 +209,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "MonoGame.Content.Builder.Task": {
             "target": "Package",
@@ -256,35 +229,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[3.1.19, 3.1.19]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[3.1.19, 3.1.19]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[3.1.19, 3.1.19]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.412\\RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.207\\RuntimeIdentifierGraph.json"
-      }
-    },
-    "runtimes": {
-      "win-x64": {
-        "#import": []
->>>>>>> 9c54b45b2917cc1838dae8bb70588e311e328c00
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.413\\RuntimeIdentifierGraph.json"
       }
     }
   }
