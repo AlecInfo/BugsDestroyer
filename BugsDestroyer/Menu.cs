@@ -22,6 +22,9 @@ namespace BugsDestroyer
 
         private bool hasReleasedKey = true;
 
+        // Sfx
+        SoundEffect MenuSfx;
+
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
@@ -33,12 +36,14 @@ namespace BugsDestroyer
 
             font = Content.Load<SpriteFont>("Fonts/GameBoy30");
 
+            MenuSfx = Content.Load<SoundEffect>("Sounds/Sfx/MenuSfx");
         }
 
         protected void menuUpdate(GameTime gameTime)
         {
             if (isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)))
             {
+                MenuSfx.Play();
                 isSectionPlayer = false;
                 colorSectionPlayer = Color.LightGray * 0.7f;
                 colorSectionGame = Color.White;
@@ -46,6 +51,7 @@ namespace BugsDestroyer
             }
             else if (!isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)))
             {
+                MenuSfx.Play();
                 isSectionPlayer = true;
                 colorSectionGame = Color.LightGray * 0.7f;
                 colorSectionPlayer = Color.White;
@@ -56,11 +62,13 @@ namespace BugsDestroyer
             {
                 if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                 {
+                    MenuSfx.Play();
                     selectedPlayer1 = false;
                     selectedPlayerText = "2 players";
                 }
                 else if (!selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
                 {
+                    MenuSfx.Play();
                     selectedPlayer1 = true;
                     selectedPlayerText = "1 player";
                 }
@@ -80,6 +88,7 @@ namespace BugsDestroyer
             {
                 if (isOnMenu && (Keyboard.GetState().IsKeyDown(Keys.D8)))
                 {
+                    MenuSfx.Play();
                     isOnMenu = false;
                 }
             }
