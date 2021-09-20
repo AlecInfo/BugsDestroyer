@@ -35,6 +35,7 @@ namespace BugsDestroyer
         // Menu
         private SpriteFont font;
         private bool isOnMenu = true;
+        private bool isPause = false;
 
         public Game1()
         {
@@ -62,7 +63,7 @@ namespace BugsDestroyer
 
             // musique
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
-            //MediaPlayer.Play(song);
+            MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 1f;
 
@@ -84,6 +85,7 @@ namespace BugsDestroyer
             playerCurrentSprite = playerWalkingSprites[0];
 
             menuLoad();
+            menuPauseLoad();
         }
 
         protected override void Update(GameTime gameTime)
@@ -91,12 +93,21 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
             if (isOnMenu)
             {
                 menuUpdate(gameTime);
             }else if (!isOnMenu)
             {
-                playerUpdate(gameTime);
+                if (!isPause)
+                {
+                    playerUpdate(gameTime);
+                }
+                menuPauseUpdate(gameTime);
+  
             }
 
             base.Update(gameTime);
@@ -128,7 +139,12 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
+<<<<<<< HEAD
+=======
+                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+>>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
                 #endregion
+                menuPauseDraw(gameTime);
             }
             _spriteBatch.End();
 

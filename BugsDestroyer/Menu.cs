@@ -20,12 +20,18 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
+<<<<<<< HEAD
         private bool hasReleasedKey = true;
 
         // Sfx
         SoundEffect MenuSfx;
 
 
+=======
+        // Sfx
+        SoundEffect MenuSfx;
+
+>>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
