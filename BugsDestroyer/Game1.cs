@@ -99,8 +99,13 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-            playerUpdate(gameTime);
+            
             menuUpdate(gameTime);
+
+            if (!isOnMenu)
+            {
+                playerUpdate(gameTime);
+            }
 
             base.Update(gameTime);
         }

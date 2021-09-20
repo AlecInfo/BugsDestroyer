@@ -20,8 +20,6 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
-        private bool hasReleasedKey = true;
-
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
@@ -43,14 +41,14 @@ namespace BugsDestroyer
             if (isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)))
             {
                 isSectionPlayer = false;
-                colorSectionPlayer = Color.LightGray * 0.7f;
+                colorSectionPlayer = Color.LightGray * 0.5f;
                 colorSectionGame = Color.White;
                 
             }
             else if (!isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)))
             {
                 isSectionPlayer = true;
-                colorSectionGame = Color.LightGray * 0.7f;
+                colorSectionGame = Color.LightGray * 0.5f;
                 colorSectionPlayer = Color.White;
             }
 
@@ -80,7 +78,7 @@ namespace BugsDestroyer
         protected void menuDraw(GameTime gameTime)
         {
             // background
-            //_spriteBatch.Draw(_menuImages[0], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(_menuImages[0], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
             // Titre
             _spriteBatch.DrawString(font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, 200), Color.White, 0f, new Vector2(font.MeasureString("bugs destroyer").X / 2, font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);
