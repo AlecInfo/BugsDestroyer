@@ -99,8 +99,13 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-            playerUpdate(gameTime);
+            
             menuUpdate(gameTime);
+
+            if (!isOnMenu)
+            {
+                playerUpdate(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -132,11 +137,6 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width / 2, playerWalkingSprites[0].Height / 2), 1f, SpriteEffects.None, 0f);
                 #endregion
             }
-
-
-
-
-
             _spriteBatch.End();
 
 

@@ -20,11 +20,14 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
+<<<<<<< HEAD
         private bool hasReleasedKey = true;
 
         // Sfx
         SoundEffect MenuSfx;
 
+=======
+>>>>>>> abd9254052556587e293e547d2743e4b27521711
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
@@ -32,6 +35,9 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp"),
                 Content.Load<Texture2D>("Img/Menu/flecheDroite"),
                 Content.Load<Texture2D>("Img/Menu/flecheGauche"),
+                Content.Load<Texture2D>("Img/Menu/boutonCentre"),
+                Content.Load<Texture2D>("Img/Menu/panelRouge"),
+                Content.Load<Texture2D>("Img/Menu/panelBleu"),
             };
 
             font = Content.Load<SpriteFont>("Fonts/GameBoy30");
@@ -45,7 +51,7 @@ namespace BugsDestroyer
             {
                 MenuSfx.Play();
                 isSectionPlayer = false;
-                colorSectionPlayer = Color.LightGray * 0.7f;
+                colorSectionPlayer = Color.LightGray * 0.5f;
                 colorSectionGame = Color.White;
                 
             }
@@ -53,36 +59,25 @@ namespace BugsDestroyer
             {
                 MenuSfx.Play();
                 isSectionPlayer = true;
-                colorSectionGame = Color.LightGray * 0.7f;
+                colorSectionGame = Color.LightGray * 0.5f;
                 colorSectionPlayer = Color.White;
             }
 
 
             if (isSectionPlayer)
             {
-                if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
+                if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D9)))
                 {
                     MenuSfx.Play();
                     selectedPlayer1 = false;
                     selectedPlayerText = "2 players";
                 }
-                else if (!selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
+                else if (!selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.D7)))
                 {
                     MenuSfx.Play();
                     selectedPlayer1 = true;
                     selectedPlayerText = "1 player";
                 }
-
-                //if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
-                //{
-                //    selectedPlayer1 = false;
-                //    selectedPlayerText = "2 players";
-                //}
-                //else if (!selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
-                //{
-                //    selectedPlayer1 = true;
-                //    selectedPlayerText = "1 player";
-                //}
             }
             else if (!isSectionPlayer)
             {
@@ -116,6 +111,26 @@ namespace BugsDestroyer
             // Jeux
             _spriteBatch.DrawString(font, "Play", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, 520), colorSectionGame, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
 
+            //Controle
+            _spriteBatch.Draw(_menuImages[3], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 130, 720), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, "play-pause", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 43, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, "quit", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 90, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            if (selectedPlayer1)
+            {
+                _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 -145, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 48, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            }
+            else
+            {
+                _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 300, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 325, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 225, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+
+                _spriteBatch.Draw(_menuImages[5], new Vector2(_graphics.PreferredBackBufferWidth / 2 + 70, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 40, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 145, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            }
         }
 
         
