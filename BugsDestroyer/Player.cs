@@ -11,23 +11,22 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
+        // Variables
+        private int[] PlayerWalkAnimSteps = { 1, 2, 3, 2, 1, 4, 5, 6, 5, 4 };
+        private Texture2D[] playerWalkingSprites = new Texture2D[7];
+        private int[] PlayerShotAnimSteps = { 1, 2};
+        private Texture2D[] playerShotSprites = new Texture2D[3];
+        private Texture2D playerCurrentSprite;
+        private int currentStep = 0;
+
+        private Vector2 playerPos = new Vector2(100, 100);
+        private int playerWalkingSpeed = 8;
+        private float playerRotation = 0f;
+
 
         protected void playerUpdate(GameTime gameTime)
         {
             KeyboardState playerKbdState = Keyboard.GetState();
-            Keys[] directionalKeys = { Keys.W, Keys.A, Keys.S, Keys.D };
-            if (playerKbdState.GetPressedKeys().Length != 0)
-            {
-                if (directionalKeys.Contains(playerKbdState.GetPressedKeys().Last()))
-                {
-                    currentDirectionalKey = playerKbdState.GetPressedKeys().Last();
-                }
-            }
-            else
-            {
-                currentDirectionalKey = Keys.None;
-            }
-
 
             if (playerKbdState.IsKeyDown(Keys.W) && playerKbdState.IsKeyDown(Keys.D))
             {
@@ -55,22 +54,22 @@ namespace BugsDestroyer
             }
             else
             {
-                if (currentDirectionalKey == Keys.D)
+                if (playerKbdState.IsKeyDown(Keys.D))
                 {
                     playerPos.X += playerWalkingSpeed;
                     playerRotation = 0; // 0
                 }
-                if (currentDirectionalKey == Keys.S)
+                if (playerKbdState.IsKeyDown(Keys.S))
                 {
                     playerPos.Y += playerWalkingSpeed;
                     playerRotation = (float)Math.PI / 2; // 90
                 }
-                if (currentDirectionalKey == Keys.A)
+                if (playerKbdState.IsKeyDown(Keys.A))
                 {
                     playerPos.X -= playerWalkingSpeed;
                     playerRotation = (float)Math.PI; // 180
                 }
-                if (currentDirectionalKey == Keys.W)
+                if (playerKbdState.IsKeyDown(Keys.W))
                 {
                     playerPos.Y -= playerWalkingSpeed;
                     playerRotation = (float)Math.PI * 1.5f; // 270
@@ -79,22 +78,24 @@ namespace BugsDestroyer
 
 
 
+            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastFrame > millisecondsPerFrame)
+            {
+                timeSinceLastFrame -= millisecondsPerFrame;
+
+                // increment current frame
+                currentStep += 1;
+                if (currentStep == 10)
+                {
+                    currentStep = 0;
+                    
+                }
+            }
+
             if (playerKbdState.IsKeyDown(Keys.W) || playerKbdState.IsKeyDown(Keys.D) || playerKbdState.IsKeyDown(Keys.S) || playerKbdState.IsKeyDown(Keys.A))
             {
-                timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-                if (timeSinceLastFrame > millisecondsPerFrame)
-                {
-                    timeSinceLastFrame -= millisecondsPerFrame;
 
-                    // increment current frame
-                    currentStep += 1;
-                    if (currentStep == 10)
-                    {
-                        currentStep = 0;
-                    }
-                }
-
-                playerCurrentSprite = playerWalkingSprites[PlayerAnimSteps[currentStep]];
+                playerCurrentSprite = playerWalkingSprites[PlayerWalkAnimSteps[currentStep]];
 
             }
             else

@@ -51,6 +51,18 @@
 /processorParam:TextureFormat=Color
 /build:Img/Decor/mur0.png
 
+#begin Img/Decor/ombre.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Decor/ombre.png
+
 #begin Img/Decor/pattern.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -206,6 +218,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Img/Perso/shot/shot2.png
+
+#begin Img/Perso/tir/0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Perso/tir/0.png
+
+#begin Img/Perso/tir/1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Perso/tir/1.png
 
 #begin Img/Perso/walking/walking0.png
 /importer:TextureImporter

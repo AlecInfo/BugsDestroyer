@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    public partial class Game1 : Game
+    /*public partial class Game1 : Game
     {
         private List<Texture2D> _menuImages;
 
@@ -36,6 +36,6 @@ namespace BugsDestroyer
 
         protected void menuDraw(GameTime gameTime)
         {
-            
-    }
+        }
+    }*/
 }

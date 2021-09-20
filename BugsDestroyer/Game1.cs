@@ -21,16 +21,6 @@ namespace BugsDestroyer
         Keys currentDirectionalKey;
         Random rnd = new Random();
 
-        // Perso
-        private Texture2D[] playerWalkingSprites = new Texture2D[7];
-        private Texture2D[] playerShotSprites = new Texture2D[3];
-        private Texture2D playerCurrentSprite;
-        private int[] PlayerAnimSteps = { 1, 2, 3, 2, 1, 4, 5, 6, 5, 4};
-        private int currentStep = 0;
-        private Vector2 playerPos = new Vector2(100,100);
-        private int playerWalkingSpeed = 8;
-        private float playerRotation = 0f;
-
         //Anim
         public int currentFrameNb;
         private int timeSinceLastFrame = 0;
@@ -40,6 +30,7 @@ namespace BugsDestroyer
         private Texture2D Sol;
         private Texture2D Murs;
         private Texture2D Glass;
+        private Texture2D Ombre;
 
         // Menu
         private SpriteFont font;
@@ -79,6 +70,7 @@ namespace BugsDestroyer
             Sol = Content.Load<Texture2D>("Img/Decor/Sol0");
             Murs = Content.Load<Texture2D>("Img/Decor/mur0");
             Glass = Content.Load<Texture2D>("Img/Decor/Glass");
+            Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
 
             // Perso
             for (int x = 0; x < 7; x++) // load walking sprites
@@ -99,10 +91,10 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-            
-            menuUpdate(gameTime);
-
-            if (!isOnMenu)
+            if (isOnMenu)
+            {
+                menuUpdate(gameTime);
+            }else if (!isOnMenu)
             {
                 playerUpdate(gameTime);
             }
@@ -123,7 +115,7 @@ namespace BugsDestroyer
             }
             else if (!isOnMenu)
             {
-                #region Mouvement du joueur
+                #region Player
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += Sol.Height / 2)
                 {
                     for (int x = 0; x < _graphics.PreferredBackBufferWidth; x += Sol.Width / 2)
@@ -133,8 +125,9 @@ namespace BugsDestroyer
                 }
                 //_spriteBatch.Draw(Glass, new Vector2(245, 124), null, Color.White * 0.15f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
-                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width / 2, playerWalkingSprites[0].Height / 2), 1f, SpriteEffects.None, 0f);
                 #endregion
             }
             _spriteBatch.End();
