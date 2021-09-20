@@ -101,8 +101,27 @@ namespace BugsDestroyer
             {
                 playerCurrentSprite = playerWalkingSprites[0];
             }
+
+
+
+            // collision des murs
+            if (playerPos.X < 280)
+            {
+                playerPos.X = 280;
+            }
+            else if (playerPos.X > 1640)
+            {
+                playerPos.X = 1640;
+            }
+
+            if (playerPos.Y < 160)
+            {
+                playerPos.Y = 160;
+            }
+            else if (playerPos.Y > 915)
+            {
+                playerPos.Y = 915;
+            }
         }
-
-
     }
 }

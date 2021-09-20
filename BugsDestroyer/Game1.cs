@@ -142,7 +142,7 @@ namespace BugsDestroyer
                 //_spriteBatch.Draw(Glass, new Vector2(245, 124), null, Color.White * 0.15f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
-                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width / 2, playerWalkingSprites[0].Height / 2), 1f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 #endregion
                 menuPauseDraw(gameTime);
             }
