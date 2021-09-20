@@ -99,6 +99,18 @@
 /processorParam:TextureFormat=Color
 /build:Img/Menu/backgroundMenuTemp.jpg
 
+#begin Img/Menu/boutonCentre.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Menu/boutonCentre.png
+
 #begin Img/Menu/flecheDroite.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -122,6 +134,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Img/Menu/flecheGauche.png
+
+#begin Img/Menu/panelBleu.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Menu/panelBleu.png
+
+#begin Img/Menu/panelRouge.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Menu/panelRouge.png
 
 #begin Img/Perso/mort.png
 /importer:TextureImporter
