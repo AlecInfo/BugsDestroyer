@@ -1,17 +1,18 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "85u3AVNrMwtkT9Eo1q8fRW4S/x1fWzdGXFr8E9hXb34+AWPTmsvxda2O9ivkvdXnIwb1LTnwhOWq7N2XZAQ71A==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
-=======
   "dgSpecHash": "qdo7PBz8owIGrCHHtwveDW55eNc0Y4r1RfTMSUTdEdZlcGOTym+FKljmD396ZLRJDoD4M4ntNYi+FI0WuhFoXQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3eme\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
->>>>>>> abd9254052556587e293e547d2743e4b27521711
   "expectedPackageFiles": [
-    "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-    "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+    "C:\\Users\\alec.ptt\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\alec.ptt\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problème de lecture du fichier cache C:\\Users\\alec.ptt\\Desktop\\CoursCFPT\\3eme\\BugsDestroyer\\BugsDestroyer\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

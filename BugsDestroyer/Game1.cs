@@ -44,6 +44,7 @@ namespace BugsDestroyer
         // Menu
         private SpriteFont font;
         private bool isOnMenu = true;
+        private bool isPause = false;
 
         public Game1()
         {
@@ -71,7 +72,7 @@ namespace BugsDestroyer
 
             // musique
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
-            //MediaPlayer.Play(song);
+            MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 1f;
 
@@ -92,6 +93,7 @@ namespace BugsDestroyer
             playerCurrentSprite = playerWalkingSprites[0];
 
             menuLoad();
+            menuPauseLoad();
         }
 
         protected override void Update(GameTime gameTime)
@@ -99,12 +101,18 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-            
-            menuUpdate(gameTime);
 
-            if (!isOnMenu)
+            if (isOnMenu)
             {
-                playerUpdate(gameTime);
+                menuUpdate(gameTime);
+            }else if (!isOnMenu)
+            {
+                if (!isPause)
+                {
+                    playerUpdate(gameTime);
+                }
+                menuPauseUpdate(gameTime);
+  
             }
 
             base.Update(gameTime);
@@ -136,6 +144,7 @@ namespace BugsDestroyer
 
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerWalkingSprites[0].Width / 2, playerWalkingSprites[0].Height / 2), 1f, SpriteEffects.None, 0f);
                 #endregion
+                menuPauseDraw(gameTime);
             }
             _spriteBatch.End();
 
