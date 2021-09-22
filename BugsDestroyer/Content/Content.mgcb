@@ -333,21 +333,21 @@
 /processorParam:Quality=Best
 /build:Sounds/Music/Danger Escape.ogg
 
-#begin Sounds/Sfx/Keyboard-Typing-05-c-FesliyanStudios.com.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Sfx/Keyboard-Typing-05-c-FesliyanStudios.com.mp3
-
 #begin Sounds/Sfx/MenuSfx.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Sfx/MenuSfx.wav
 
+#begin Sounds/Sfx/StartSfx.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/StartSfx.wav
+
 #begin Sounds/Sfx/tir.mp3
 /importer:Mp3Importer
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Sfx/tir.mp3
 

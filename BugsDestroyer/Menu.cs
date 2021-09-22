@@ -20,18 +20,10 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
-<<<<<<< HEAD
-        private bool hasReleasedKey = true;
-
         // Sfx
         SoundEffect MenuSfx;
+        SoundEffect StartSfx;
 
-
-=======
-        // Sfx
-        SoundEffect MenuSfx;
-
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
@@ -47,6 +39,7 @@ namespace BugsDestroyer
             font = Content.Load<SpriteFont>("Fonts/GameBoy30");
 
             MenuSfx = Content.Load<SoundEffect>("Sounds/Sfx/MenuSfx");
+            StartSfx = Content.Load<SoundEffect>("Sounds/Sfx/StartSfx");
         }
 
         protected void menuUpdate(GameTime gameTime)
@@ -87,7 +80,7 @@ namespace BugsDestroyer
             {
                 if (isOnMenu && (Keyboard.GetState().IsKeyDown(Keys.D8)))
                 {
-                    MenuSfx.Play();
+                    StartSfx.Play();
                     isOnMenu = false;
                 }
             }

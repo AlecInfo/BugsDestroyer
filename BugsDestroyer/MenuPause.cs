@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    /*public partial class Game1 : Game
+    public partial class Game1 : Game
     {
         private List<Texture2D> _menuPauseImages;
         private bool DollarKeyIsUp = false;
@@ -63,10 +63,7 @@ namespace BugsDestroyer
 
         protected void menuPauseDraw(GameTime gameTime)
         {
-<<<<<<< HEAD
-        }
-    }*/
-=======
+
             if (isPause)
             {
                 // background
@@ -82,5 +79,4 @@ namespace BugsDestroyer
             }
         }  
     }
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
 }

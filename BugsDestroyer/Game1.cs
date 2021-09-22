@@ -37,12 +37,14 @@ namespace BugsDestroyer
         private bool isOnMenu = true;
         private bool isPause = false;
 
+        // Enemies
+        private List<Object> enemies;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -72,18 +74,8 @@ namespace BugsDestroyer
             Murs = Content.Load<Texture2D>("Img/Decor/mur0");
             Glass = Content.Load<Texture2D>("Img/Decor/Glass");
             Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
-
-            // Perso
-            for (int x = 0; x < 7; x++) // load walking sprites
-            {
-                playerWalkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking"+x.ToString());
-            }
-            playerShotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
-            playerShotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            playerShotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
-
-            playerCurrentSprite = playerWalkingSprites[0];
-
+            
+            playerLoad();
             menuLoad();
             menuPauseLoad();
         }
@@ -93,10 +85,6 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
             if (isOnMenu)
             {
                 menuUpdate(gameTime);
@@ -134,15 +122,11 @@ namespace BugsDestroyer
                         _spriteBatch.Draw(Sol, new Vector2(x, y), null, Color.White * 0.75f, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
                     }
                 }
-                //_spriteBatch.Draw(Glass, new Vector2(245, 124), null, Color.White * 0.15f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
-<<<<<<< HEAD
-=======
-                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
+
                 #endregion
                 menuPauseDraw(gameTime);
             }
