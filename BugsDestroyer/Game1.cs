@@ -16,15 +16,14 @@ namespace BugsDestroyer
 
         // Sound
         Song song;
+        private SoundEffect keyboardSfx;
 
         // Game
-        Keys currentDirectionalKey;
         Random rnd = new Random();
-
-        //Anim
-        public int currentFrameNb;
-        private int timeSinceLastFrame = 0;
-        private int millisecondsPerFrame = 100;
+        private Texture2D[] player1walkingSprites = new Texture2D[7];
+        private Texture2D[] player1shotSprites = new Texture2D[3];
+        private Texture2D[] player2walkingSprites = new Texture2D[7];
+        private Texture2D[] player2shotSprites = new Texture2D[3];
 
         // Decor
         private Texture2D Sol;
@@ -39,6 +38,9 @@ namespace BugsDestroyer
 
         // Enemies
         private List<Object> enemies;
+
+        // Players
+        private Player player1;
 
         public Game1()
         {
@@ -74,8 +76,30 @@ namespace BugsDestroyer
             Murs = Content.Load<Texture2D>("Img/Decor/mur0");
             Glass = Content.Load<Texture2D>("Img/Decor/Glass");
             Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
-            
-            playerLoad();
+
+
+
+            // load walking sprites
+            for (int x = 0; x < 7; x++)
+            {
+                player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
+                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
+            }
+
+            // load shooting sprites
+            player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
+            player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
+            player1shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
+            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
+            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
+            player2shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
+
+            // load sfx
+            keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
+
+            player1 = new Player(player1walkingSprites, player1shotSprites, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F);
+
+
             menuLoad();
             menuPauseLoad();
         }
@@ -92,7 +116,7 @@ namespace BugsDestroyer
             {
                 if (!isPause)
                 {
-                    playerUpdate(gameTime);
+                    player1.playerUpdate(gameTime);
                 }
                 menuPauseUpdate(gameTime);
   
@@ -123,7 +147,7 @@ namespace BugsDestroyer
                     }
                 }
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 #endregion
