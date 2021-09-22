@@ -63,7 +63,6 @@ namespace BugsDestroyer
 
         protected void menuPauseDraw(GameTime gameTime)
         {
-
             if (isPause)
             {
                 // background

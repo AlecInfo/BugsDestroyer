@@ -126,7 +126,6 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
-
                 #endregion
                 menuPauseDraw(gameTime);
             }
