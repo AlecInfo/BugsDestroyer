@@ -20,18 +20,9 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
-<<<<<<< HEAD
-        private bool hasReleasedKey = true;
-
         // Sfx
         SoundEffect MenuSfx;
 
-
-=======
-        // Sfx
-        SoundEffect MenuSfx;
-
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
         protected void menuLoad()
         {
             _menuImages = new List<Texture2D>()
@@ -42,6 +33,8 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Menu/boutonCentre"),
                 Content.Load<Texture2D>("Img/Menu/panelRouge"),
                 Content.Load<Texture2D>("Img/Menu/panelBleu"),
+                Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp1"),
+                Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp2"),
             };
 
             font = Content.Load<SpriteFont>("Fonts/GameBoy30");
@@ -96,7 +89,7 @@ namespace BugsDestroyer
         protected void menuDraw(GameTime gameTime)
         {
             // background
-            _spriteBatch.Draw(_menuImages[0], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(_menuImages[6], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0f);
 
             // Titre
             _spriteBatch.DrawString(font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, 200), Color.White, 0f, new Vector2(font.MeasureString("bugs destroyer").X / 2, font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);

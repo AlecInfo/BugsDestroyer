@@ -93,10 +93,6 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
             if (isOnMenu)
             {
                 menuUpdate(gameTime);
@@ -139,10 +135,6 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
-<<<<<<< HEAD
-=======
-                _spriteBatch.Draw(playerCurrentSprite, playerPos, null, Color.White, playerRotation, new Vector2(playerCurrentSprite.Width / 2, playerCurrentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
->>>>>>> f89edee1855b8f683a331cd8db3fa0bf821cc2e7
                 #endregion
                 menuPauseDraw(gameTime);
             }
