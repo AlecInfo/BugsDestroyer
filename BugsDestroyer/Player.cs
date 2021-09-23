@@ -25,10 +25,17 @@ namespace BugsDestroyer
         public bool hasReleasedShootingkey = true;
         public Texture2D currentSprite;
         public int currentStep = 0;
+        private Texture2D _deadSprite;
 
         public Vector2 position = new Vector2(100, 100);
         public int walkingSpeed = 8;
         public float rotation = 0f;
+
+        // Point de vie
+        public const int HEALTH_POINT_MAX = 100;
+        public const int HEALTH_POINT_MIN = 0;
+        private int _healthPoint = HEALTH_POINT_MAX;
+        public int healthPoint { get => _healthPoint; set => _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX)); }
 
         //Anim
         public int currentFrameNb;
@@ -38,13 +45,14 @@ namespace BugsDestroyer
         // Sfx
         private SoundEffect _keyboardSfx;
 
-
         // ctor
-        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey)
+        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey)
         {
             _walkingSprites = walkingSprites;
             _shotSprites = shotSprites;
             currentSprite = _walkingSprites[0];
+
+            _deadSprite = deadSprite;
 
             _keyboardSfx = keyboardSfx;
 
@@ -55,7 +63,19 @@ namespace BugsDestroyer
 
         public void playerUpdate(GameTime gameTime)
         {
+            if (healthPoint <= 0)
+            {
+                currentSprite = _deadSprite;
+                return;
+            }
+
             KeyboardState playerKbdState = Keyboard.GetState();
+
+            // Just for test the health system
+            if (playerKbdState.IsKeyDown(Keys.M))
+            {
+                healthPoint -= 5;
+            }
 
             if (playerKbdState.IsKeyDown(_directionalKeys[0]) && playerKbdState.IsKeyDown(_directionalKeys[3]))
             {
