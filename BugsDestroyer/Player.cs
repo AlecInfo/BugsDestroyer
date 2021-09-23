@@ -37,6 +37,9 @@ namespace BugsDestroyer
         private int _healthPoint = HEALTH_POINT_MAX;
         public int healthPoint { get => _healthPoint; set => _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX)); }
 
+        // Health bar
+        Rectangle healthBarRectangle;
+
         //Anim
         public int currentFrameNb;
         public int timeSinceLastFrame = 0;
@@ -219,6 +222,25 @@ namespace BugsDestroyer
             else if (position.Y > 915) // Bottom
             {
                 position.Y = 915;
+            }
+
+            // barre de vie
+            healthBarRectangle = new Rectangle(
+                        Convert.ToInt32(position.X - HEALTH_POINT_MAX / 4),
+                        Convert.ToInt32(position.Y - currentSprite.Height / 2 - 20),
+                        healthPoint / 2,
+                        7);
+        }
+
+        public void playerDrawHealthBar(GameTime gameTime, SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
+        {
+            if (healthPoint > 0)
+            {
+                // Draw health bar border
+                healthBarBorderTexture.SetData(new Color[] { Color.Black });
+                _spriteBatch.Draw(healthBarBorderTexture, new Rectangle(healthBarRectangle.X - 2, healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
+                // Draw health bar
+                _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
             }
         }
     }
