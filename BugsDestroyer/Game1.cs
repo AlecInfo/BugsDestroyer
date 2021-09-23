@@ -58,8 +58,8 @@ namespace BugsDestroyer
         public direction currentDirection;
 
         // Health bar
-        Texture2D healthBarTexture;
-        Rectangle healthBarRectangle;
+        private Texture2D healthBarTexture;
+        private Texture2D healthBarBorderTexture;
 
 
         public Game1()
@@ -119,6 +119,7 @@ namespace BugsDestroyer
 
             // load health bar
             healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
+            healthBarBorderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
 
             // load sfx
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
@@ -153,16 +154,8 @@ namespace BugsDestroyer
                     {
                         player1.projectiles.projectileUpdate(gameTime);
                     }
-
-                    healthBarRectangle = new Rectangle(
-                        Convert.ToInt32(player1.position.X - Player.HEALTH_POINT_MAX/4),
-                        Convert.ToInt32(player1.position.Y - player1.currentSprite.Height/2 -20),
-                        player1.healthPoint/2,
-                        7);
-
                 }
                 menuPauseUpdate(gameTime);
-  
             }
 
             base.Update(gameTime);
@@ -200,12 +193,7 @@ namespace BugsDestroyer
                 }
                 menuPauseDraw(gameTime);
 
-                // Draw health bar border
-                Texture2D borderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
-                borderTexture.SetData(new Color[] { Color.Black });
-                _spriteBatch.Draw(borderTexture, new Rectangle(healthBarRectangle.X-2, healthBarRectangle.Y-2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
-                // Draw health bar
-                _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
+                player1.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
 
                 menuPauseDraw(gameTime);
             }
