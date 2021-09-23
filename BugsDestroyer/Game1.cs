@@ -41,6 +41,19 @@ namespace BugsDestroyer
 
         // Players
         private Player player1;
+        private Texture2D[] projectileSprite = new Texture2D[2];
+        public enum direction
+        {
+            N,
+            NE,
+            E,
+            SE,
+            S,
+            SW,
+            W,
+            NW,
+        }
+        public direction currentDirection;
 
         public Game1()
         {
@@ -97,7 +110,12 @@ namespace BugsDestroyer
             // load sfx
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
 
-            player1 = new Player(player1walkingSprites, player1shotSprites, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F);
+            // load projectile sprite
+            projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
+            projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
+
+            player1 = new Player(player1walkingSprites, player1shotSprites, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
+
 
 
             menuLoad();
@@ -117,6 +135,10 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     player1.playerUpdate(gameTime);
+                    if (player1.isShooting)
+                    {
+                        player1.projectiles.projectileUpdate(gameTime);
+                    }
                 }
                 menuPauseUpdate(gameTime);
   
@@ -151,6 +173,10 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 #endregion
+                if (player1.isShooting)
+                {
+                    player1.projectiles.projectileDraw(_spriteBatch);
+                }
                 menuPauseDraw(gameTime);
             }
             _spriteBatch.End();

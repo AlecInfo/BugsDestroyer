@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-     class Player
-    {
+     public class Player
+     {
         // controls
         private Keys[] _directionalKeys;
         private Keys _shootKey;
@@ -38,9 +38,13 @@ namespace BugsDestroyer
         // Sfx
         private SoundEffect _keyboardSfx;
 
+        // Projectiles
+        public Projectiles projectiles;
+        private Texture2D[] _projectileSprite = new Texture2D[2];
+        private Game1.direction currentDirection;
 
         // ctor
-        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey)
+        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite)
         {
             _walkingSprites = walkingSprites;
             _shotSprites = shotSprites;
@@ -50,6 +54,8 @@ namespace BugsDestroyer
 
             _directionalKeys = directionalKeys;
             _shootKey = shootkey;
+
+            this._projectileSprite = projectileSprite;
         }
 
 
@@ -61,47 +67,55 @@ namespace BugsDestroyer
             {
                 position.X += walkingSpeed / 1.4f;
                 position.Y -= walkingSpeed / 1.4f;
-                rotation = (float)Math.PI * 7 / 4; //315
+                rotation = (float)Math.PI * 7 / 4; //NE
+                currentDirection = Game1.direction.NE;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[3]) && playerKbdState.IsKeyDown(_directionalKeys[2]))
             {
                 position.X += walkingSpeed / 1.4f;
                 position.Y += walkingSpeed / 1.4f;
-                rotation = (float)Math.PI / 4; // 45
+                rotation = (float)Math.PI / 4; // SE
+                currentDirection = Game1.direction.SE;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[2]) && playerKbdState.IsKeyDown(_directionalKeys[1]))
             {
                 position.X -= walkingSpeed / 1.4f;
                 position.Y += walkingSpeed / 1.4f;
-                rotation = (float)Math.PI * 3 / 4; // 135
+                rotation = (float)Math.PI * 3 / 4; // SW
+                currentDirection = Game1.direction.SW;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[1]) && playerKbdState.IsKeyDown(_directionalKeys[0]))
             {
                 position.X -= walkingSpeed / 1.4f;
                 position.Y -= walkingSpeed / 1.4f;
-                rotation = (float)Math.PI * 5 / 4; //225
+                rotation = (float)Math.PI * 5 / 4; // NW
+                currentDirection = Game1.direction.NW;
             }
             else
             {
                 if (playerKbdState.IsKeyDown(_directionalKeys[3]))
                 {
                     position.X += walkingSpeed;
-                    rotation = 0; // 0
+                    rotation = 0; // E
+                    currentDirection = Game1.direction.E;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[2]))
                 {
                     position.Y += walkingSpeed;
-                    rotation = (float)Math.PI / 2; // 90
+                    rotation = (float)Math.PI / 2; // S
+                    currentDirection = Game1.direction.S;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[1]))
                 {
                     position.X -= walkingSpeed;
-                    rotation = (float)Math.PI; // 180
+                    rotation = (float)Math.PI; // W
+                    currentDirection = Game1.direction.W;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[0]))
                 {
                     position.Y -= walkingSpeed;
-                    rotation = (float)Math.PI * 1.5f; // 270
+                    rotation = (float)Math.PI * 1.5f; // N
+                    currentDirection = Game1.direction.N;
                 }
             }
 
@@ -120,6 +134,9 @@ namespace BugsDestroyer
                     hasReleasedShootingkey = false;
                     isShooting = true;
                     _keyboardSfx.Play(volume: 0.3f, 0f, 0f); // play keybord sfx with 30% volume
+
+                    // Create a projectile
+                    projectiles = new Projectiles(_projectileSprite, position, rotation, currentDirection);
                 }
                 // if has released shoot key (F)
                 if (playerKbdState.IsKeyUp(Keys.F) && !hasReleasedShootingkey)
