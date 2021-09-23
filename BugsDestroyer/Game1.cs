@@ -25,6 +25,7 @@ namespace BugsDestroyer
         private Texture2D player1DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
+        public List<Projectiles> listProjectiles = new List<Projectiles>();
 
         // Decor
         private Texture2D Sol;
@@ -42,6 +43,7 @@ namespace BugsDestroyer
 
         // Players
         private Player player1;
+        private Player player2;
 
         private Texture2D[] projectileSprite = new Texture2D[2];
         public enum direction
@@ -128,6 +130,7 @@ namespace BugsDestroyer
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
             player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
+            //player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
 
 
 
@@ -140,20 +143,39 @@ namespace BugsDestroyer
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D0))
                 Exit();
 
+            // si le joueur est dans le menu de bienvenu
             if (isOnMenu)
             {
                 menuUpdate(gameTime);
-            }else if (!isOnMenu)
+            } // sinon si il est pas dans le menu
+            else if (!isOnMenu)
             {
+                // si le joueur est pas dans le menu pause
                 if (!isPause)
                 {
-                    player1.playerUpdate(gameTime);
-
-                    if (player1.isShooting)
+                    // un joueur sélectionnée
+                    if (selectedPlayer1)
                     {
-                        player1.projectiles.projectileUpdate(gameTime);
+                        player1.playerUpdate(gameTime, listProjectiles);
+                    } // sinon si deux joueur séléctionnées
+                    else if (!selectedPlayer1)
+                    {
+                        player1.playerUpdate(gameTime, listProjectiles);
+                        //player2.playerUpdate(gameTime, listProjectiles);
                     }
 
+                    // si la liste du nombre de projectile n'est pas à zero
+                    if (listProjectiles.Count != 0)
+                    {
+                        // parcourir la liste en partant du plus grand index
+                        for (int i = listProjectiles.Count -1; i >= 0; i--)
+                        {
+                            // acctualisation du projectile
+                            listProjectiles[i].projectileUpdate(gameTime, listProjectiles);
+                        }
+                    }
+
+                    // barre de vie du joueur
                     healthBarRectangle = new Rectangle(
                         Convert.ToInt32(player1.position.X - Player.HEALTH_POINT_MAX/4),
                         Convert.ToInt32(player1.position.Y - player1.currentSprite.Height/2 -20),
@@ -161,6 +183,8 @@ namespace BugsDestroyer
                         7);
 
                 }
+
+                // acctualisation du menu pause
                 menuPauseUpdate(gameTime);
   
             }
@@ -174,14 +198,16 @@ namespace BugsDestroyer
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-
+            // si le joueur est dans le menu de bienvenu
             if (isOnMenu)
             {
+                // affichage du menu
                 menuDraw(gameTime);
-            }
+            } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
             {
-                #region Player
+                #region Player 
+                // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += Sol.Height / 2)
                 {
                     for (int x = 0; x < _graphics.PreferredBackBufferWidth; x += Sol.Width / 2)
@@ -189,15 +215,37 @@ namespace BugsDestroyer
                         _spriteBatch.Draw(Sol, new Vector2(x, y), null, Color.White * 0.75f, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
                     }
                 }
+                // affichage des murs
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+
+                // si le un joueur est sélectionnée
+                if (selectedPlayer1)
+                { 
+                    // affichage du joueur
+                    _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                } // sinon si deux joueurs
+                else if (!selectedPlayer1)
+                {
+                    // affichage
+                    _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                    //_spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                }
+
+                // si la liste du nombre de projectile n'est pas à zero
+                if (listProjectiles.Count != 0)
+                {
+                    // affichage de tous les éléments de la liste 
+                    foreach (Projectiles projectile in listProjectiles)
+                    {
+                        projectile.projectileDraw(_spriteBatch);
+                    }
+                }
+
+                // affichage d'une ombre à coté des murs
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 #endregion
 
-                if (player1.isShooting)
-                {
-                    player1.projectiles.projectileDraw(_spriteBatch);
-                }
+                // affichage du menu pause
                 menuPauseDraw(gameTime);
 
                 // Draw health bar border
