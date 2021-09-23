@@ -42,6 +42,8 @@ namespace BugsDestroyer
         // Players
         private Player player1;
 
+        private Cockroach cockroach;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -98,7 +100,9 @@ namespace BugsDestroyer
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
 
             player1 = new Player(player1walkingSprites, player1shotSprites, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F);
-
+            
+            cockroach = new Cockroach();
+            cockroach.Load(Content);
 
             menuLoad();
             menuPauseLoad();
@@ -117,6 +121,7 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     player1.playerUpdate(gameTime);
+                    cockroach.Update(gameTime);
                 }
                 menuPauseUpdate(gameTime);
   
@@ -148,6 +153,7 @@ namespace BugsDestroyer
                 }
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                cockroach.Draw(_spriteBatch);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 #endregion

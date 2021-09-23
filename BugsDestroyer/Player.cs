@@ -116,6 +116,7 @@ namespace BugsDestroyer
                 // if has clicked shoot key (F)
                 if (playerKbdState.IsKeyDown(_shootKey) && hasReleasedShootingkey && !isShooting)
                 {
+                    walkingSpeed = 6;
                     currentStep = 0; // reset anim
                     hasReleasedShootingkey = false;
                     isShooting = true;
@@ -143,6 +144,7 @@ namespace BugsDestroyer
                     currentStep += 1; // increment current frame
                     if (currentStep == _shotSprites.Length)
                     {
+                        walkingSpeed = 8;
                         currentStep = 0; // reset anim
                         isShooting = false;
                     }
