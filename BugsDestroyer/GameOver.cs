@@ -17,7 +17,7 @@ namespace BugsDestroyer
         public float opacity = 0f;
 
         // images
-        public Texture2D _imgGameOver;
+        public List<Texture2D> _listGameOver;
 
         // timer seconds
         public float currentTimeSecond = 0f;
@@ -37,7 +37,13 @@ namespace BugsDestroyer
         protected void gameOverLoad()
         {
             // load img gameOver
-            _imgGameOver = Content.Load<Texture2D>("Img/Menu/gameOver");
+            _listGameOver = new List<Texture2D>()
+            {
+                Content.Load<Texture2D>("Img/Menu/gameOver"),
+                Content.Load<Texture2D>("Img/Logo/logo_CFPT"),
+                Content.Load<Texture2D>("Img/Logo/logo_espaceEntreprise"),
+            };
+
         }
 
         protected void gameOverUpdate(GameTime gameTime)
@@ -132,13 +138,18 @@ namespace BugsDestroyer
                     if (gameOver)
                     {
                         // affichage de l'image game over
-                        _spriteBatch.Draw(_imgGameOver, new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 3), null, Color.White, 0f, new Vector2(_imgGameOver.Width / 2, _imgGameOver.Height / 2), 1.5f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(_listGameOver[0], new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 3), null, Color.White, 0f, new Vector2(_listGameOver[0].Width / 2, _listGameOver[0].Height / 2), 1.5f, SpriteEffects.None, 0f);
                     }
+
+                    // affichage des logos
+                    _spriteBatch.Draw(_listGameOver[1], new Vector2(100, 1000), null, Color.White * 0.4f, 0f, new Vector2(_listGameOver[1].Width / 2, _listGameOver[1].Height / 2), 1.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(_listGameOver[2], new Vector2(1830, 1000), null, Color.White * 0.4f, 0f, new Vector2(_listGameOver[2].Width / 2, _listGameOver[2].Height / 2), 1.5f, SpriteEffects.None, 0f);
+
                     // affichge de la question reponse
-                    _spriteBatch.DrawString(font, "do you want to continue ?", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2), Color.White * 0.8f, 0f, new Vector2(font.MeasureString("DO YOU WANT TO CONTINUE ?").X / 2, font.MeasureString("DO YOU WANT TO CONTINUE ?").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(font, "do you want to continue ?", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 50), Color.White * 0.8f, 0f, new Vector2(font.MeasureString("DO YOU WANT TO CONTINUE ?").X / 2, font.MeasureString("DO YOU WANT TO CONTINUE ?").Y / 2), 0.5f, SpriteEffects.None, 0f);
                     
-                    _spriteBatch.DrawString(font, "yes", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, _graphics.PreferredBackBufferHeight / 2 + 50), onYes, 0f, new Vector2(font.MeasureString("YES").X / 2, font.MeasureString("YES").Y / 2), 0.5f, SpriteEffects.None, 0f);
-                    _spriteBatch.DrawString(font, "no", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 50, _graphics.PreferredBackBufferHeight / 2 + 50), onNo, 0f, new Vector2(font.MeasureString("NO").X / 2, font.MeasureString("NO").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(font, "yes", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, _graphics.PreferredBackBufferHeight / 2 + 100), onYes, 0f, new Vector2(font.MeasureString("YES").X / 2, font.MeasureString("YES").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(font, "no", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 50, _graphics.PreferredBackBufferHeight / 2 + 100), onNo, 0f, new Vector2(font.MeasureString("NO").X / 2, font.MeasureString("NO").Y / 2), 0.5f, SpriteEffects.None, 0f);
                 }
             }
         }

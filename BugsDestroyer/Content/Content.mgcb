@@ -111,6 +111,30 @@
 /processorParam:TextureFormat=Color
 /build:Img/Health/healthPixel.png
 
+#begin Img/Logo/logo_CFPT.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Logo/logo_CFPT.png
+
+#begin Img/Logo/logo_espaceEntreprise.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Logo/logo_espaceEntreprise.png
+
 #begin Img/Menu/backgroundMenuTemp.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
