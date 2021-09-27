@@ -99,6 +99,18 @@
 /processorParam:TextureFormat=Color
 /build:Img/Decor/Sol0.png
 
+#begin Img/Health/healthPixel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Health/healthPixel.png
+
 #begin Img/Menu/backgroundMenuTemp.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -374,6 +386,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Img/Perso/tir/1.png
+
+#begin Img/Perso/tir/balle1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Perso/tir/balle1.png
+
+#begin Img/Perso/tir/balle2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Perso/tir/balle2.png
 
 #begin Img/Perso/walking/walking0.png
 /importer:TextureImporter

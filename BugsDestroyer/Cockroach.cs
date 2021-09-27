@@ -16,8 +16,8 @@ namespace BugsDestroyer
         private Vector2 _position = new Vector2(500,500);
         private Texture2D[] _cockroachFrames = new Texture2D[2];
         private Texture2D _cockroachCurrentFrame;
-        private int _speed = 5;
-        private int rotation = 0;
+        private int _speed = 3;
+        private float rotation = 0;
 
         //Anim
         public int currentFrameNb;
@@ -40,7 +40,7 @@ namespace BugsDestroyer
             _cockroachCurrentFrame = _cockroachFrames[0];
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Player player)
         {
             // Animation
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
@@ -56,17 +56,40 @@ namespace BugsDestroyer
                     _cockroachCurrentFrame = _cockroachFrames[0];
             }
 
-            FollowPlayer();
+            FollowPlayer(player);
         }
 
-        private void FollowPlayer()
+        private void FollowPlayer(Player player)
         {
+            //float distanceX = player.position.X - _position.X;
+            //float distanceY = player.position.Y - _position.Y;
+            Vector2 direction = player.position - _position;
 
+            float rotationDegrees = 0;
+
+            // calculate rotation angle to mqake enemy look at player (degrees)
+            if ((direction.X > 0 && direction.Y < 0) || (direction.X > 0 && direction.Y > 0)) // NE or SE
+            {
+                rotationDegrees = (float)Math.Atan(direction.Y / direction.X);
+            }
+            else if ((direction.X < 0 && direction.Y < 0) || (direction.X < 0 && direction.Y > 0)) // NW or SW
+            {
+                rotationDegrees = (float)Math.Atan(direction.Y / direction.X) - 135;
+            }
+
+            // Convert degrees to radians 
+            rotation = (float)(rotationDegrees+90 * (Math.PI / 180));
+            
+            
+            // Move enemy towards player
+            direction.Normalize();
+            Vector2 velocity = direction * _speed;
+            _position += velocity;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this._cockroachCurrentFrame, _position, null, Color.White, 0f, new Vector2(_cockroachCurrentFrame.Width / 2, _cockroachCurrentFrame.Height / 2), 2f , SpriteEffects.None, 0f);
+            spriteBatch.Draw(this._cockroachCurrentFrame, _position, null, Color.White, rotation, new Vector2(_cockroachCurrentFrame.Width / 2, _cockroachCurrentFrame.Height / 2), 2f , SpriteEffects.None, 0f);
         }
     }
 }

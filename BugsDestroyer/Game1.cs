@@ -22,8 +22,10 @@ namespace BugsDestroyer
         Random rnd = new Random();
         private Texture2D[] player1walkingSprites = new Texture2D[7];
         private Texture2D[] player1shotSprites = new Texture2D[3];
+        private Texture2D player1DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
+        private Cockroach cockroach;
 
         // Decor
         private Texture2D Sol;
@@ -41,8 +43,24 @@ namespace BugsDestroyer
 
         // Players
         private Player player1;
+        private Texture2D[] projectileSprite = new Texture2D[2];
+        public enum direction
+        {
+            N,
+            NE,
+            E,
+            SE,
+            S,
+            SW,
+            W,
+            NW,
+        }
+        public direction currentDirection;
 
-        private Cockroach cockroach;
+        // Health bar
+        Texture2D healthBarTexture;
+        Rectangle healthBarRectangle;
+
 
         public Game1()
         {
@@ -96,13 +114,25 @@ namespace BugsDestroyer
             player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
             player2shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
 
+            // load dead sprite
+            player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
+
+            // load health bar
+            healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
+
             // load sfx
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
+            // load projectile sprite
+            projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
+            projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
-            player1 = new Player(player1walkingSprites, player1shotSprites, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F);
-            
+            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
+
+
             cockroach = new Cockroach();
             cockroach.Load(Content);
+
+
 
             menuLoad();
             menuPauseLoad();
@@ -121,7 +151,19 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     player1.playerUpdate(gameTime);
-                    cockroach.Update(gameTime);
+                    cockroach.Update(gameTime, player1);
+
+                    if (player1.isShooting)
+                    {
+                        player1.projectiles.projectileUpdate(gameTime);
+                    }
+
+                    healthBarRectangle = new Rectangle(
+                        Convert.ToInt32(player1.position.X - Player.HEALTH_POINT_MAX/4),
+                        Convert.ToInt32(player1.position.Y - player1.currentSprite.Height/2 -20),
+                        player1.healthPoint/2,
+                        7);
+
                 }
                 menuPauseUpdate(gameTime);
   
@@ -155,14 +197,25 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 cockroach.Draw(_spriteBatch);
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-
                 #endregion
+
+                if (player1.isShooting)
+                {
+                    player1.projectiles.projectileDraw(_spriteBatch);
+                }
+                menuPauseDraw(gameTime);
+
+                // Draw health bar border
+                Texture2D borderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+                borderTexture.SetData(new Color[] { Color.Black });
+                _spriteBatch.Draw(borderTexture, new Rectangle(healthBarRectangle.X-2, healthBarRectangle.Y-2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
+                // Draw health bar
+                _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
+
                 menuPauseDraw(gameTime);
             }
+
             _spriteBatch.End();
-
-
-
             base.Draw(gameTime);
         }
     }
