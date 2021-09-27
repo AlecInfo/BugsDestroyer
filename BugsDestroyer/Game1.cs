@@ -132,7 +132,7 @@ namespace BugsDestroyer
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
             player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
-            //player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
+            player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
 
 
             cockroach = new Cockroach();
@@ -142,6 +142,7 @@ namespace BugsDestroyer
 
             menuLoad();
             menuPauseLoad();
+            gameOverLoad();
         }
 
         protected override void Update(GameTime gameTime)
@@ -168,7 +169,7 @@ namespace BugsDestroyer
                     else if (!selectedPlayer1)
                     {
                         player1.playerUpdate(gameTime, listProjectiles);
-                        //player2.playerUpdate(gameTime, listProjectiles);
+                        player2.playerUpdate(gameTime, listProjectiles);
                     }
 
                     // si la liste du nombre de projectile n'est pas à zero
@@ -181,6 +182,8 @@ namespace BugsDestroyer
                             listProjectiles[i].projectileUpdate(gameTime, listProjectiles);
                         }
                     }
+
+                    gameOverUpdate(gameTime);
                 }
 
                 // acctualisation du menu pause
@@ -225,9 +228,9 @@ namespace BugsDestroyer
                 } // sinon si deux joueurs
                 else if (!selectedPlayer1)
                 {
-                    // affichage
+                    // affichage des deux joueurs
                     _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-                    //_spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 }
 
                 // si la liste du nombre de projectile n'est pas à zero
@@ -242,14 +245,17 @@ namespace BugsDestroyer
 
                 // affichage d'une ombre à coté des murs
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+
+                // affichage de la bar de vie
+                player1.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
+
                 #endregion
 
                 // affichage du menu pause
                 menuPauseDraw(gameTime);
 
-                player1.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
-
-                menuPauseDraw(gameTime);
+                // affichage du gameOver
+                gameOverDraw(gameTime);
             }
 
             _spriteBatch.End();
