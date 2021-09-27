@@ -23,6 +23,7 @@ namespace BugsDestroyer
         private Texture2D[] player1walkingSprites = new Texture2D[7];
         private Texture2D[] player1shotSprites = new Texture2D[3];
         private Texture2D player1DeadSprite;
+        private Texture2D player2DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
         private Cockroach cockroach;
@@ -107,19 +108,18 @@ namespace BugsDestroyer
             for (int x = 0; x < 7; x++)
             {
                 player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
-                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
+                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso2/walking/walking" + x.ToString());
             }
 
             // load shooting sprites
             player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
             player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            player1shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
-            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
-            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            player2shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
+            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
+            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso2/shot/shot1");
 
             // load dead sprite
             player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
+            player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
 
             // load health bar
             healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
@@ -132,7 +132,7 @@ namespace BugsDestroyer
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
             player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
-            player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
+            player2 = new Player(player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite);
 
 
             cockroach = new Cockroach();
@@ -233,6 +233,9 @@ namespace BugsDestroyer
                     _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 }
 
+                // affichage du cafard
+                cockroach.Draw(_spriteBatch);
+
                 // si la liste du nombre de projectile n'est pas à zero
                 if (listProjectiles.Count != 0)
                 {
@@ -248,6 +251,7 @@ namespace BugsDestroyer
 
                 // affichage de la bar de vie
                 player1.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
+                player2.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
 
                 #endregion
 

@@ -27,7 +27,7 @@ namespace BugsDestroyer
         public int currentStep = 0;
         private Texture2D _deadSprite;
 
-        public Vector2 position = new Vector2(100, 100);
+        public Vector2 position = new Vector2(300, 500);
         public int walkingSpeed = 8;
         public float rotation = 0f;
 
