@@ -20,7 +20,6 @@ namespace BugsDestroyer
         private float rotation = 0;
 
         //Anim
-        public int currentFrameNb;
         public int timeSinceLastFrame = 0;
         public int millisecondsPerFrame = 100;
 

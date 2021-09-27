@@ -37,6 +37,9 @@ namespace BugsDestroyer
         private int _healthPoint = HEALTH_POINT_MAX;
         public int healthPoint { get => _healthPoint; set => _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX)); }
 
+        // Health bar
+        Rectangle healthBarRectangle;
+
         //Anim
         public int currentFrameNb;
         public int timeSinceLastFrame = 0;
@@ -46,13 +49,14 @@ namespace BugsDestroyer
         private SoundEffect _keyboardSfx;
 
         // Projectiles
-        public Projectiles projectiles;
         private Texture2D[] _projectileSprite = new Texture2D[2];
         private Game1.direction currentDirection;
+
 
         // ctor
         public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite)
         {
+            // Récuperation des données
             _walkingSprites = walkingSprites;
             _shotSprites = shotSprites;
             currentSprite = _walkingSprites[0];
@@ -68,10 +72,12 @@ namespace BugsDestroyer
         }
 
 
-        public void playerUpdate(GameTime gameTime)
+        public void playerUpdate(GameTime gameTime, List<Projectiles> listProjectiles)
         {
+            // si les points de vie du player <= 0
             if (healthPoint <= 0)
             {
+                // changement de l'image en image mort
                 currentSprite = _deadSprite;
                 return;
             }
@@ -84,6 +90,7 @@ namespace BugsDestroyer
                 healthPoint -= 5;
             }
 
+            // Modification de la position du player dans toutes les directions
             if (playerKbdState.IsKeyDown(_directionalKeys[0]) && playerKbdState.IsKeyDown(_directionalKeys[3]))
             {
                 position.X += walkingSpeed / 1.4f;
@@ -141,12 +148,11 @@ namespace BugsDestroyer
             }
 
 
+            // animation du joueur
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastFrame > millisecondsPerFrame)
             {
                 timeSinceLastFrame -= millisecondsPerFrame;
-
-
 
                 // if has clicked shoot key (F)
                 if (playerKbdState.IsKeyDown(_shootKey) && hasReleasedShootingkey && !isShooting)
@@ -158,7 +164,13 @@ namespace BugsDestroyer
                     _keyboardSfx.Play(volume: 0.3f, 0f, 0f); // play keybord sfx with 30% volume
 
                     // Create a projectile
-                    projectiles = new Projectiles(_projectileSprite, position, rotation, currentDirection);
+                    if (playerKbdState.IsKeyDown(_directionalKeys[0]) || playerKbdState.IsKeyDown(_directionalKeys[1]) || playerKbdState.IsKeyDown(_directionalKeys[2]) || playerKbdState.IsKeyDown(_directionalKeys[3]))
+                    {
+                        listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection, 20));
+                    }
+                    else
+                        listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection));
+
                 }
                 // if has released shoot key (F)
                 if (playerKbdState.IsKeyUp(Keys.F) && !hasReleasedShootingkey)
@@ -212,6 +224,25 @@ namespace BugsDestroyer
             else if (position.Y > 915) // Bottom
             {
                 position.Y = 915;
+            }
+
+            // barre de vie
+            healthBarRectangle = new Rectangle(
+                        Convert.ToInt32(position.X - HEALTH_POINT_MAX / 4),
+                        Convert.ToInt32(position.Y - currentSprite.Height / 2 - 20),
+                        healthPoint / 2,
+                        7);
+        }
+
+        public void playerDrawHealthBar(GameTime gameTime, SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
+        {
+            if (healthPoint > 0)
+            {
+                // Draw health bar border
+                healthBarBorderTexture.SetData(new Color[] { Color.Black });
+                _spriteBatch.Draw(healthBarBorderTexture, new Rectangle(healthBarRectangle.X - 2, healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
+                // Draw health bar
+                _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
             }
         }
     }
