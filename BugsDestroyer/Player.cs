@@ -192,7 +192,7 @@ namespace BugsDestroyer
                 else if (isShooting)
                 {
                     currentStep += 1; // increment current frame
-                    if (currentStep == _shotSprites.Length)
+                    if (currentStep == shotAnimSteps.Length)
                     {
                         walkingSpeed = 8;
                         currentStep = 0; // reset anim
@@ -234,7 +234,7 @@ namespace BugsDestroyer
                         7);
         }
 
-        public void playerDrawHealthBar(GameTime gameTime, SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
+        public void playerDrawHealthBar(SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
         {
             if (healthPoint > 0)
             {

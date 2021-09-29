@@ -40,9 +40,10 @@ namespace BugsDestroyer
         private bool isPause = false;
 
         // Enemies
-        private List<Object> enemies;
+        private List<Enemy> listEnemies = new List<Enemy>();
 
         // Players
+        private Player[] players = new Player[2];
         private Player player1;
         private Player player2;
 
@@ -133,10 +134,18 @@ namespace BugsDestroyer
 
             player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
             player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
+            players[0] = player1;
+            players[1] = player2;
 
 
-            cockroach = new Cockroach();
-            cockroach.Load(Content);
+            listEnemies.Add(new Cockroach(new Vector2(500, 500)));
+            listEnemies.Add(new Cockroach(new Vector2(500, 100)));
+            listEnemies.Add(new Cockroach(new Vector2(1250, 500)));
+            listEnemies.Add(new Cockroach(new Vector2(100, 750)));
+            foreach (Enemy enemy in listEnemies)
+            {
+                enemy.Load(Content);
+            }
 
 
 
@@ -160,7 +169,11 @@ namespace BugsDestroyer
                 // si le joueur est pas dans le menu pause
                 if (!isPause)
                 {
-                    cockroach.Update(gameTime, player1);
+                    // mettre a jour tout les ennemis
+                    for (int i = listEnemies.Count - 1; i >= 0; i--)
+                    {
+                        listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies);
+                    }
 
                     if (selectedPlayer1)
                     {
@@ -233,6 +246,12 @@ namespace BugsDestroyer
                     _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
                 }
 
+                // Afficher tout les ennemis
+                foreach (Enemy enemy in listEnemies)
+                {
+                    enemy.Draw(_spriteBatch);
+                }
+
                 // si la liste du nombre de projectile n'est pas à zero
                 if (listProjectiles.Count != 0)
                 {
@@ -247,7 +266,8 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 // affichage de la bar de vie
-                player1.playerDrawHealthBar(gameTime, _spriteBatch, healthBarBorderTexture, healthBarTexture);
+                player1.playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                player2.playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
 
                 #endregion
 
