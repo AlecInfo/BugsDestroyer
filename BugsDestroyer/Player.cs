@@ -27,7 +27,7 @@ namespace BugsDestroyer
         public int currentStep = 0;
         private Texture2D _deadSprite;
 
-        public Vector2 position = new Vector2(300, 500);
+        public Vector2 _position;
         public int walkingSpeed = 8;
         public float rotation = 0f;
 
@@ -54,7 +54,7 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite)
+        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
             _walkingSprites = walkingSprites;
@@ -69,6 +69,8 @@ namespace BugsDestroyer
             _shootKey = shootkey;
 
             this._projectileSprite = projectileSprite;
+
+            this._position = position;
         }
 
 
@@ -90,32 +92,32 @@ namespace BugsDestroyer
                 healthPoint -= 5;
             }
 
-            // Modification de la position du player dans toutes les directions
+            // Modification de la _position du player dans toutes les directions
             if (playerKbdState.IsKeyDown(_directionalKeys[0]) && playerKbdState.IsKeyDown(_directionalKeys[3]))
             {
-                position.X += walkingSpeed / 1.4f;
-                position.Y -= walkingSpeed / 1.4f;
+                _position.X += walkingSpeed / 1.4f;
+                _position.Y -= walkingSpeed / 1.4f;
                 rotation = (float)Math.PI * 7 / 4; //NE
                 currentDirection = Game1.direction.NE;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[3]) && playerKbdState.IsKeyDown(_directionalKeys[2]))
             {
-                position.X += walkingSpeed / 1.4f;
-                position.Y += walkingSpeed / 1.4f;
+                _position.X += walkingSpeed / 1.4f;
+                _position.Y += walkingSpeed / 1.4f;
                 rotation = (float)Math.PI / 4; // SE
                 currentDirection = Game1.direction.SE;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[2]) && playerKbdState.IsKeyDown(_directionalKeys[1]))
             {
-                position.X -= walkingSpeed / 1.4f;
-                position.Y += walkingSpeed / 1.4f;
+                _position.X -= walkingSpeed / 1.4f;
+                _position.Y += walkingSpeed / 1.4f;
                 rotation = (float)Math.PI * 3 / 4; // SW
                 currentDirection = Game1.direction.SW;
             }
             else if (playerKbdState.IsKeyDown(_directionalKeys[1]) && playerKbdState.IsKeyDown(_directionalKeys[0]))
             {
-                position.X -= walkingSpeed / 1.4f;
-                position.Y -= walkingSpeed / 1.4f;
+                _position.X -= walkingSpeed / 1.4f;
+                _position.Y -= walkingSpeed / 1.4f;
                 rotation = (float)Math.PI * 5 / 4; // NW
                 currentDirection = Game1.direction.NW;
             }
@@ -123,25 +125,25 @@ namespace BugsDestroyer
             {
                 if (playerKbdState.IsKeyDown(_directionalKeys[3]))
                 {
-                    position.X += walkingSpeed;
+                    _position.X += walkingSpeed;
                     rotation = 0; // E
                     currentDirection = Game1.direction.E;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[2]))
                 {
-                    position.Y += walkingSpeed;
+                    _position.Y += walkingSpeed;
                     rotation = (float)Math.PI / 2; // S
                     currentDirection = Game1.direction.S;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[1]))
                 {
-                    position.X -= walkingSpeed;
+                    _position.X -= walkingSpeed;
                     rotation = (float)Math.PI; // W
                     currentDirection = Game1.direction.W;
                 }
                 if (playerKbdState.IsKeyDown(_directionalKeys[0]))
                 {
-                    position.Y -= walkingSpeed;
+                    _position.Y -= walkingSpeed;
                     rotation = (float)Math.PI * 1.5f; // N
                     currentDirection = Game1.direction.N;
                 }
@@ -166,10 +168,10 @@ namespace BugsDestroyer
                     // Create a projectile
                     if (playerKbdState.IsKeyDown(_directionalKeys[0]) || playerKbdState.IsKeyDown(_directionalKeys[1]) || playerKbdState.IsKeyDown(_directionalKeys[2]) || playerKbdState.IsKeyDown(_directionalKeys[3]))
                     {
-                        listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection, 20));
+                        listProjectiles.Add(new Projectiles(_projectileSprite, _position, rotation, currentDirection, 20));
                     }
                     else
-                        listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection));
+                        listProjectiles.Add(new Projectiles(_projectileSprite, _position, rotation, currentDirection));
 
                 }
                 // if has released shoot key (F)
@@ -208,28 +210,28 @@ namespace BugsDestroyer
 
 
             // Collision des murs
-            if (position.X < 280) // Left
+            if (_position.X < 280) // Left
             {
-                position.X = 280;
+                _position.X = 280;
             }
-            else if (position.X > 1640) // Right
+            else if (_position.X > 1640) // Right
             {
-                position.X = 1640;
+                _position.X = 1640;
             }
 
-            if (position.Y < 155) // Top
+            if (_position.Y < 155) // Top
             {
-                position.Y = 155;
+                _position.Y = 155;
             }
-            else if (position.Y > 915) // Bottom
+            else if (_position.Y > 915) // Bottom
             {
-                position.Y = 915;
+                _position.Y = 915;
             }
 
             // barre de vie
             healthBarRectangle = new Rectangle(
-                        Convert.ToInt32(position.X - HEALTH_POINT_MAX / 4),
-                        Convert.ToInt32(position.Y - currentSprite.Height / 2 - 20),
+                        Convert.ToInt32(_position.X - HEALTH_POINT_MAX / 4),
+                        Convert.ToInt32(_position.Y - currentSprite.Height / 2 - 20),
                         healthPoint / 2,
                         7);
         }

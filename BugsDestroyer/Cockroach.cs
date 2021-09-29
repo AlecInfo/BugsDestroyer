@@ -62,7 +62,7 @@ namespace BugsDestroyer
         {
             //float distanceX = player.position.X - _position.X;
             //float distanceY = player.position.Y - _position.Y;
-            Vector2 direction = player.position - _position;
+            Vector2 direction = player._position - _position;
 
             float rotationDegrees = 0;
 
