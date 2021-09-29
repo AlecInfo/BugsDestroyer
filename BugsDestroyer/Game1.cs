@@ -17,6 +17,7 @@ namespace BugsDestroyer
         // Sound
         Song song;
         private SoundEffect keyboardSfx;
+        public int music = 0;
 
         // Game
         Random rnd = new Random();
@@ -39,6 +40,10 @@ namespace BugsDestroyer
         private SpriteFont font;
         private bool isOnMenu = true;
         private bool isPause = false;
+
+        // Sfx
+        SoundEffect MenuSfx;
+        SoundEffect StartSfx;
 
         // Enemies
         private List<Object> enemies;
@@ -94,7 +99,7 @@ namespace BugsDestroyer
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0f; // 1f
+            MediaPlayer.Volume = 1f;
 
             // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol0");
@@ -199,6 +204,7 @@ namespace BugsDestroyer
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+
             // si le joueur est dans le menu de bienvenu
             if (isOnMenu)
             {
@@ -260,6 +266,7 @@ namespace BugsDestroyer
 
                 // affichage du gameOver
                 gameOverDraw(gameTime);
+
             }
 
             _spriteBatch.End();

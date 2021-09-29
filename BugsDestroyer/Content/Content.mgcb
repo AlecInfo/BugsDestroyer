@@ -657,6 +657,12 @@
 /processorParam:Quality=Best
 /build:Sounds/Music/Danger Escape.ogg
 
+#begin Sounds/Music/Funeral March.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Funeral March.wav
+
 #begin Sounds/Sfx/MenuSfx.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

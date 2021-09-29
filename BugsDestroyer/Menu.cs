@@ -21,9 +21,7 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
-        // Sfx
-        SoundEffect MenuSfx;
-        SoundEffect StartSfx;
+
 
         protected void menuLoad()
         {

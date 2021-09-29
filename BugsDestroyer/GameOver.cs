@@ -15,6 +15,9 @@ namespace BugsDestroyer
         public bool isOnMenuGameOver = false;
         public bool gameOver = true;
         public float opacity = 0f;
+        private Song songGameOver;
+        private bool isGOSongPlaying = false;
+        private bool isChangeSelect = true;
 
         // images
         public List<Texture2D> _listGameOver;
@@ -34,6 +37,7 @@ namespace BugsDestroyer
         public Color onYes = Color.Lime;
         public Color onNo = Color.White * 0.6f;
 
+
         protected void gameOverLoad()
         {
             // load img gameOver
@@ -44,6 +48,10 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Logo/logo_espaceEntreprise"),
             };
 
+            this.songGameOver = Content.Load<Song>("Sounds/Music/Funeral March");
+
+            MenuSfx = Content.Load<SoundEffect>("Sounds/Sfx/MenuSfx");
+            StartSfx = Content.Load<SoundEffect>("Sounds/Sfx/StartSfx");
         }
 
         protected void gameOverUpdate(GameTime gameTime)
@@ -81,6 +89,15 @@ namespace BugsDestroyer
                 }
                 else if (isOnMenuGameOver)
                 {
+                    if (!isGOSongPlaying)
+                    {
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(songGameOver);
+                        MediaPlayer.IsRepeating = false;
+                        MediaPlayer.Volume = 0.5f;
+                        isGOSongPlaying = true;
+                    }
+
                     // timer pour faire un effect sur l'img game over
                     currentTimeSecond += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -97,28 +114,37 @@ namespace BugsDestroyer
                     }
 
                     // changement de selection
-                    if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
+
+                    if (!isYes && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
                     {
+                        MenuSfx.Play();
                         onYes = Color.Lime;
                         onNo = Color.White * 0.6f;
                         isYes = true;
+                        isChangeSelect = false;
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
+                    else if (isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                     {
+                        MenuSfx.Play();
                         onYes = Color.White * 0.6f;
                         onNo = Color.Lime;
                         isYes = false;
+                        isChangeSelect = false;
                     }
+
+
 
                     // reponse au question si oui 
                     if (isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
                     {
+                        StartSfx.Play();
                         this.Exit();
                         Game1 game = new Game1();
                         game.Run();
                     }// si non
                     else if (!isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
                     {
+                        StartSfx.Play();
                         this.Exit();
                     }
                 }
