@@ -17,12 +17,14 @@ namespace BugsDestroyer
         // Sound
         Song song;
         private SoundEffect keyboardSfx;
+        public int music = 0;
 
         // Game
         Random rnd = new Random();
         private Texture2D[] player1walkingSprites = new Texture2D[7];
         private Texture2D[] player1shotSprites = new Texture2D[3];
         private Texture2D player1DeadSprite;
+        private Texture2D player2DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
         private Cockroach cockroach;
@@ -38,6 +40,10 @@ namespace BugsDestroyer
         private SpriteFont font;
         private bool isOnMenu = true;
         private bool isPause = false;
+
+        // Sfx
+        SoundEffect MenuSfx;
+        SoundEffect StartSfx;
 
         // Enemies
         private List<Enemy> listEnemies = new List<Enemy>();
@@ -108,19 +114,18 @@ namespace BugsDestroyer
             for (int x = 0; x < 7; x++)
             {
                 player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
-                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
+                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso2/walking/walking" + x.ToString());
             }
 
             // load shooting sprites
             player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
             player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            player1shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
-            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
-            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            player2shotSprites[2] = Content.Load<Texture2D>("Img/Perso/shot/shot2");
+            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
+            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso2/shot/shot1");
 
             // load dead sprite
             player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
+            player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
 
             // load health bar
             healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
@@ -132,8 +137,8 @@ namespace BugsDestroyer
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
-            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite);
-            player2 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad1, projectileSprite);
+            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite, new Vector2(400, 400));
+            player2 = new Player(player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
             players[0] = player1;
             players[1] = player2;
 
@@ -212,6 +217,7 @@ namespace BugsDestroyer
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+
             // si le joueur est dans le menu de bienvenu
             if (isOnMenu)
             {
@@ -276,6 +282,7 @@ namespace BugsDestroyer
 
                 // affichage du gameOver
                 gameOverDraw(gameTime);
+
             }
 
             _spriteBatch.End();

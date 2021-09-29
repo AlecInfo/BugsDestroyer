@@ -27,7 +27,7 @@ namespace BugsDestroyer
         public int currentStep = 0;
         private Texture2D _deadSprite;
 
-        public Vector2 position = new Vector2(100, 100);
+        public Vector2 position;
         public int walkingSpeed = 8;
         public float rotation = 0f;
 
@@ -54,7 +54,7 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite)
+        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
             _walkingSprites = walkingSprites;
@@ -69,6 +69,8 @@ namespace BugsDestroyer
             _shootKey = shootkey;
 
             this._projectileSprite = projectileSprite;
+
+            this.position = position;
         }
 
 
@@ -90,7 +92,7 @@ namespace BugsDestroyer
                 healthPoint -= 5;
             }
 
-            // Modification de la position du player dans toutes les directions
+            // Modification de la _position du player dans toutes les directions
             if (playerKbdState.IsKeyDown(_directionalKeys[0]) && playerKbdState.IsKeyDown(_directionalKeys[3]))
             {
                 position.X += walkingSpeed / 1.4f;
