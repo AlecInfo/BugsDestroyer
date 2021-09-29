@@ -35,6 +35,9 @@ namespace BugsDestroyer
             // si le joueur a appuié sur pause
             if (isPause)
             {
+                MediaPlayer.Volume = 0.5f;
+                
+
                 if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
                 {
                     DollarKeyIsUp = false;
@@ -49,6 +52,7 @@ namespace BugsDestroyer
             }
             else
             {
+                MediaPlayer.Volume = 1f;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
                 {

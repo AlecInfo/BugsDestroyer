@@ -90,7 +90,7 @@ namespace BugsDestroyer
                 else if (isOnMenuGameOver)
                 {
                     if (!isGOSongPlaying)
-                    {
+                    { 
                         MediaPlayer.Stop();
                         MediaPlayer.Play(songGameOver);
                         MediaPlayer.IsRepeating = false;

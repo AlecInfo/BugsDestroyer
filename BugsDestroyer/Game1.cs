@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace BugsDestroyer
 {
     public partial class Game1 : Game
@@ -88,7 +89,7 @@ namespace BugsDestroyer
             IsMouseVisible = false;
             _graphics.ApplyChanges();
 
-            base.Initialize();
+            base.Initialize(); 
         }
 
         protected override void LoadContent()
@@ -100,6 +101,8 @@ namespace BugsDestroyer
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 1f;
+
+            
 
             // Decor
             Sol = Content.Load<Texture2D>("Img/Decor/Sol0");
