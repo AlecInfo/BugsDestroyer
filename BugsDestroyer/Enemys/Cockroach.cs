@@ -23,10 +23,12 @@ namespace BugsDestroyer
         private int _knockbackAmount = 1;
         private int knockbackTime = 100;
         private bool _hasDealtDamage = false;
+        private List<Player> mobPlayers = new List<Player>();
 
         //Anim
         public int timeSinceLastFrame = 0;
         public int millisecondsPerFrame = 100;
+
 
 
         // ctor
@@ -44,8 +46,17 @@ namespace BugsDestroyer
             _cockroachCurrentFrame = _cockroachFrames[0];
         }
 
-        public override void Update(GameTime gameTime, Player[] players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
+        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
+            mobPlayers.Clear();
+            foreach (Player player in players)
+            {
+                if (player.healthPoint > 0)
+                {
+                    mobPlayers.Add(player);
+                }
+            }
+
             // Animation
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastFrame > millisecondsPerFrame)
@@ -60,36 +71,68 @@ namespace BugsDestroyer
                     _cockroachCurrentFrame = _cockroachFrames[0];
             }
 
-            if (!_hasDealtDamage)
+            if (mobPlayers.Count > 0)
             {
-                FollowPlayer(players);
+                if (!_hasDealtDamage)
+                {
+                    FollowPlayer(mobPlayers);
+                }
+                else
+                    Knockback();
             }
-            else
-                Knockback();
+
+            if (_position.X < 250) // Left
+            {
+                _position.X = 250;
+            }
+            else if (_position.X > 1660) // Right
+            {
+                _position.X = 1660;
+            }
+            if (_position.Y < 140) // Top
+            {
+                _position.Y = 140;
+            }
+            else if (_position.Y > 940) // Bottom
+            {
+                _position.Y = 940;
+            }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
             playerCollision(players, enemies);
         }
 
-
-        private void FollowPlayer(Player[] players)
+        private void FollowPlayer(List<Player> players)
         {
-            Player playerToFollow;
+            Player playerToFollow = players[0];
             float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - _position.X), 2) + Math.Pow((players[0].position.Y - _position.Y), 2)); // calculate distance to player 1
-            float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
 
-            // decide to follow the closest player
-            if (distancePlayer1 < distancePlayer2)
+            
+            if (players.Count > 1) // si il y a deux joueur 
             {
-                playerToFollow = players[0];
-            }
-            else
-            {
-                playerToFollow = players[1];
-            }
+                float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
 
+                // decide to follow the closest player
+                /*if (players[0].healthPoint <= 0)
+                {
+                    playerToFollow = players[1];
+                }
+                else if (players[1].healthPoint <= 0)
+                {
+                    playerToFollow = players[0];
+                }
+                else*/if (distancePlayer1 < distancePlayer2)
+                {
+                    playerToFollow = players[0];
+                }
+                else
+                {
+                    playerToFollow = players[1];
+                }
+            }
 
             direction = playerToFollow.position - _position;
+
 
             float rotationDegrees = 0;
 
@@ -119,6 +162,7 @@ namespace BugsDestroyer
             Vector2 velocity = direction * _knockbackAmount;
             _position -= velocity;
             knockbackTime -= 1;
+
             if (knockbackTime > 0)
             {
                 Knockback();
@@ -144,7 +188,7 @@ namespace BugsDestroyer
             }
         }
 
-        public void playerCollision(Player[] players, List<Enemy> enemies)
+        public void playerCollision(List<Player> players, List<Enemy> enemies)
         {
             foreach (Player player in players)
             {

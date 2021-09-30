@@ -81,6 +81,7 @@ namespace BugsDestroyer
             {
                 // changement de l'image en image mort
                 currentSprite = _deadSprite;
+                
                 return;
             }
 
