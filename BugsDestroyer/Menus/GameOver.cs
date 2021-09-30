@@ -57,7 +57,7 @@ namespace BugsDestroyer
         protected void gameOverUpdate(GameTime gameTime)
         {
             // si le player est mort
-            if (player1.healthPoint <= 0 || (player1.healthPoint <= 0 && player2.healthPoint <= 0))
+            if ((selectedPlayer1 && player1.healthPoint <= 0) || (!selectedPlayer1 && player1.healthPoint <= 0 && player2.healthPoint <= 0))
             {
                 isDead = true;
             }
@@ -90,7 +90,7 @@ namespace BugsDestroyer
                 else if (isOnMenuGameOver)
                 {
                     if (!isGOSongPlaying)
-                    {
+                    { 
                         MediaPlayer.Stop();
                         MediaPlayer.Play(songGameOver);
                         MediaPlayer.IsRepeating = false;

@@ -32,7 +32,7 @@ namespace BugsDestroyer
             this._speed = speed;
         }
 
-        public void projectileUpdate(GameTime gameTime, List<Projectiles> listProjectiles)
+        public void projectileUpdate(GameTime gameTime, List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion)
         {
             // acctualisation de l'image du projectile dans chaque direction
             if (_direction == Game1.direction.NW)
@@ -82,18 +82,22 @@ namespace BugsDestroyer
             if (position.X < 250) // Left
             {
                 listProjectiles.Remove(this);
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }));
             }
             else if (position.X > 1660) // Right
             {
                 listProjectiles.Remove(this);
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI));
             }
             if (position.Y < 140) // Top
             {
                 listProjectiles.Remove(this);
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI/2));
             }
             else if (position.Y > 940) // Bottom
             {
                 listProjectiles.Remove(this);
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI*3/2));
             }
         }
 
