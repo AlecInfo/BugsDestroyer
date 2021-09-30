@@ -33,7 +33,7 @@ namespace BugsDestroyer
 
         // Point de vie
         public const int HEALTH_POINT_MAX = 100;
-        public const int HEALTH_POINT_MIN = 0;
+        public const int HEALTH_POINT_MIN = 0; 
         private int _healthPoint = HEALTH_POINT_MAX;
         public int healthPoint { get => _healthPoint; set => _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX)); }
 
@@ -50,7 +50,7 @@ namespace BugsDestroyer
 
         // Projectiles
         private Texture2D[] _projectileSprite = new Texture2D[2];
-        private Game1.direction currentDirection;
+        private Game1.direction currentDirection = Game1.direction.E;
 
 
         // ctor
@@ -249,4 +249,4 @@ namespace BugsDestroyer
             }
         }
     }
-}
+} 

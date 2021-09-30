@@ -28,8 +28,12 @@ namespace BugsDestroyer
         private Texture2D player2DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
-        private Cockroach cockroach;
         public List<Projectiles> listProjectiles = new List<Projectiles>();
+        private List<Enemy> listEnemies = new List<Enemy>();
+        private List<Explosion> listExplosion = new List<Explosion>();
+        private Texture2D[] mobExplosion = new Texture2D[3];
+        private Texture2D shotExplosion;
+
 
         // Decor
         private Texture2D Sol;
@@ -51,9 +55,6 @@ namespace BugsDestroyer
         SoundEffect MenuSfx;
         SoundEffect StartSfx;
 
-        // Enemies
-        private List<Enemy> listEnemies = new List<Enemy>();
-
         // Players
         private List<Player> players = new List<Player>();
         private Player player1;
@@ -72,7 +73,6 @@ namespace BugsDestroyer
             W,
             NW,
         }
-        public direction currentDirection;
 
         // Health bar
         private Texture2D healthBarTexture;
@@ -147,10 +147,16 @@ namespace BugsDestroyer
 
             // load sfx
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
+
             // load projectile sprite
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
+            // load explosion
+            mobExplosion[0] = Content.Load<Texture2D>("Img/Mobs/Mort/mort0");
+            mobExplosion[1] = Content.Load<Texture2D>("Img/Mobs/Mort/mort1");
+            mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
+            shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
 
             listEnemies.Add(new Cockroach(new Vector2(500, 500)));
@@ -185,6 +191,17 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
 
+                    // mettre a jour tout les ennemis
+                    for (int i = listEnemies.Count - 1; i >= 0; i--)
+                    {
+                        listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies, listExplosion, mobExplosion.ToList());
+                    }
+
+                    for (int i = listExplosion.Count - 1; i >= 0; i--)
+                    {
+                        listExplosion[i].Update(gameTime, listExplosion);
+                    }
+
                     if (selectedPlayer1)
                     {
                         if (players.Count <= 0)
@@ -209,13 +226,7 @@ namespace BugsDestroyer
                         player1.playerUpdate(gameTime, listProjectiles);
                         player2.playerUpdate(gameTime, listProjectiles);
                     }
-
-                    // mettre a jour tout les ennemis
-                    for (int i = listEnemies.Count - 1; i >= 0; i--)
-                    {
-                        listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies);
-                    }
-
+                    
                     // si la liste du nombre de projectile n'est pas à zero
                     if (listProjectiles.Count != 0)
                     {
@@ -223,7 +234,7 @@ namespace BugsDestroyer
                         for (int i = listProjectiles.Count -1; i >= 0; i--)
                         {
                             // acctualisation du projectile
-                            listProjectiles[i].projectileUpdate(gameTime, listProjectiles);
+                            listProjectiles[i].projectileUpdate(gameTime, listProjectiles, listExplosion, shotExplosion);
                         }
                     }
 
@@ -233,7 +244,7 @@ namespace BugsDestroyer
                 // acctualisation du menu pause
                 menuPauseUpdate(gameTime);
             }
-
+            
             base.Update(gameTime);
         }
 
@@ -302,6 +313,9 @@ namespace BugsDestroyer
                     enemy.Draw(_spriteBatch);
                 }
 
+                // affichage d'une ombre à coté des murs
+                _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+
                 // si la liste du nombre de projectile n'est pas à zero
                 if (listProjectiles.Count != 0)
                 {
@@ -312,8 +326,10 @@ namespace BugsDestroyer
                     }
                 }
 
-                // affichage d'une ombre à coté des murs
-                _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                foreach (Explosion explosion in listExplosion)
+                {
+                    explosion.Draw(_spriteBatch);
+                }
 
                 #endregion
 

@@ -46,7 +46,7 @@ namespace BugsDestroyer
             _cockroachCurrentFrame = _cockroachFrames[0];
         }
 
-        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies)
+        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
             mobPlayers.Clear();
             foreach (Player player in players)
@@ -98,15 +98,10 @@ namespace BugsDestroyer
                 _position.Y = 940;
             }
 
-            projectileCollision(projectiles, enemies);
-            playerCollision(mobPlayers, enemies);
+            projectileCollision(projectiles, enemies, explosions, mobExplosion);
+            playerCollision(players, enemies);
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="players"></param>
         private void FollowPlayer(List<Player> players)
         {
             Player playerToFollow = players[0];
@@ -161,9 +156,6 @@ namespace BugsDestroyer
             _position += velocity;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Knockback()
         {
             direction.Normalize();
@@ -181,7 +173,7 @@ namespace BugsDestroyer
             }
         }
 
-        public void projectileCollision(List<Projectiles> projectiles, List<Enemy> enemies)
+        public void projectileCollision(List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
@@ -190,7 +182,8 @@ namespace BugsDestroyer
                 if (Vector2.DistanceSquared(projectiles[i].position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
                     enemies.Remove(this); // remove enemy
-                    projectiles.Remove(projectiles[i]);
+                    projectiles.Remove(projectiles[i]); // remove projectile
+                    explosions.Add(new Explosion(_position, mobExplosion, size:2));
                 }
             }
         }

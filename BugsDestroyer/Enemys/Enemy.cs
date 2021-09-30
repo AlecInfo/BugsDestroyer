@@ -15,7 +15,7 @@ namespace BugsDestroyer
 
         public abstract void Load(ContentManager Content);
 
-        public abstract void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies);
+        public abstract void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion);
 
         public abstract void Draw(SpriteBatch spriteBatch);
 

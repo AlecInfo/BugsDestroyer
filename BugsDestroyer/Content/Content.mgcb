@@ -507,6 +507,18 @@
 /processorParam:TextureFormat=Color
 /build:Img/Perso/tir/balle2.png
 
+#begin Img/Perso/tir/shotParticle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Img/Perso/tir/shotParticle.png
+
 #begin Img/Perso/walking/walking0.png
 /importer:TextureImporter
 /processor:TextureProcessor
