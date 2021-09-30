@@ -11,11 +11,13 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
+        // Varriables
         private List<Texture2D> _menuPauseImages;
         private bool DollarKeyIsUp = false;
 
         protected void menuPauseLoad()
         {
+            // Listes de Sprites
             _menuPauseImages = new List<Texture2D>()
             {
                 Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp"),
@@ -30,8 +32,12 @@ namespace BugsDestroyer
 
         protected void menuPauseUpdate(GameTime gameTime)
         {
+            // si le joueur a appuié sur pause
             if (isPause)
             {
+                MediaPlayer.Volume = 0.5f;
+                
+
                 if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
                 {
                     DollarKeyIsUp = false;
@@ -46,6 +52,7 @@ namespace BugsDestroyer
             }
             else
             {
+                MediaPlayer.Volume = 1f;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
                 {

@@ -11,6 +11,7 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
+        // Varriables
         private List<Texture2D> _menuImages;
 
         private Color colorSectionPlayer = Color.White;
@@ -20,12 +21,11 @@ namespace BugsDestroyer
         private string selectedPlayerText = "1 player";
         private bool selectedPlayer1 = true;
 
-        // Sfx
-        SoundEffect MenuSfx;
-        SoundEffect StartSfx;
+
 
         protected void menuLoad()
         {
+            // liste de sprite 
             _menuImages = new List<Texture2D>()
             {
                 Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp"),
@@ -46,6 +46,7 @@ namespace BugsDestroyer
 
         protected void menuUpdate(GameTime gameTime)
         {
+            // modification de couleur et d'opacitiée entre la sélection de player et play
             if (isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)))
             {
                 MenuSfx.Play();
@@ -62,9 +63,10 @@ namespace BugsDestroyer
                 colorSectionPlayer = Color.White;
             }
 
-
+            
             if (isSectionPlayer)
             {
+                // Les sélections 1 player ou 2 player
                 if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D9)))
                 {
                     MenuSfx.Play();
@@ -80,6 +82,7 @@ namespace BugsDestroyer
             }
             else if (!isSectionPlayer)
             {
+                // lencement du jeu
                 if (isOnMenu && (Keyboard.GetState().IsKeyDown(Keys.D8)))
                 {
                     StartSfx.Play();
