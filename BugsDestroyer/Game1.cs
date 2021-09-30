@@ -36,6 +36,11 @@ namespace BugsDestroyer
         private Texture2D Murs;
         private Texture2D Glass;
         private Texture2D Ombre;
+        private Texture2D Processeur;
+        private Texture2D MiniPCI;
+        private Texture2D PCI;
+        private Texture2D PileBios;
+        private Texture2D Ram;
 
         // Menu
         private SpriteFont font;
@@ -50,7 +55,7 @@ namespace BugsDestroyer
         private List<Enemy> listEnemies = new List<Enemy>();
 
         // Players
-        private Player[] players = new Player[2];
+        private List<Player> players = new List<Player>();
         private Player player1;
         private Player player2;
 
@@ -110,6 +115,12 @@ namespace BugsDestroyer
             Murs = Content.Load<Texture2D>("Img/Decor/mur0");
             Glass = Content.Load<Texture2D>("Img/Decor/Glass");
             Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
+            Processeur = Content.Load<Texture2D>("Img/Decor/Processeur");
+            MiniPCI = Content.Load<Texture2D>("Img/Decor/MiniPCI");
+            PCI = Content.Load<Texture2D>("Img/Decor/PCI");
+            PileBios = Content.Load<Texture2D>("Img/Decor/PileBios");
+            Ram = Content.Load<Texture2D>("Img/Decor/Ram");
+
 
 
 
@@ -140,10 +151,6 @@ namespace BugsDestroyer
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
 
-            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D } , Keys.F, projectileSprite, new Vector2(400, 400));
-            player2 = new Player(player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
-            players[0] = player1;
-            players[1] = player2;
 
 
             listEnemies.Add(new Cockroach(new Vector2(500, 500)));
@@ -177,20 +184,36 @@ namespace BugsDestroyer
                 // si le joueur est pas dans le menu pause
                 if (!isPause)
                 {
-                    // mettre a jour tout les ennemis
-                    for (int i = listEnemies.Count - 1; i >= 0; i--)
-                    {
-                        listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies);
-                    }
 
                     if (selectedPlayer1)
                     {
+                        if (players.Count <= 0)
+                        {
+                            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
+                            
+                            players.Add(player1);
+                        }
+
                         player1.playerUpdate(gameTime, listProjectiles);
                     } // sinon si deux joueur séléctionnées
                     else if (!selectedPlayer1)
                     {
+                        if (players.Count <= 0)
+                        {
+                            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
+                            player2 = new Player(player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
+                            players.Add(player1);
+                            players.Add(player2);
+                        }
+
                         player1.playerUpdate(gameTime, listProjectiles);
                         player2.playerUpdate(gameTime, listProjectiles);
+                    }
+
+                    // mettre a jour tout les ennemis
+                    for (int i = listEnemies.Count - 1; i >= 0; i--)
+                    {
+                        listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies);
                     }
 
                     // si la liste du nombre de projectile n'est pas à zero
@@ -238,21 +261,39 @@ namespace BugsDestroyer
                         _spriteBatch.Draw(Sol, new Vector2(x, y), null, Color.White * 0.75f, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
                     }
                 }
+
+                // Décor
+                _spriteBatch.Draw(Processeur, new Vector2(500, 300), null, Color.White * 0.9f, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(Ram, new Vector2(1200, 300), null, Color.White * 0.8f, (float)Math.PI / 2, Vector2.Zero, 3f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(PileBios, new Vector2(1400, 600), null, Color.White * 0.8f, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(MiniPCI, new Vector2(400, 500), null, Color.White * 0.8f, 0, Vector2.Zero, 3f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(PCI, new Vector2(450, 600), null, Color.White * 0.8f, 0, Vector2.Zero, 3f, SpriteEffects.None, 0f);
+
                 // affichage des murs
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
 
                 // si le un joueur est sélectionnée
-                if (selectedPlayer1)
-                { 
-                    // affichage du joueur
-                    _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-                } // sinon si deux joueurs
-                else if (!selectedPlayer1)
+                if (players.Count > 0)
                 {
-                    // affichage des deux joueurs
-                    _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-                    _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                    if (selectedPlayer1)
+                    {
+                        // affichage des deux joueurs
+                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+
+                        // affichage de la bar de vie
+                        players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                    } // sinon si deux joueurs
+                    else if (!selectedPlayer1)
+                    {
+                        // affichage des deux joueurs
+                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+
+                        // affichage de la bar de vie
+                        players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                        players[1].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                    }
                 }
 
                 // Afficher tout les ennemis
@@ -273,10 +314,6 @@ namespace BugsDestroyer
 
                 // affichage d'une ombre à coté des murs
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-
-                // affichage de la bar de vie
-                player1.playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
-                player2.playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
 
                 #endregion
 
