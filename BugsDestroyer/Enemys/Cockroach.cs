@@ -23,6 +23,7 @@ namespace BugsDestroyer
         private int _knockbackAmount = 1;
         private int knockbackTime = 100;
         private bool _hasDealtDamage = false;
+        private List<Player> mobPlayers = new List<Player>();
 
         //Anim
         public int timeSinceLastFrame = 0;
@@ -47,6 +48,15 @@ namespace BugsDestroyer
 
         public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies)
         {
+            mobPlayers.Clear();
+            foreach (Player player in players)
+            {
+                if (player.healthPoint > 0)
+                {
+                    mobPlayers.Add(player);
+                }
+            }
+
             // Animation
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastFrame > millisecondsPerFrame)
@@ -61,25 +71,15 @@ namespace BugsDestroyer
                     _cockroachCurrentFrame = _cockroachFrames[0];
             }
 
-
-
-            if (!_hasDealtDamage)
+            if (mobPlayers.Count > 0)
             {
-                //if (players[0].healthPoint <= 0)
-                //{
-                //    players.RemoveAt(0);
-                //}
-                //else if (players[1].healthPoint <= 0)
-                //{
-                //    players.RemoveAt(1);
-                //}
-                FollowPlayer(players);
-
-
+                if (!_hasDealtDamage)
+                {
+                    FollowPlayer(mobPlayers);
+                }
+                else
+                    Knockback();
             }
-            else
-                Knockback();
-
 
             if (_position.X < 250) // Left
             {
@@ -99,8 +99,9 @@ namespace BugsDestroyer
             }
 
             projectileCollision(projectiles, enemies);
-            playerCollision(players, enemies);
+            playerCollision(mobPlayers, enemies);
         }
+
 
         /// <summary>
         /// 
@@ -117,7 +118,15 @@ namespace BugsDestroyer
                 float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
 
                 // decide to follow the closest player
-                if (distancePlayer1 < distancePlayer2)
+                /*if (players[0].healthPoint <= 0)
+                {
+                    playerToFollow = players[1];
+                }
+                else if (players[1].healthPoint <= 0)
+                {
+                    playerToFollow = players[0];
+                }
+                else*/if (distancePlayer1 < distancePlayer2)
                 {
                     playerToFollow = players[0];
                 }
