@@ -99,7 +99,7 @@ namespace BugsDestroyer
             }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
-            playerCollision(players, enemies);
+            playerCollision(mobPlayers, enemies);
         }
 
         private void FollowPlayer(List<Player> players)
@@ -112,16 +112,7 @@ namespace BugsDestroyer
             {
                 float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
 
-                // decide to follow the closest player
-                /*if (players[0].healthPoint <= 0)
-                {
-                    playerToFollow = players[1];
-                }
-                else if (players[1].healthPoint <= 0)
-                {
-                    playerToFollow = players[0];
-                }
-                else*/if (distancePlayer1 < distancePlayer2)
+                if (distancePlayer1 < distancePlayer2)
                 {
                     playerToFollow = players[0];
                 }

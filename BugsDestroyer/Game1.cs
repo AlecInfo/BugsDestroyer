@@ -33,9 +33,11 @@ namespace BugsDestroyer
         private List<Explosion> listExplosion = new List<Explosion>();
         private Texture2D[] mobExplosion = new Texture2D[3];
         private Texture2D shotExplosion;
+        private int level = 1;
 
 
         // Decor
+        private List<Object> listObjects = new List<Object>();
         private Texture2D Sol;
         private Texture2D Murs;
         private Texture2D Glass;
@@ -45,6 +47,7 @@ namespace BugsDestroyer
         private Texture2D PCI;
         private Texture2D PileBios;
         private Texture2D Ram;
+        private Trapdoor trapdoor;
 
         // Menu
         private SpriteFont font;
@@ -59,6 +62,9 @@ namespace BugsDestroyer
         private List<Player> players = new List<Player>();
         private Player player1;
         private Player player2;
+
+        // Levels
+        private List<Levels> levels = new List<Levels>();
 
 
         private Texture2D[] projectileSprite = new Texture2D[2];
@@ -115,14 +121,22 @@ namespace BugsDestroyer
             Murs = Content.Load<Texture2D>("Img/Decor/mur0");
             Glass = Content.Load<Texture2D>("Img/Decor/Glass");
             Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
+
             Processeur = Content.Load<Texture2D>("Img/Decor/Processeur");
             MiniPCI = Content.Load<Texture2D>("Img/Decor/MiniPCI");
             PCI = Content.Load<Texture2D>("Img/Decor/PCI");
             PileBios = Content.Load<Texture2D>("Img/Decor/PileBios");
             Ram = Content.Load<Texture2D>("Img/Decor/Ram");
 
+            listObjects.Add(new Decor(Processeur,  new Vector2(500, 300), 1f));
+            listObjects.Add(new Decor(MiniPCI,  new Vector2(400, 500), 3f));
+            listObjects.Add(new Decor(PCI,  new Vector2(450, 600), 3f));
+            listObjects.Add(new Decor(PileBios,  new Vector2(1400, 600), 1f));
+            listObjects.Add(new Decor(Ram,  new Vector2(1200, 300), 3f));
 
-
+            trapdoor = new Trapdoor(new Vector2(1200, 800), 2.3f);
+            trapdoor.Load(Content);
+            
 
             // load walking sprites
             for (int x = 0; x < 7; x++)
@@ -159,8 +173,6 @@ namespace BugsDestroyer
             shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
 
-            listEnemies.Add(new Cockroach(new Vector2(500, 500)));
-            listEnemies.Add(new Cockroach(new Vector2(500, 100)));
             listEnemies.Add(new Cockroach(new Vector2(1250, 500)));
             listEnemies.Add(new Cockroach(new Vector2(100, 750)));
             foreach (Enemy enemy in listEnemies)
@@ -191,7 +203,33 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
 
+                    // création des niveaux
+                    if (level >= 4 && listEnemies.Count <= 0)
+                    {
+                        level++;
+                        for (int i = 0; i < level; i++)
+                        {
+                            listEnemies.Add(new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080))));
+                        }
+                        Sol = Content.Load<Texture2D>("Img/Decor/Sol2");
+                    }
+                    else if (level >= 1 && listEnemies.Count <= 0)
+                    {
+                        level++;
+                        for (int i = 0; i < level; i++)
+                        {
+                            listEnemies.Add(new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080))));
+                        }
+                        Sol = Content.Load<Texture2D>("Img/Decor/Sol1");
+                    }
+
+
                     // mettre a jour tout les ennemis
+                    foreach (Enemy enemy in listEnemies)
+                    {
+                        enemy.Load(Content);
+                    }
+
                     for (int i = listEnemies.Count - 1; i >= 0; i--)
                     {
                         listEnemies[i].Update(gameTime, players, listProjectiles, listEnemies, listExplosion, mobExplosion.ToList());
@@ -274,11 +312,11 @@ namespace BugsDestroyer
                 }
 
                 // Décor
-                _spriteBatch.Draw(Processeur, new Vector2(500, 300), null, Color.White * 0.9f, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(Ram, new Vector2(1200, 300), null, Color.White * 0.8f, (float)Math.PI / 2, Vector2.Zero, 3f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(PileBios, new Vector2(1400, 600), null, Color.White * 0.8f, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(MiniPCI, new Vector2(400, 500), null, Color.White * 0.8f, 0, Vector2.Zero, 3f, SpriteEffects.None, 0f);
-                _spriteBatch.Draw(PCI, new Vector2(450, 600), null, Color.White * 0.8f, 0, Vector2.Zero, 3f, SpriteEffects.None, 0f);
+                foreach (Object item in listObjects)
+                {
+                    item.Draw(_spriteBatch);
+                }
+                trapdoor.Draw(_spriteBatch);
 
                 // affichage des murs
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
