@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    class Decor : Object
+    public class Decor : Object
     {
         private Vector2 _position;
         private Texture2D _texture;

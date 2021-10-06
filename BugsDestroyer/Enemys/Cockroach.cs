@@ -19,7 +19,7 @@ namespace BugsDestroyer
         private Texture2D _cockroachCurrentFrame;
         private int _speed = 3;
         private float rotation = 0;
-        private int _damage = 10;
+        private int _damage = 0;
         private int _knockbackAmount = 1;
         private int knockbackTime = 100;
         private bool _hasDealtDamage = false;

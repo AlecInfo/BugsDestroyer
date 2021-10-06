@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    class Trapdoor 
+    public class Trapdoor
     { 
         private Vector2 _position;
         private Texture2D _texture;

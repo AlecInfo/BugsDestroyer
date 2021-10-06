@@ -137,6 +137,8 @@ namespace BugsDestroyer
                     // reponse au question si oui 
                     if (isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
                     {
+                        level = 0;
+
                         StartSfx.Play();
                         this.Exit();
                         Game1 game = new Game1();
