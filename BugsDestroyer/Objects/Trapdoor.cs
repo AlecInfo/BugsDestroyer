@@ -14,18 +14,14 @@ namespace BugsDestroyer
     public class Trapdoor
     { 
         private Vector2 _position;
-        private Texture2D _texture;
+        private List<Texture2D> _texture = new List<Texture2D>();
         private float _size;
 
-        public Trapdoor(Vector2 position, float size)
+        public Trapdoor(List<Texture2D> texture, Vector2 position, float size)
         {
+            this._texture = texture;
             this._position = position;
             this._size = size;
-        }
-
-        public void Load(ContentManager Content)
-        {
-            _texture = Content.Load<Texture2D>("Img/Decor/trapdoor0");
         }
 
         public void Update(GameTime gameTime)
@@ -35,7 +31,7 @@ namespace BugsDestroyer
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, null, Color.White, 0, new Vector2(_texture.Width / 2, _texture.Height / 2), _size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture[0], _position, null, Color.White, 0, new Vector2(_texture[0].Width / 2, _texture[0].Height / 2), _size, SpriteEffects.None, 0f);
         }
     }
 }
