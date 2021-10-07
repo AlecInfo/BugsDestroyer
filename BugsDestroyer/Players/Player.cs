@@ -16,9 +16,10 @@ namespace BugsDestroyer
         private Keys[] _directionalKeys;
         private Keys _shootKey;
 
-
+        // attributs
+        private GameTime _gameTime;
         private int[] walkAnimSteps = { 1, 2, 3, 2, 1, 4, 5, 6, 5, 4 };
-        private Texture2D[] _walkingSprites = new Texture2D[7];
+        public Texture2D[] walkingSprites = new Texture2D[7];
         public int[] shotAnimSteps = { 0, 0, 1, 0};
         private Texture2D[] _shotSprites = new Texture2D[3];
         public bool isShooting = false;
@@ -26,16 +27,27 @@ namespace BugsDestroyer
         public Texture2D currentSprite;
         public int currentStep = 0;
         private Texture2D _deadSprite;
-
         public Vector2 position;
         public int walkingSpeed = 8;
         public float rotation = 0f;
+        private bool _isHit = false;
+        private int _hitEffectTime = 200;
+        public Color color = Color.White;
 
         // Point de vie
         public const int HEALTH_POINT_MAX = 100;
         public const int HEALTH_POINT_MIN = 0; 
         private int _healthPoint = HEALTH_POINT_MAX;
-        public int healthPoint { get => _healthPoint; set => _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX)); }
+        public int healthPoint { get => _healthPoint;
+            set {
+                if (value < _healthPoint)
+                {
+                    _isHit = true;
+                }
+
+                _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX));
+            } 
+        }
 
         // Health bar
         Rectangle healthBarRectangle;
@@ -54,12 +66,13 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite, Vector2 position)
+        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
-            _walkingSprites = walkingSprites;
+            this._gameTime = gametime;
+            this.walkingSprites = walkingSprites;
             _shotSprites = shotSprites;
-            currentSprite = _walkingSprites[0];
+            currentSprite = this.walkingSprites[0];
 
             _deadSprite = deadSprite;
 
@@ -186,11 +199,11 @@ namespace BugsDestroyer
                 if ((playerKbdState.IsKeyDown(_directionalKeys[0]) || playerKbdState.IsKeyDown(_directionalKeys[1]) || playerKbdState.IsKeyDown(_directionalKeys[2]) || playerKbdState.IsKeyDown(_directionalKeys[3])) && !isShooting)
                 {
                     currentStep += 1; // increment current frame
-                    if (currentStep == _walkingSprites.Length)
+                    if (currentStep == walkingSprites.Length)
                     {
                         currentStep = 0; // reset anim
                     }
-                    currentSprite = _walkingSprites[walkAnimSteps[currentStep]];
+                    currentSprite = walkingSprites[walkAnimSteps[currentStep]];
                 }
                 else if (isShooting)
                 {
@@ -205,7 +218,7 @@ namespace BugsDestroyer
                 }
                 else
                 {
-                    currentSprite = _walkingSprites[0];
+                    currentSprite = walkingSprites[0];
                 }
             }
 
@@ -235,6 +248,21 @@ namespace BugsDestroyer
                         Convert.ToInt32(position.Y - currentSprite.Height / 2 - 20),
                         healthPoint / 2,
                         7);
+
+
+            // hit effect
+            if (_isHit && _healthPoint != 0) // if the player is hit and he's not dead
+            {
+                this.color = new Color(255, 100, 100); // red
+                _hitEffectTime -= gameTime.ElapsedGameTime.Milliseconds;
+
+                if (_hitEffectTime <= 0)
+                {
+                    _hitEffectTime = 100;
+                    _isHit = false;
+                }
+            }else
+                this.color = Color.White;
         }
 
         public void playerDrawHealthBar(SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)

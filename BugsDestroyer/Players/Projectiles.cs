@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    public class Projectiles 
+    public class Projectiles
     {
         // Varriables
         public Texture2D texture;
@@ -21,7 +21,7 @@ namespace BugsDestroyer
         private Random rnd = new Random();
 
         private int _speed;
-        
+
         public Projectiles(Texture2D[] texture, Vector2 position, float rotation, Game1.direction currentDirection, int speed = 14)
         {
             // Récupération des données
@@ -39,7 +39,7 @@ namespace BugsDestroyer
             {
                 position.X -= _speed / 1.4f;
                 position.Y -= _speed / 1.4f;
-                _rotation = (float)Math.PI / 4; 
+                _rotation = (float)Math.PI / 4;
             }
             else if (_direction == Game1.direction.NE)
             {
@@ -66,7 +66,7 @@ namespace BugsDestroyer
                 if (_direction == Game1.direction.W)
                 {
                     position.X -= _speed;
-                    _rotation = 0; 
+                    _rotation = 0;
                 }
                 if (_direction == Game1.direction.E)
                 {
@@ -81,23 +81,27 @@ namespace BugsDestroyer
             // Collision des murs avec suppretion 
             if (position.X < 250) // Left
             {
+                position.X = 250;
                 listProjectiles.Remove(this);
                 listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }));
             }
-            else if (position.X > 1660) // Right
+            else if (position.X > 1670) // Right
             {
+                position.X = 1670;
                 listProjectiles.Remove(this);
                 listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI));
             }
-            if (position.Y < 140) // Top
+            if (position.Y < 125) // Top
             {
+                position.Y = 125;
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI/2));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI / 2));
             }
-            else if (position.Y > 940) // Bottom
+            else if (position.Y > 945) // Bottom
             {
+                position.Y = 945;
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI*3/2));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI * 3 / 2));
             }
         }
 

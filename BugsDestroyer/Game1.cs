@@ -206,19 +206,19 @@ namespace BugsDestroyer
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
+                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(1500, 400));
                             
                             players.Add(player1);
                         }
-
+                        
                         player1.playerUpdate(gameTime, listProjectiles);
                     } // sinon si deux joueur séléctionnées
                     else if (!selectedPlayer1)
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
-                            player2 = new Player(player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
+                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
+                            player2 = new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
                             players.Add(player1);
                             players.Add(player2);
                         }
@@ -290,7 +290,7 @@ namespace BugsDestroyer
                     if (selectedPlayer1)
                     {
                         // affichage des deux joueurs
-                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, player1.color, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
 
                         // affichage de la bar de vie
                         players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
@@ -298,8 +298,8 @@ namespace BugsDestroyer
                     else if (!selectedPlayer1)
                     {
                         // affichage des deux joueurs
-                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, Color.White, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-                        _spriteBatch.Draw(player2.currentSprite, player2.position, null, Color.White, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, player1.color, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(player2.currentSprite, player2.position, null, player2.color, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
 
                         // affichage de la bar de vie
                         players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);

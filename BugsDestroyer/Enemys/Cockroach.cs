@@ -20,16 +20,18 @@ namespace BugsDestroyer
         private int _speed = 3;
         private float rotation = 0;
         private int _damage = 10;
-        private int _knockbackAmount = 1;
-        private int knockbackTime = 100;
-        private bool _hasDealtDamage = false;
         private List<Player> mobPlayers = new List<Player>();
 
-        //Anim
+        // Anim
         public int timeSinceLastFrame = 0;
         public int millisecondsPerFrame = 100;
 
-
+        // Knockback
+        private int _knockbackAmount = 5;
+        private int _knockbackCpt = 0;
+        private int _knockbackSpeed = 22;
+        private int _knockbackJumpTime = 22;
+        private bool _hasDealtDamage = false;
 
         // ctor
         public Cockroach(Vector2 initialPos)
@@ -76,9 +78,10 @@ namespace BugsDestroyer
                 if (!_hasDealtDamage)
                 {
                     FollowPlayer(mobPlayers);
+                    playerCollision(players, enemies);
                 }
                 else
-                    Knockback();
+                    Knockback(gameTime);
             }
 
             if (_position.X < 250) // Left
@@ -99,7 +102,6 @@ namespace BugsDestroyer
             }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
-            playerCollision(players, enemies);
         }
 
         private void FollowPlayer(List<Player> players)
@@ -113,15 +115,7 @@ namespace BugsDestroyer
                 float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
 
                 // decide to follow the closest player
-                /*if (players[0].healthPoint <= 0)
-                {
-                    playerToFollow = players[1];
-                }
-                else if (players[1].healthPoint <= 0)
-                {
-                    playerToFollow = players[0];
-                }
-                else*/if (distancePlayer1 < distancePlayer2)
+                if (distancePlayer1 < distancePlayer2)
                 {
                     playerToFollow = players[0];
                 }
@@ -156,20 +150,26 @@ namespace BugsDestroyer
             _position += velocity;
         }
 
-        public void Knockback()
+        public void Knockback(GameTime gameTime)
         {
-            direction.Normalize();
-            Vector2 velocity = direction * _knockbackAmount;
-            _position -= velocity;
-            knockbackTime -= 1;
+            _knockbackCpt += gameTime.ElapsedGameTime.Milliseconds;
+            if (_knockbackCpt > _knockbackSpeed)
+            {
+                _knockbackCpt -= _knockbackSpeed;
 
-            if (knockbackTime > 0)
-            {
-                Knockback();
-            }else
-            {
-                _hasDealtDamage = false;
-                knockbackTime = 100;
+                direction.Normalize();
+                Vector2 velocity = direction * _knockbackAmount;
+                _position -= velocity;
+                _knockbackJumpTime -= 1;
+
+                if (_knockbackJumpTime > 0)
+                {
+                    Knockback(gameTime);
+                }else
+                {
+                    _hasDealtDamage = false;
+                    _knockbackJumpTime = 22;
+                }
             }
         }
 
@@ -192,7 +192,7 @@ namespace BugsDestroyer
         {
             foreach (Player player in players)
             {
-                float radius = player.currentSprite.Width + _cockroachCurrentFrame.Height;
+                float radius = player.walkingSprites[0].Width + _cockroachCurrentFrame.Width;
 
                 if (Vector2.DistanceSquared(player.position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
