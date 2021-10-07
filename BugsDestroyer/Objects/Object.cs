@@ -10,11 +10,8 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    public abstract class Enemy
+    public abstract class Object
     {
-
-        public abstract void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion);
-
         public abstract void Draw(SpriteBatch spriteBatch);
 
     }

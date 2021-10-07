@@ -15,7 +15,7 @@ namespace BugsDestroyer
         // attributs
         private Vector2 _position;
         public Vector2 direction;
-        private Texture2D[] _cockroachFrames = new Texture2D[2];
+        private Texture2D[] _cockroachFrames;
         private Texture2D _cockroachCurrentFrame;
         private int _speed = 3;
         private float rotation = 0;
@@ -34,18 +34,12 @@ namespace BugsDestroyer
         private bool _hasDealtDamage = false;
 
         // ctor
-        public Cockroach(Vector2 initialPos)
+        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames)
         {
-            _position = initialPos;
-        }
-
-        // methods
-        public override void Load(ContentManager Content)
-        {
-            _cockroachFrames[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
-            _cockroachFrames[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
-
+            this._cockroachFrames = cockroachFrames;
             _cockroachCurrentFrame = _cockroachFrames[0];
+
+            _position = initialPos;
         }
 
         public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
