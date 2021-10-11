@@ -11,31 +11,31 @@ namespace BugsDestroyer
     public partial class Game1 : Game
     {
 
-        public bool isDead = false;
-        public bool isOnMenuGameOver = false;
-        public bool gameOver = true;
-        public float opacity = 0f;
+        private bool isDead = false;
+        private bool isOnMenuGameOver = false;
+        private bool gameOver = true;
+        private float opacity = 0f;
         private Song songGameOver;
         private bool isGOSongPlaying = false;
         private bool isChangeSelect = true;
 
         // images
-        public List<Texture2D> _listGameOver;
+        private List<Texture2D> _listGameOver;
 
         // timer seconds
-        public float currentTimeSecond = 0f;
-        public float countDurationSecond = 1f;
-        public int timerSecond = 0;
+        private float currentTimeSecond = 0f;
+        private float countDurationSecond = 1f;
+        private int timerSecond = 0;
 
         // timer milisecond
-        public float currentTimeMili = 0f;
-        public float countDurationMili = 1f;
-        public int timerMili = 0;
+        private float currentTimeMili = 0f;
+        private float countDurationMili = 1f;
+        private int timerMili = 0;
 
         // question
-        public bool isYes = true;
-        public Color onYes = Color.Lime;
-        public Color onNo = Color.White * 0.6f;
+        private bool isYes = true;
+        private Color onYes = Color.Lime;
+        private Color onNo = Color.White * 0.6f;
 
 
         protected void gameOverLoad()

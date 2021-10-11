@@ -64,6 +64,16 @@ namespace BugsDestroyer
 
         // Levels
         private List<Levels> listLevels = new List<Levels>();
+        private bool isOpacityDark = true;
+
+        private bool startTransitionDark = false;
+        private bool startTransitionLight = false;
+
+        private float opacityTrasition = 1f;
+
+        private float currentTimeMiliTrasition = 0f;
+        private float countDurationMiliTrasition = 1f;
+        private int timerMiliTrasition = 0;
 
 
         private Texture2D[] projectileSprite = new Texture2D[2];
@@ -246,6 +256,8 @@ namespace BugsDestroyer
 
                         listLevels[level]._trapdoor.Update(gameTime, players, listLevels[level].listEnemies);
 
+
+
                         if (!listLevels[level]._trapdoor.trapdoorIsOpen)
                         {
                             if (listLevels.Count - 1 != level)
@@ -255,19 +267,33 @@ namespace BugsDestroyer
                         }
                         else
                         {
-                            float radius = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2/3;
+                            float radius = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
                             if (Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2))
                             {
                                 if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
                                 {
-                                    if (listLevels.Count - 1 != level)
-                                    {
-                                        level++;
-                                    }
+                                    startTransitionDark = true;
+
+
                                 }
                             }
                         }
 
+                    }
+                    else
+                    {
+                        startTransitionLight = true;
+                    }
+
+                    if (startTransitionDark)
+                    {
+                        opacityDark(gameTime);
+
+                    }
+
+                    if (startTransitionLight)
+                    {
+                        opacityLight(gameTime);
                     }
 
                     #endregion
@@ -283,8 +309,12 @@ namespace BugsDestroyer
                             
                             players.Add(player1);
                         }
-                        
-                        player1.playerUpdate(gameTime, listProjectiles);
+
+                        if (!isOpacityDark)
+                        {
+                            player1.playerUpdate(gameTime, listProjectiles);
+                        }
+
                     } // sinon si deux joueur séléctionnées
                     else if (!selectedPlayer1)
                     {
@@ -296,17 +326,27 @@ namespace BugsDestroyer
                             players.Add(player2);
                         }
 
-                        player1.playerUpdate(gameTime, listProjectiles);
-                        player2.playerUpdate(gameTime, listProjectiles);
+
+                        if (!isOpacityDark)
+                        {
+                            player1.playerUpdate(gameTime, listProjectiles);
+                            player2.playerUpdate(gameTime, listProjectiles);
+                        }
+
                     }
                     #endregion
 
                     #region Enemys
+
                     // update des enemies
-                    for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                    if (!isOpacityDark)
                     {
-                        listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                        for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                        {
+                            listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                        }
                     }
+
                     #endregion
 
                     #region Projectiles
@@ -353,8 +393,7 @@ namespace BugsDestroyer
                 menuDraw(gameTime);
             } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
-            {
-
+            { 
                 #region Decor
                 // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
@@ -434,6 +473,9 @@ namespace BugsDestroyer
                 #endregion
 
 
+                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+
+
                 // affichage du menu pause
                 menuPauseDraw(gameTime);
 
@@ -444,6 +486,66 @@ namespace BugsDestroyer
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        void opacityDark(GameTime game)
+        {
+            // timer pour faire un effet de plus en plus sombre
+            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+
+            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            {
+                timerMiliTrasition++;
+                currentTimeMiliTrasition -= countDurationMiliTrasition;
+            }
+
+            if (timerMiliTrasition >= 1.5)
+            {
+                isOpacityDark = true;
+
+                if (opacityTrasition >= 1f)
+                {   
+                    startTransitionDark = false;
+                    opacityTrasition = 1f;
+
+                    if (listLevels.Count - 1 != level)
+                    {
+                        level++;
+                    }
+                    else
+                    {
+                        startTransitionLight = true;
+                    }
+                }
+
+                opacityTrasition = opacityTrasition + 0.1f;
+                timerMiliTrasition = 0;
+            }
+        }
+
+        void opacityLight(GameTime game)
+        {
+            // timer pour faire un effet de plus en plus claire
+            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+
+            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            {
+                timerMiliTrasition++;
+                currentTimeMiliTrasition -= countDurationMiliTrasition;
+            }
+
+            if (timerMiliTrasition >= 1.5)
+            {
+                if (opacityTrasition <= 0f)
+                {
+                    isOpacityDark = false;
+                    startTransitionLight = false;
+                    opacityTrasition = 0f;
+                }
+
+                opacityTrasition = opacityTrasition - 0.1f;
+                timerMiliTrasition = 0;
+            }
         }
     }
 }
