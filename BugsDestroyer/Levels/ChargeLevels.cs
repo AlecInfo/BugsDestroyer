@@ -12,7 +12,7 @@ namespace BugsDestroyer
     {
         protected void LevelLoad()
         {
-            // Level 1
+            // Level 1g
             listLevels.Add(
                 new Levels(
                     Sol[0],
@@ -23,7 +23,7 @@ namespace BugsDestroyer
                     new List<Decor> {
                         new Decor(Processeur, new Vector2(800, 360), 1.2f)
                     },
-                    new Trapdoor(trapdoor, new Vector2(1200, 850), 2.3f)
+                    new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
 
@@ -38,8 +38,9 @@ namespace BugsDestroyer
                     new List<Decor> {
                         new Decor(Processeur, new Vector2(800, 360), 1.2f),
                         new Decor(PCI, new Vector2(650, 550), 3f),
-                        new Decor(PCI, new Vector2(650, 650), 3f) },
-                    new Trapdoor(trapdoor, new Vector2(1200, 850), 2.3f)
+                        new Decor(PCI, new Vector2(650, 650), 3f) 
+                    },
+                    new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
 
