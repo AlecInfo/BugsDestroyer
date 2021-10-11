@@ -107,13 +107,17 @@ namespace BugsDestroyer
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            #region Music
+
             // musique
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 1f;
 
+            #endregion
 
+            #region Decor
 
             // Decor
             Sol.Add(Content.Load<Texture2D>("Img/Decor/Sol0"));
@@ -134,50 +138,86 @@ namespace BugsDestroyer
             trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor0"));
             trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor1"));
 
+            #endregion
+
+            #region Players Walking 
+
             // load walking sprites
             for (int x = 0; x < 7; x++)
             {
                 player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
                 player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso2/walking/walking" + x.ToString());
             }
+            #endregion
+
+            #region Players Shooting
 
             // load shooting sprites
             player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
             player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
             player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
             player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso2/shot/shot1");
+            #endregion
+
+            #region Players Dead
 
             // load dead sprite
             player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
             player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
+            #endregion
+
+            #region Players Health Bar
 
             // load health bar
             healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
             healthBarBorderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            #endregion
+
+            #region Projectiles
 
             // load sfx
             keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
 
+
             // load projectile sprite
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
+            shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
-            // load explosion
+            #endregion
+
+            #region Enemys
+
+            #region Cockroach
+
+            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
+            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+
+            #endregion
+            
+            #region Enemys Explosion
+
             mobExplosion[0] = Content.Load<Texture2D>("Img/Mobs/Mort/mort0");
             mobExplosion[1] = Content.Load<Texture2D>("Img/Mobs/Mort/mort1");
             mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
-            shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
-            // load Enemies
-            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
-            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+            #endregion
+
+            #region Beetle
+
             beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
             beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
 
+            #endregion
+
+            #endregion
 
             LevelLoad();
+
             menuLoad();
+
             menuPauseLoad();
+
             gameOverLoad();
         }
 
@@ -197,29 +237,44 @@ namespace BugsDestroyer
                 // si le joueur est pas dans le menu pause
                 if (!isPause)
                 {
+                    #region Levels
 
-                    // création des niveaux
+                    // update des niveaux
                     if (listLevels[level].listEnemies.Count <= 0)
                     {
                         listLevels[level].Update(gameTime);
 
-                        if (listLevels.Count - 1 != level)
+                        listLevels[level]._trapdoor.Update(gameTime, players, listLevels[level].listEnemies);
+
+                        if (!listLevels[level]._trapdoor.trapdoorIsOpen)
                         {
-                            level++;
+                            if (listLevels.Count - 1 != level)
+                            {
+                                level++;
+                            }
                         }
+                        else
+                        {
+                            float radius = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2/3;
+                            if (Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2))
+                            {
+                                if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
+                                {
+                                    if (listLevels.Count - 1 != level)
+                                    {
+                                        level++;
+                                    }
+                                }
+                            }
+                        }
+
                     }
 
-                    // update des enemies
-                    for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
-                    {
-                        listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
-                    }
+                    #endregion
 
-                    for (int i = listExplosion.Count - 1; i >= 0; i--)
-                    {
-                        listExplosion[i].Update(gameTime, listExplosion);
-                    }
+                    #region Players
 
+                    // si un joueur
                     if (selectedPlayer1)
                     {
                         if (players.Count <= 0)
@@ -244,7 +299,24 @@ namespace BugsDestroyer
                         player1.playerUpdate(gameTime, listProjectiles);
                         player2.playerUpdate(gameTime, listProjectiles);
                     }
-                    
+                    #endregion
+
+                    #region Enemys
+                    // update des enemies
+                    for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                    {
+                        listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                    }
+                    #endregion
+
+                    #region Projectiles
+
+                    // update des projectiles
+                    for (int i = listExplosion.Count - 1; i >= 0; i--)
+                    {
+                        listExplosion[i].Update(gameTime, listExplosion);
+                    }
+
                     // si la liste du nombre de projectile n'est pas à zero
                     if (listProjectiles.Count != 0)
                     {
@@ -255,8 +327,8 @@ namespace BugsDestroyer
                             listProjectiles[i].projectileUpdate(gameTime, listProjectiles, listExplosion, shotExplosion);
                         }
                     }
+                    #endregion
 
-                    
                     gameOverUpdate(gameTime);
                 }
 
@@ -282,7 +354,8 @@ namespace BugsDestroyer
             } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
             {
-                #region Player 
+
+                #region Decor
                 // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
                 {
@@ -303,7 +376,9 @@ namespace BugsDestroyer
                 // affichage des murs
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
+                #endregion
 
+                #region Player 
                 // si le un joueur est sélectionnée
                 if (players.Count > 0)
                 {
@@ -326,16 +401,22 @@ namespace BugsDestroyer
                         players[1].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
                     }
                 }
+                #endregion
 
+                #region Enemys
                 // affichage des enemies
                 foreach (Enemy enemy in listLevels[level].listEnemies)
                 {
                     enemy.Draw(_spriteBatch);
                 }
+                #endregion
 
+                #region Ombre
                 // affichage d'une ombre à coté des murs
                 _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                #endregion
 
+                #region Projectiles
                 // si la liste du nombre de projectile n'est pas à zero
                 if (listProjectiles.Count != 0)
                 {
@@ -350,8 +431,8 @@ namespace BugsDestroyer
                 {
                     explosion.Draw(_spriteBatch);
                 }
-
                 #endregion
+
 
                 // affichage du menu pause
                 menuPauseDraw(gameTime);
