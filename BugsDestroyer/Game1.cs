@@ -33,8 +33,8 @@ namespace BugsDestroyer
         private Texture2D[] mobExplosion = new Texture2D[3];
         private Texture2D shotExplosion;
         private static int level = 0;
-        private Texture2D[] cockroachFrames = new Texture2D[2];
-
+        private Texture2D[] cockroachSprites = new Texture2D[2];
+        private Texture2D[] beetleSprites = new Texture2D[2];
 
         // Decor
         public List<Texture2D> Sol = new List<Texture2D>();
@@ -168,9 +168,12 @@ namespace BugsDestroyer
             mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
             shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
-            // load cockroach
-            cockroachFrames[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
-            cockroachFrames[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+            // load Enemies
+            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
+            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+            beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
+            beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
+
 
             LevelLoad();
             menuLoad();

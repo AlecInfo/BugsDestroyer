@@ -10,17 +10,19 @@ using System.Linq;
 
 namespace BugsDestroyer
 {
-    class Cockroach : Enemy
+    class Beetle : Enemy
     {
         // attributs
         private Vector2 _position;
         public Vector2 direction;
         private Texture2D[] _Frames;
         private Texture2D _CurrentFrame;
-        private int _speed = 3;
+        private int _speed = 2;
         private float rotation = 0;
-        private int _damage = 10;
+        private int _damage = 35;
+        private int _health = 3;
         private List<Player> mobPlayers = new List<Player>();
+        public Color color = Color.White;
 
         // Anim
         public int timeSinceLastFrame = 0;
@@ -33,14 +35,18 @@ namespace BugsDestroyer
         private int _knockbackJumpTime = 22;
         private bool _hasDealtDamage = false;
 
+
+
         // ctor
-        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Beetle(Vector2 initialPos, Texture2D[] cockroachFrames)
         {
             this._Frames = cockroachFrames;
             _CurrentFrame = _Frames[0];
 
             _position = initialPos;
         }
+
+
 
         public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
@@ -63,7 +69,8 @@ namespace BugsDestroyer
                 if (_CurrentFrame == _Frames[0])
                 {
                     _CurrentFrame = _Frames[1];
-                }else
+                }
+                else
                     _CurrentFrame = _Frames[0];
             }
 
@@ -103,7 +110,7 @@ namespace BugsDestroyer
             Player playerToFollow = players[0];
             float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - _position.X), 2) + Math.Pow((players[0].position.Y - _position.Y), 2)); // calculate distance to player 1
 
-            
+
             if (players.Count > 1) // si il y a deux joueur 
             {
                 float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
@@ -135,9 +142,9 @@ namespace BugsDestroyer
             }
 
             // Convert degrees to radians 
-            rotation = (float)(rotationDegrees+90 * (Math.PI / 180));
-            
-            
+            rotation = (float)(rotationDegrees + 90 * (Math.PI / 180));
+
+
             // Move enemy towards player
             direction.Normalize();
             Vector2 velocity = direction * _speed;
@@ -154,12 +161,13 @@ namespace BugsDestroyer
                 direction.Normalize();
                 Vector2 velocity = direction * _knockbackAmount;
                 _position -= velocity;
-                _knockbackJumpTime -= 1;
+                _knockbackJumpTime -= 1; 
 
                 if (_knockbackJumpTime > 0)
                 {
                     Knockback(gameTime);
-                }else
+                }
+                else
                 {
                     _hasDealtDamage = false;
                     _knockbackJumpTime = 22;
@@ -175,9 +183,25 @@ namespace BugsDestroyer
 
                 if (Vector2.DistanceSquared(projectiles[i].position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
-                    enemies.Remove(this); // remove enemy
+                    _health -= 1;
+                    switch (_health)
+                    {
+                        case 2:
+                            this.color = new Color(255, 170, 170);
+                            break;
+
+                        case 1:
+                            this.color = new Color(255, 85, 85);
+                            break;
+                    }
+
+                    if(_health == 0)
+                    {
+                        enemies.Remove(this); // remove enemy
+                        explosions.Add(new Explosion(_position, mobExplosion, size: 2));
+                    }
+
                     projectiles.Remove(projectiles[i]); // remove projectile
-                    explosions.Add(new Explosion(_position, mobExplosion, size:2));
                 }
             }
         }
@@ -198,7 +222,7 @@ namespace BugsDestroyer
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this._CurrentFrame, _position, null, Color.White, rotation, new Vector2(_CurrentFrame.Width / 2, _CurrentFrame.Height / 2), 2f , SpriteEffects.None, 0f);
+            spriteBatch.Draw(this._CurrentFrame, _position, null, this.color, rotation, new Vector2(_CurrentFrame.Width / 2, _CurrentFrame.Height / 2), 2f, SpriteEffects.None, 0f);
         }
     }
 }
