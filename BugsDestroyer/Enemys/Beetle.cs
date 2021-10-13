@@ -19,7 +19,7 @@ namespace BugsDestroyer
         private Texture2D _CurrentFrame;
         private int _speed = 2;
         private float rotation = 0;
-        private int _damage = 35;
+        private int _damage = 25;
         private int _health = 3;
         private List<Player> mobPlayers = new List<Player>();
         public Color color = Color.White;
@@ -215,7 +215,7 @@ namespace BugsDestroyer
 
         public void playerCollision(List<Player> players, List<Enemy> enemies)
         {
-            foreach (Player player in players)
+            foreach (Player player in mobPlayers)
             {
                 float radius = player.walkingSprites[0].Width + _CurrentFrame.Width;
 

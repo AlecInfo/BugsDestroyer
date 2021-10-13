@@ -184,7 +184,7 @@ namespace BugsDestroyer
 
         public void playerCollision(List<Player> players, List<Enemy> enemies)
         {
-            foreach (Player player in players)
+            foreach (Player player in mobPlayers)
             {
                 float radius = player.walkingSprites[0].Width + _CurrentFrame.Width;
 

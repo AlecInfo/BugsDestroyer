@@ -65,6 +65,16 @@ namespace BugsDestroyer
 
         // Levels
         private List<Levels> listLevels = new List<Levels>();
+        private bool isOpacityDark = true;
+
+        private bool startTransitionDark = false;
+        private bool startTransitionLight = false;
+
+        private float opacityTrasition = 1f;
+
+        private float currentTimeMiliTrasition = 0f;
+        private float countDurationMiliTrasition = 1f;
+        private int timerMiliTrasition = 0;
 
 
         private Texture2D[] projectileSprite = new Texture2D[2];
@@ -250,71 +260,187 @@ namespace BugsDestroyer
                     // update des niveaux
                     if (listLevels[level].listEnemies.Count <= 0)
                     {
+                        // update de la liste de niveau et de la trap
                         listLevels[level].Update(gameTime);
-
                         listLevels[level]._trapdoor.Update(gameTime, players, listLevels[level].listEnemies);
 
-                        if (!listLevels[level]._trapdoor.trapdoorIsOpen)
+                        // si un joueur
+                        /*if (selectedPlayer1)
                         {
-                            if (listLevels.Count - 1 != level)
+                            // recuperation de la taille du joueur avec un plus grande HIT BOX
+                            float radiusP1 = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
+
+                            // si la HIT BOX est dans la trapdoor alors
+                            if (Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2))
                             {
-                                level++;
-                            }
-                        }
-                        else
-                        {
-                            float radius = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2/3;
-                            if (Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2))
-                            {
-                                if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
+                                // si le joueur appuie sur G
+                                if (Keyboard.GetState().IsKeyDown(Keys.G))
                                 {
-                                    if (listLevels.Count - 1 != level)
-                                    {
-                                        level++;
-                                    }
+                                    // lancement de l'animation de changement de niveau
+                                    startTransitionDark = true;
                                 }
                             }
                         }
+                        else if (!selectedPlayer1)
+                        {
+                            // recuperation de la taille des joueurs avec un plus grande IT BOX
+                            float radiusP1 = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
+                            float radiusP2 = player2.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
 
+                            // si les deux joueurs ont de la vie
+                            if (player1.healthPoint > 0 && player2.healthPoint > 0)
+                            {
+                                // si les HIT BOX est dans la trapdoor alors
+                                if ((Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2)) && (Vector2.DistanceSquared(player2.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP2, 2)))
+                                {
+                                    // si les joueurs appuie sur G ou NUMPAD 5
+                                    if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
+                                    {
+                                        // lancement de l'animation de changement de niveau
+                                        startTransitionDark = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // si l'une des deux HIT BOX est dans la trapdoor alors
+                                if ((Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2)) || (Vector2.DistanceSquared(player2.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP2, 2)))
+                                {
+                                    if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
+                                    {
+                                        startTransitionDark = true;
+
+                                        if (player1.healthPoint <= 0)
+                                        {
+                                            players.Remove(player1);
+                                        }
+
+                                        if (player2.healthPoint <= 0)
+                                        {
+                                            players.Remove(player2);
+                                        }
+                                    }
+                                }
+                            }
+                        }*/
+                    }
+                    else
+                    {
+                        // debut de l'animation plus claire automatiquement
+                        startTransitionLight = true;
+                    }
+
+                    // appel de la fonction dark
+                    if (startTransitionDark)
+                    {
+                        opacityDark(gameTime);
+
+                    }
+
+                    // appel de la fonction light
+                    if (startTransitionLight)
+                    {
+                        opacityLight(gameTime);
                     }
 
                     #endregion
 
                     #region Players
+                    // Mettre a jour les players
+                    for (int i = players.Count - 1; i >= 0; i--)
+                    {
+                        if (!isOpacityDark)
+                        {
+                            players[i].playerUpdate(gameTime, listProjectiles);
 
-                    // si un joueur
-                    if (selectedPlayer1)
+                            // recuperation de la taille du joueur avec un plus grande HIT BOX
+                            float radius = players[i].currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
+
+
+                            if (players[i].healthPoint > 0)
+                            {
+                                // si la HIT BOX est dans la trapdoor alors
+                                if (Vector2.DistanceSquared(players[i].position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2) && listLevels[level]._trapdoor.trapdoorIsOpen)
+                                {
+                                    players[i].isOnTrapdoor = true;
+                                }
+                                else 
+                                {
+                                    players[i].isOnTrapdoor = false;
+                                }
+                            }
+                            else
+                            {
+                                players[i].isOnTrapdoor = true;
+                            }
+                        }
+                    }
+
+                    for (int i = players.Count - 1; i >= 0; i--)
+                    {
+                        if (Keyboard.GetState().IsKeyDown(players[i].interactKey) && players[i].healthPoint > 0) {
+                            if (players.Count >= 2 && (players[0].isOnTrapdoor && players[1].isOnTrapdoor))
+                            {
+                                changeLevel();
+                            } 
+                            else if (players.Count == 1 && players[0].isOnTrapdoor)
+                            {
+                                changeLevel();
+                            }
+                        }
+                        else if (players[i].healthPoint <= 0)
+                        {
+                            players[i].interactKey = Keys.None;
+                        }
+                    }
+
+                    void changeLevel()
+                    {
+                        for (int y = players.Count - 1; y >= 0; y--)
+                        {
+                            if (players[y].healthPoint <= 0)
+                            {
+                                players.Remove(players[y]);
+                            }
+                        }
+                        startTransitionDark = true;
+                    }
+
+                    
+
+
+                    // creer les players, et les ajouter dans la liste players
+                    if (selectedPlayer1) // si un joueur est séléctonné
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(1500, 400));
-                            
+                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(1500, 400));
                             players.Add(player1);
                         }
-                        
-                        player1.playerUpdate(gameTime, listProjectiles);
-                    } // sinon si deux joueur séléctionnées
+                    } // sinon si deux joueurs séléctionnés
                     else if (!selectedPlayer1)
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, projectileSprite, new Vector2(400, 400));
-                            player2 = new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, projectileSprite, new Vector2(400, 600));
+                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(400, 400));
+                            player2 = new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(400, 600));
                             players.Add(player1);
                             players.Add(player2);
                         }
-
-                        player1.playerUpdate(gameTime, listProjectiles);
-                        player2.playerUpdate(gameTime, listProjectiles);
                     }
                     #endregion
 
                     #region Enemys
+
                     // update des enemies
-                    for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                    if (!isOpacityDark)
                     {
-                        listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                        for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                        {
+                            listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                        }
                     }
+
                     #endregion
 
                     #region Projectiles
@@ -361,8 +487,7 @@ namespace BugsDestroyer
                 menuDraw(gameTime);
             } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
-            {
-
+            { 
                 #region Decor
                 // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
@@ -390,23 +515,9 @@ namespace BugsDestroyer
                 // si le un joueur est sélectionnée
                 if (players.Count > 0)
                 {
-                    if (selectedPlayer1)
+                    foreach (Player player in players)
                     {
-                        // affichage des deux joueurs
-                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, player1.color, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-
-                        // affichage de la bar de vie
-                        players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
-                    } // sinon si deux joueurs
-                    else if (!selectedPlayer1)
-                    {
-                        // affichage des deux joueurs
-                        _spriteBatch.Draw(player1.currentSprite, player1.position, null, player1.color, player1.rotation, new Vector2(player1.currentSprite.Width / 2, player1.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-                        _spriteBatch.Draw(player2.currentSprite, player2.position, null, player2.color, player2.rotation, new Vector2(player2.currentSprite.Width / 2, player2.currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
-
-                        // affichage de la bar de vie
-                        players[0].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
-                        players[1].playerDrawHealthBar(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                        player.Draw(_spriteBatch, healthBarBorderTexture, healthBarTexture);
                     }
                 }
                 #endregion
@@ -442,6 +553,9 @@ namespace BugsDestroyer
                 #endregion
 
 
+                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+
+
                 // affichage du menu pause
                 menuPauseDraw(gameTime);
 
@@ -452,6 +566,66 @@ namespace BugsDestroyer
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        void opacityDark(GameTime game)
+        {
+            // timer pour faire un effet de plus en plus sombre
+            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+
+            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            {
+                timerMiliTrasition++;
+                currentTimeMiliTrasition -= countDurationMiliTrasition;
+            }
+
+            if (timerMiliTrasition >= 1.5)
+            {
+                isOpacityDark = true;
+
+                if (opacityTrasition >= 1f)
+                {   
+                    startTransitionDark = false;
+                    opacityTrasition = 1f;
+
+                    if (listLevels.Count - 1 != level)
+                    {
+                        level++;
+                    }
+                    else
+                    {
+                        startTransitionLight = true;
+                    }
+                }
+
+                opacityTrasition = opacityTrasition + 0.1f;
+                timerMiliTrasition = 0;
+            }
+        }
+
+        void opacityLight(GameTime game)
+        {
+            // timer pour faire un effet de plus en plus claire
+            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+
+            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            {
+                timerMiliTrasition++;
+                currentTimeMiliTrasition -= countDurationMiliTrasition;
+            }
+
+            if (timerMiliTrasition >= 1.5)
+            {
+                if (opacityTrasition <= 0f)
+                {
+                    isOpacityDark = false;
+                    startTransitionLight = false;
+                    opacityTrasition = 0f;
+                }
+
+                opacityTrasition = opacityTrasition - 0.1f;
+                timerMiliTrasition = 0;
+            }
         }
     }
 }
