@@ -35,6 +35,7 @@ namespace BugsDestroyer
         private static int level = 0;
         private Texture2D[] cockroachSprites = new Texture2D[2];
         private Texture2D[] beetleSprites = new Texture2D[2];
+        private Texture2D[] spiderSprites = new Texture2D[2];
 
         // Decor
         public List<Texture2D> Sol = new List<Texture2D>();
@@ -207,6 +208,13 @@ namespace BugsDestroyer
 
             beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
             beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
+
+            #endregion
+
+            #region Spider
+
+            spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
+            spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
 
             #endregion
 
