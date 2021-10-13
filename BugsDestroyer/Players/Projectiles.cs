@@ -22,7 +22,9 @@ namespace BugsDestroyer
 
         private int _speed;
 
-        public Projectiles(Texture2D[] texture, Vector2 position, float rotation, Game1.direction currentDirection, int speed = 14)
+        private SoundEffect _wallHurt;
+
+        public Projectiles(Texture2D[] texture, Vector2 position, float rotation, Game1.direction currentDirection, SoundEffect wallHurt, int speed = 14)
         {
             // Récupération des données
             this.texture = texture[rnd.Next(0, 2)];
@@ -30,6 +32,8 @@ namespace BugsDestroyer
             this._rotation = rotation;
             this._direction = currentDirection;
             this._speed = speed;
+
+            this._wallHurt = wallHurt;
         }
 
         public void projectileUpdate(GameTime gameTime, List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion)
@@ -82,26 +86,30 @@ namespace BugsDestroyer
             if (position.X < 250) // Left
             {
                 position.X = 250;
+
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt));
             }
             else if (position.X > 1670) // Right
             {
                 position.X = 1670;
+
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI));
             }
             if (position.Y < 125) // Top
             {
                 position.Y = 125;
+
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI / 2));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI / 2));
             }
             else if (position.Y > 945) // Bottom
             {
                 position.Y = 945;
+
                 listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI * 3 / 2));
+                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI * 3 / 2));
             }
         }
 

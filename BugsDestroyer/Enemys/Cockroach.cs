@@ -33,13 +33,19 @@ namespace BugsDestroyer
         private int _knockbackJumpTime = 22;
         private bool _hasDealtDamage = false;
 
+        // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
+        private const int NUMENEMYSHURTSFX = 1;
+        private const int NUMPLAYERHURTSFX = 2;
+
         // ctor
-        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames, List<SoundEffect> listSfx)
         {
             this._Frames = cockroachFrames;
             _CurrentFrame = _Frames[0];
 
             _position = initialPos;
+            this._listSfx = listSfx;
         }
 
         public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
@@ -177,7 +183,7 @@ namespace BugsDestroyer
                 {
                     enemies.Remove(this); // remove enemy
                     projectiles.Remove(projectiles[i]); // remove projectile
-                    explosions.Add(new Explosion(_position, mobExplosion, size:2));
+                    explosions.Add(new Explosion(_position, mobExplosion, _listSfx[NUMENEMYSHURTSFX], size:2));
                 }
             }
         }
@@ -190,6 +196,8 @@ namespace BugsDestroyer
 
                 if (Vector2.DistanceSquared(player.position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
+                    _listSfx[NUMPLAYERHURTSFX].Play();
+
                     player.healthPoint -= _damage;
                     _hasDealtDamage = true;
                 }

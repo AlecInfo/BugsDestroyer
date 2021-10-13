@@ -36,14 +36,20 @@ namespace BugsDestroyer
         private bool _hasDealtDamage = false;
 
 
+        // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
+        private const int NUMWALLHURTSFX = 0;
+        private const int NUMENEMYSHURTSFX = 1;
+        private const int NUMPLAYERHURTSFX = 2;
 
         // ctor
-        public Beetle(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Beetle(Vector2 initialPos, Texture2D[] cockroachFrames, List<SoundEffect> listSfx)
         {
             this._Frames = cockroachFrames;
             _CurrentFrame = _Frames[0];
 
             _position = initialPos;
+            this._listSfx = listSfx;
         }
 
 
@@ -198,7 +204,11 @@ namespace BugsDestroyer
                     if(_health == 0)
                     {
                         enemies.Remove(this); // remove enemy
-                        explosions.Add(new Explosion(_position, mobExplosion, size: 2));
+                        explosions.Add(new Explosion(_position, mobExplosion, _listSfx[NUMENEMYSHURTSFX], size: 2));
+                    }
+                    else
+                    {
+                        _listSfx[NUMWALLHURTSFX].Play();
                     }
 
                     projectiles.Remove(projectiles[i]); // remove projectile
@@ -214,6 +224,8 @@ namespace BugsDestroyer
 
                 if (Vector2.DistanceSquared(player.position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
+                    _listSfx[NUMPLAYERHURTSFX].Play();
+
                     player.healthPoint -= _damage;
                     _hasDealtDamage = true;
                 }
