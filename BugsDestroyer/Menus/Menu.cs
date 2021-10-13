@@ -122,16 +122,19 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 -145, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 48, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 10, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
             }
             else
             {
                 _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 300, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 325, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 225, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 190, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
 
                 _spriteBatch.Draw(_menuImages[5], new Vector2(_graphics.PreferredBackBufferWidth / 2 + 70, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 40, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
                 _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 145, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 180, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
             }
         }
 

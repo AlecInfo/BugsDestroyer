@@ -15,6 +15,7 @@ namespace BugsDestroyer
         // controls
         private Keys[] _directionalKeys;
         private Keys _shootKey;
+        public Keys interactKey;
 
         // attributs
         private GameTime _gameTime;
@@ -33,6 +34,7 @@ namespace BugsDestroyer
         private bool _isHit = false;
         private int _hitEffectTime = 200;
         public Color color = Color.White;
+        public bool isOnTrapdoor = false;
 
         // Point de vie
         public const int HEALTH_POINT_MAX = 100;
@@ -66,20 +68,21 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Texture2D[] projectileSprite, Vector2 position)
+        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Keys interactKey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
             this._gameTime = gametime;
             this.walkingSprites = walkingSprites;
-            _shotSprites = shotSprites;
-            currentSprite = this.walkingSprites[0];
+            this._shotSprites = shotSprites;
+            this.currentSprite = this.walkingSprites[0];
 
-            _deadSprite = deadSprite;
+            this._deadSprite = deadSprite;
 
-            _keyboardSfx = keyboardSfx;
+            this._keyboardSfx = keyboardSfx;
 
-            _directionalKeys = directionalKeys;
-            _shootKey = shootkey;
+            this._directionalKeys = directionalKeys;
+            this._shootKey = shootkey;
+            this.interactKey = interactKey;
 
             this._projectileSprite = projectileSprite;
 
@@ -265,8 +268,10 @@ namespace BugsDestroyer
                 this.color = Color.White;
         }
 
-        public void playerDrawHealthBar(SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
+        public void Draw(SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
         {
+            _spriteBatch.Draw(currentSprite, position, null, color, rotation, new Vector2(currentSprite.Width / 2, currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
+            
             if (healthPoint > 0)
             {
                 // Draw health bar border
@@ -276,5 +281,6 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
             }
         }
+
     }
 } 

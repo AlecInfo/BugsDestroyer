@@ -795,11 +795,29 @@
 /processorParam:Quality=Best
 /build:Sounds/Music/Funeral March.wav
 
+#begin Sounds/Sfx/enemysHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/enemysHurt.wav
+
 #begin Sounds/Sfx/MenuSfx.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Sfx/MenuSfx.wav
+
+#begin Sounds/Sfx/playersHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/playersHurt.wav
+
+#begin Sounds/Sfx/projectile.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/projectile.wav
 
 #begin Sounds/Sfx/StartSfx.wav
 /importer:WavImporter
@@ -812,4 +830,16 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Sfx/tir.mp3
+
+#begin Sounds/Sfx/trapdoor.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/trapdoor.mp3
+
+#begin Sounds/Sfx/wallHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Sfx/wallHurt.wav
 
