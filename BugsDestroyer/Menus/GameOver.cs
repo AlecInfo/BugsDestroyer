@@ -35,7 +35,7 @@ namespace BugsDestroyer
         // question
         private bool isYes = true;
         private Color onYes = Color.Lime;
-        private Color onNo = Color.White * 0.6f;
+        private Color onNo = Color.White * 0.4f;
 
 
         protected void gameOverLoad()
@@ -119,14 +119,14 @@ namespace BugsDestroyer
                     {
                         MenuSfx.Play();
                         onYes = Color.Lime;
-                        onNo = Color.White * 0.6f;
+                        onNo = Color.White * 0.4f;
                         isYes = true;
                         isChangeSelect = false;
                     }
                     else if (isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                     {
                         MenuSfx.Play();
-                        onYes = Color.White * 0.6f;
+                        onYes = Color.White * 0.4f;
                         onNo = Color.Lime;
                         isYes = false;
                         isChangeSelect = false;

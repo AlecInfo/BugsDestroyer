@@ -35,6 +35,7 @@ namespace BugsDestroyer
         private static int level = 0;
         private Texture2D[] cockroachSprites = new Texture2D[2];
         private Texture2D[] beetleSprites = new Texture2D[2];
+        private Texture2D[] spiderSprites = new Texture2D[2];
 
         // Decor
         public List<Texture2D> Sol = new List<Texture2D>();
@@ -225,6 +226,13 @@ namespace BugsDestroyer
 
             #endregion
 
+            #region Spider
+
+            spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
+            spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
+
+            #endregion
+
             #endregion
 
             LevelLoad(_listSfx);
@@ -234,6 +242,8 @@ namespace BugsDestroyer
             menuPauseLoad();
 
             gameOverLoad();
+
+            winLoad();
         }
 
         protected override void Update(GameTime gameTime)
@@ -302,7 +312,6 @@ namespace BugsDestroyer
                                 if (Vector2.DistanceSquared(players[i].position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2) && listLevels[level]._trapdoor.trapdoorIsOpen)
                                 {
                                     players[i].isOnTrapdoor = true;
-                                    listLevels[level]._trapdoor.trapdoorIsOpen = false;
                                 }
                                 else 
                                 {
@@ -319,7 +328,7 @@ namespace BugsDestroyer
                     for (int i = players.Count - 1; i >= 0; i--)
                     {
                         if (Keyboard.GetState().IsKeyDown(players[i].interactKey) && players[i].healthPoint > 0) {
-                            if (players.Count >= 2 && (players[0].isOnTrapdoor && players[1].isOnTrapdoor))
+                            if (players.Count >= 2 && players[0].isOnTrapdoor && players[1].isOnTrapdoor)
                             {
                                 changeLevel();
                             } 
@@ -336,14 +345,24 @@ namespace BugsDestroyer
 
                     void changeLevel()
                     {
-                        for (int y = players.Count - 1; y >= 0; y--)
+
+                        if (listLevels.Count - 1 != level)
                         {
-                            if (players[y].healthPoint <= 0)
+                            for (int y = players.Count - 1; y >= 0; y--)
                             {
-                                players.Remove(players[y]);
+                                if (players[y].healthPoint <= 0)
+                                {
+                                    players.Remove(players[y]);
+                                }
                             }
+                            startTransitionDark = true;
                         }
-                        startTransitionDark = true;
+                        else
+                        {
+                            isWin = true;
+                        }
+
+
                     }
 
                     #endregion
@@ -407,7 +426,10 @@ namespace BugsDestroyer
                     #endregion
 
                     gameOverUpdate(gameTime);
+
                 }
+
+                winUpdate(gameTime);
 
                 // acctualisation du menu pause
                 menuPauseUpdate(gameTime);
@@ -504,6 +526,9 @@ namespace BugsDestroyer
 
                 // affichage du gameOver
                 gameOverDraw(gameTime);
+
+                // affichage de la page de win
+                winDraw();
 
             }
 

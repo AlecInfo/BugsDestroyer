@@ -15,7 +15,7 @@ namespace BugsDestroyer
         private List<Texture2D> _menuImages;
 
         private Color colorSectionPlayer = Color.White;
-        private Color colorSectionGame = Color.LightGray * 0.7f;
+        private Color colorSectionGame = Color.White * 0.4f;
         private bool isSectionPlayer = true;
 
         private string selectedPlayerText = "1 player";
