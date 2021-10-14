@@ -95,7 +95,6 @@ namespace BugsDestroyer
 
         // Health bar
         private Texture2D healthBarTexture;
-        private Texture2D healthBarBorderTexture;
 
 
         public Game1()
@@ -183,8 +182,7 @@ namespace BugsDestroyer
             #region Players Health Bar
 
             // load health bar
-            healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
-            healthBarBorderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            healthBarTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             #endregion
 
             #region Projectiles
@@ -527,7 +525,7 @@ namespace BugsDestroyer
                 {
                     foreach (Player player in players)
                     {
-                        player.Draw(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                        player.Draw(_spriteBatch, healthBarTexture);
                     }
                 }
                 #endregion
