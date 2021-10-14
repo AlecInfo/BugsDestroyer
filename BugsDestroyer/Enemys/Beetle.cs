@@ -19,7 +19,7 @@ namespace BugsDestroyer
         private Texture2D _CurrentFrame;
         private int _speed = 2;
         private float rotation = 0;
-        private int _damage = 35;
+        private int _damage = 25;
         private int _health = 3;
         private List<Player> mobPlayers = new List<Player>();
         public Color color = Color.White;
@@ -34,7 +34,6 @@ namespace BugsDestroyer
         private int _knockbackSpeed = 22;
         private int _knockbackJumpTime = 22;
         private bool _hasDealtDamage = false;
-
 
 
         // ctor
@@ -161,7 +160,7 @@ namespace BugsDestroyer
                 direction.Normalize();
                 Vector2 velocity = direction * _knockbackAmount;
                 _position -= velocity;
-                _knockbackJumpTime -= 1; 
+                _knockbackJumpTime -= 1;
 
                 if (_knockbackJumpTime > 0)
                 {
@@ -175,6 +174,7 @@ namespace BugsDestroyer
             }
         }
 
+
         public void projectileCollision(List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -183,6 +183,12 @@ namespace BugsDestroyer
 
                 if (Vector2.DistanceSquared(projectiles[i].position, _position) < Math.Pow(radius, 2)) // if is colliding
                 {
+                    // small knockback
+                    direction.Normalize();
+                    Vector2 velocity = direction * 50;
+                    _position -= velocity;
+
+                    // change color to indicate damage (more red = more damage)
                     _health -= 1;
                     switch (_health)
                     {
@@ -195,6 +201,7 @@ namespace BugsDestroyer
                             break;
                     }
 
+                    // if theres no more health remove enemy
                     if(_health == 0)
                     {
                         enemies.Remove(this); // remove enemy
@@ -208,7 +215,7 @@ namespace BugsDestroyer
 
         public void playerCollision(List<Player> players, List<Enemy> enemies)
         {
-            foreach (Player player in players)
+            foreach (Player player in mobPlayers)
             {
                 float radius = player.walkingSprites[0].Width + _CurrentFrame.Width;
 

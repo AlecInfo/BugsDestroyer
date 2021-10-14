@@ -20,6 +20,10 @@ namespace BugsDestroyer
                     {
                         new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
                         new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
+                        /*new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
+                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
+                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),*/
+                        new Spider(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), spiderSprites)
                     },
                     new List<Decor> {
                         new Decor(Processeur, new Vector2(800, 360), 1.2f)
