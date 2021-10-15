@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "1kReSBDVIQEkZJxImHXKZRlo5vv2HE4/KUVbJYJXGqvX54EHr4MgESbZ2/t25ggqV07zIq7lBz1jKpG32gBJCA==",
+  "dgSpecHash": "mGybGoAGN20Df5GOmJc0FEnwr96TJ8R3l1mzbpzsl2otbS8vHz/m/gEucqnnXKrfW4u2rTReQvezOSLFCMyqTA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Marco.Rdrgs2\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
+  "projectFilePath": "C:\\Users\\neal.crsz\\Desktop\\BugsDestroyer\\BugsDestroyer\\BugsDestroyer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
-    "C:\\Users\\Marco.Rdrgs2\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
+    "C:\\Users\\neal.crsz\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\neal.crsz\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512"
   ],
   "logs": [
     {

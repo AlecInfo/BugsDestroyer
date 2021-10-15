@@ -12,6 +12,9 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
+        //Timer
+        private float _timerPrincipale = 0f;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -92,7 +95,6 @@ namespace BugsDestroyer
 
         // Health bar
         private Texture2D healthBarTexture;
-        private Texture2D healthBarBorderTexture;
 
 
         public Game1()
@@ -180,8 +182,7 @@ namespace BugsDestroyer
             #region Players Health Bar
 
             // load health bar
-            healthBarTexture = Content.Load<Texture2D>("Img/Health/healthPixel");
-            healthBarBorderTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            healthBarTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             #endregion
 
             #region Projectiles
@@ -255,6 +256,12 @@ namespace BugsDestroyer
                 // si le joueur est pas dans le menu pause
                 if (!isPause)
                 {
+                    #region Timer
+                    _timerPrincipale += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+                    #endregion
+
                     #region Levels
 
                     // update des niveaux
@@ -487,7 +494,8 @@ namespace BugsDestroyer
                 menuDraw(gameTime);
             } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
-            { 
+            {
+
                 #region Decor
                 // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
@@ -519,7 +527,7 @@ namespace BugsDestroyer
                 {
                     foreach (Player player in players)
                     {
-                        player.Draw(_spriteBatch, healthBarBorderTexture, healthBarTexture);
+                        player.Draw(_spriteBatch, healthBarTexture);
                     }
                 }
                 #endregion
@@ -554,6 +562,10 @@ namespace BugsDestroyer
                 }
                 #endregion
 
+                #region timer
+
+                _spriteBatch.DrawString(font, Math.Round(_timerPrincipale, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
+                #endregion
 
                 _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
