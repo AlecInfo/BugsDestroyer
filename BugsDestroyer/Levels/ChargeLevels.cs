@@ -18,11 +18,10 @@ namespace BugsDestroyer
                     Sol[0],
                     new List<Enemy>
                     {
-                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
-                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
-                        /*new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
-                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),
-                        new Cockroach(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), cockroachSprites),*/
+                        new Cockroach(new Vector2(100, 100), cockroachSprites),
+                        new Cockroach(new Vector2(100, 500), cockroachSprites),
+                        new Cockroach(new Vector2(100, 1000), cockroachSprites),
+                        new Cockroach(new Vector2(500, 500), cockroachSprites),
                         new Spider(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), spiderSprites)
                     },
                     new List<Decor> {

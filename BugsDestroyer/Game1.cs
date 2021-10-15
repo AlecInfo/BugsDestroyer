@@ -351,7 +351,7 @@ namespace BugsDestroyer
                     {
                         if (!isOpacityDark)
                         {
-                            players[i].playerUpdate(gameTime, listProjectiles);
+                            players[i].playerUpdate(gameTime, listProjectiles, listLevels[level].listObjects);
 
                             // recuperation de la taille du joueur avec un plus grande HIT BOX
                             float radius = players[i].currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
@@ -498,11 +498,13 @@ namespace BugsDestroyer
                     }
                 }
 
-                // Décor
+
+                    // Décor
                 foreach (Object item in listLevels[level].listObjects)
                 {
                     item.Draw(_spriteBatch);
                 }
+
 
                 listLevels[level]._trapdoor.Draw(_spriteBatch);
 

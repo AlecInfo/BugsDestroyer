@@ -12,6 +12,10 @@ namespace BugsDestroyer
 {
     public abstract class Object
     {
+        public Vector2 position;
+        public Texture2D texture;
+        public float size;
+
         public abstract void Draw(SpriteBatch spriteBatch);
 
     }

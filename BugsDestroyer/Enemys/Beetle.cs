@@ -13,16 +13,12 @@ namespace BugsDestroyer
     class Beetle : Enemy
     {
         // attributs
-        private Vector2 _position;
         public Vector2 direction;
         private Texture2D[] _Frames;
-        private Texture2D _CurrentFrame;
         private int _speed = 2;
-        private float rotation = 0;
         private int _damage = 25;
         private int _health = 3;
         private List<Player> mobPlayers = new List<Player>();
-        public Color color = Color.White;
 
         // Anim
         public int timeSinceLastFrame = 0;
@@ -40,79 +36,80 @@ namespace BugsDestroyer
         public Beetle(Vector2 initialPos, Texture2D[] cockroachFrames)
         {
             this._Frames = cockroachFrames;
-            _CurrentFrame = _Frames[0];
+            this.CurrentFrame = _Frames[0];
 
-            _position = initialPos;
+            this.position = initialPos;
         }
 
 
 
         public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
         {
-            mobPlayers.Clear();
+            this.mobPlayers.Clear();
             foreach (Player player in players)
             {
                 if (player.healthPoint > 0)
                 {
-                    mobPlayers.Add(player);
+                    this.mobPlayers.Add(player);
                 }
             }
 
             // Animation
-            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastFrame > millisecondsPerFrame)
+            this.timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (this.timeSinceLastFrame > this.millisecondsPerFrame)
             {
-                timeSinceLastFrame -= millisecondsPerFrame;
+                this.timeSinceLastFrame -= this.millisecondsPerFrame;
 
 
-                if (_CurrentFrame == _Frames[0])
+                if (this.CurrentFrame == this._Frames[0])
                 {
-                    _CurrentFrame = _Frames[1];
+                    this.CurrentFrame = this._Frames[1];
                 }
                 else
-                    _CurrentFrame = _Frames[0];
+                    this.CurrentFrame = this._Frames[0];
             }
 
-            if (mobPlayers.Count > 0)
+            if (this.mobPlayers.Count > 0)
             {
-                if (!_hasDealtDamage)
+                if (!this._hasDealtDamage)
                 {
-                    FollowPlayer(mobPlayers);
+                    FollowPlayer(this.mobPlayers);
                     playerCollision(players, enemies);
                 }
                 else
                     Knockback(gameTime);
             }
 
-            if (_position.X < 250) // Left
+            if (this.position.X < 250) // Left
             {
-                _position.X = 250;
+                this.position.X = 250;
             }
-            else if (_position.X > 1660) // Right
+            else if (this.position.X > 1660) // Right
             {
-                _position.X = 1660;
+                this.position.X = 1660;
             }
-            if (_position.Y < 140) // Top
+            if (this.position.Y < 140) // Top
             {
-                _position.Y = 140;
+                this.position.Y = 140;
             }
-            else if (_position.Y > 940) // Bottom
+            else if (this.position.Y > 940) // Bottom
             {
-                _position.Y = 940;
+                this.position.Y = 940;
             }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
+            enemyCollision(enemies);
         }
 
         private void FollowPlayer(List<Player> players)
         {
             Player playerToFollow = players[0];
-            float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - _position.X), 2) + Math.Pow((players[0].position.Y - _position.Y), 2)); // calculate distance to player 1
+            float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - this.position.X), 2) + Math.Pow((players[0].position.Y - this.position.Y), 2)); // calculate distance to player 1
 
 
             if (players.Count > 1) // si il y a deux joueur 
             {
-                float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - _position.X), 2) + Math.Pow((players[1].position.Y - _position.Y), 2)); // calculate distance to player 2
+                float distancePlayer2 = (float)Math.Sqrt(Math.Pow((players[1].position.X - this.position.X), 2) + Math.Pow((players[1].position.Y - this.position.Y), 2)); // calculate distance to player 2
 
                 // decide to follow the closest player
                 if (distancePlayer1 < distancePlayer2)
@@ -125,51 +122,51 @@ namespace BugsDestroyer
                 }
             }
 
-            direction = playerToFollow.position - _position;
+            this.direction = playerToFollow.position - this.position;
 
 
             float rotationDegrees = 0;
 
             // calculate rotation angle to mqake enemy look at player (degrees)
-            if ((direction.X > 0 && direction.Y < 0) || (direction.X > 0 && direction.Y > 0)) // NE or SE
+            if ((this.direction.X > 0 && this.direction.Y < 0) || (this.direction.X > 0 && this.direction.Y > 0)) // NE or SE
             {
-                rotationDegrees = (float)Math.Atan(direction.Y / direction.X);
+                rotationDegrees = (float)Math.Atan(this.direction.Y / this.direction.X);
             }
-            else if ((direction.X < 0 && direction.Y < 0) || (direction.X < 0 && direction.Y > 0)) // NW or SW
+            else if ((this.direction.X < 0 && this.direction.Y < 0) || (this.direction.X < 0 && this.direction.Y > 0)) // NW or SW
             {
-                rotationDegrees = (float)Math.Atan(direction.Y / direction.X) - 135;
+                rotationDegrees = (float)Math.Atan(this.direction.Y / this.direction.X) - 135;
             }
 
             // Convert degrees to radians 
-            rotation = (float)(rotationDegrees + 90 * (Math.PI / 180));
+            this.rotation = (float)(rotationDegrees + 90 * (Math.PI / 180));
 
 
             // Move enemy towards player
-            direction.Normalize();
-            Vector2 velocity = direction * _speed;
-            _position += velocity;
+            this.direction.Normalize();
+            Vector2 velocity = this.direction * this._speed;
+            this.position += velocity;
         }
 
         public void Knockback(GameTime gameTime)
         {
-            _knockbackCpt += gameTime.ElapsedGameTime.Milliseconds;
-            if (_knockbackCpt > _knockbackSpeed)
+            this._knockbackCpt += gameTime.ElapsedGameTime.Milliseconds;
+            if (this._knockbackCpt > this._knockbackSpeed)
             {
-                _knockbackCpt -= _knockbackSpeed;
+                this._knockbackCpt -= this._knockbackSpeed;
 
-                direction.Normalize();
-                Vector2 velocity = direction * _knockbackAmount;
-                _position -= velocity;
-                _knockbackJumpTime -= 1;
+                this.direction.Normalize();
+                Vector2 velocity = this.direction * this._knockbackAmount;
+                this.position -= velocity;
+                this._knockbackJumpTime -= 1;
 
-                if (_knockbackJumpTime > 0)
+                if (this._knockbackJumpTime > 0)
                 {
                     Knockback(gameTime);
                 }
                 else
                 {
-                    _hasDealtDamage = false;
-                    _knockbackJumpTime = 22;
+                    this._hasDealtDamage = false;
+                    this._knockbackJumpTime = 22;
                 }
             }
         }
@@ -179,18 +176,18 @@ namespace BugsDestroyer
         {
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
-                float radius = projectiles[i].texture.Width + _CurrentFrame.Height;
+                float radius = projectiles[i].texture.Width + this.CurrentFrame.Height;
 
-                if (Vector2.DistanceSquared(projectiles[i].position, _position) < Math.Pow(radius, 2)) // if is colliding
+                if (Vector2.DistanceSquared(projectiles[i].position, this.position) < Math.Pow(radius, 2)) // if is colliding
                 {
                     // small knockback
-                    direction.Normalize();
-                    Vector2 velocity = direction * 50;
-                    _position -= velocity;
+                    this.direction.Normalize();
+                    Vector2 velocity = this.direction * 50;
+                    this.position -= velocity;
 
                     // change color to indicate damage (more red = more damage)
-                    _health -= 1;
-                    switch (_health)
+                    this._health -= 1;
+                    switch (this._health)
                     {
                         case 2:
                             this.color = new Color(255, 170, 170);
@@ -202,10 +199,10 @@ namespace BugsDestroyer
                     }
 
                     // if theres no more health remove enemy
-                    if(_health == 0)
+                    if(this._health == 0)
                     {
                         enemies.Remove(this); // remove enemy
-                        explosions.Add(new Explosion(_position, mobExplosion, size: 2));
+                        explosions.Add(new Explosion(this.position, mobExplosion, size: 2));
                     }
 
                     projectiles.Remove(projectiles[i]); // remove projectile
@@ -215,21 +212,58 @@ namespace BugsDestroyer
 
         public void playerCollision(List<Player> players, List<Enemy> enemies)
         {
-            foreach (Player player in mobPlayers)
+            foreach (Player player in this.mobPlayers)
             {
-                float radius = player.walkingSprites[0].Width + _CurrentFrame.Width;
+                float radius = player.walkingSprites[0].Width + this.CurrentFrame.Width;
 
-                if (Vector2.DistanceSquared(player.position, _position) < Math.Pow(radius, 2)) // if is colliding
+                if (Vector2.DistanceSquared(player.position, this.position) < Math.Pow(radius, 2)) // if is colliding
                 {
-                    player.healthPoint -= _damage;
-                    _hasDealtDamage = true;
+                    player.healthPoint -= this._damage;
+                    this._hasDealtDamage = true;
                 }
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void enemyCollision(List<Enemy> enemies)
         {
-            spriteBatch.Draw(this._CurrentFrame, _position, null, this.color, rotation, new Vector2(_CurrentFrame.Width / 2, _CurrentFrame.Height / 2), 2f, SpriteEffects.None, 0f);
+            foreach (Enemy enemy in enemies)
+            {
+                if (this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
+                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X - enemy.CurrentFrame.Width / 2 &&
+                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
+                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2) // Left
+                {
+                    this.position.X = (enemy.position.X - enemy.CurrentFrame.Width / 2) - (this.CurrentFrame.Width / 2);
+                    //this.position.X = 0;
+                }
+
+                if (this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2 &&
+                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X + enemy.CurrentFrame.Width / 2 &&
+                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
+                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2) // Right
+                {
+                    this.position.X = (enemy.position.X + enemy.CurrentFrame.Width / 2) + (this.CurrentFrame.Width / 2);
+                    //this.position.X = 0;
+                }
+
+                if (this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
+                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
+                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
+                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2)  // Top
+                {
+                    this.position.Y = (enemy.position.Y - enemy.CurrentFrame.Height / 2) - (this.CurrentFrame.Height / 2);
+                    //this.position.Y = 0;
+                }
+
+                if (this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2 &&
+                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y + enemy.CurrentFrame.Height / 2 &&
+                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
+                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2) // Botton
+                {
+                    this.position.Y = (enemy.position.Y + enemy.CurrentFrame.Height / 2) + (this.CurrentFrame.Height / 2);
+                    //this.position.Y = 0;
+                }
+            }
         }
     }
 }
