@@ -32,7 +32,8 @@ namespace BugsDestroyer
         public int walkingSpeed = 8;
         public float rotation = 0f;
         private bool _isHit = false;
-        private int _hitEffectTime = 200;
+        private bool _isCured = false;
+        private int _effectTime = 200;
         public Color color = Color.White;
         public bool isOnTrapdoor = false;
 
@@ -45,6 +46,11 @@ namespace BugsDestroyer
                 if (value < _healthPoint)
                 {
                     _isHit = true;
+                }
+
+                if (value > _healthPoint)
+                {
+                    _isCured = true;
                 }
 
                 _healthPoint = Math.Max(HEALTH_POINT_MIN, Math.Min(value, HEALTH_POINT_MAX));
@@ -155,19 +161,38 @@ namespace BugsDestroyer
                         7);
 
 
-            // hit effect
-            if (this._isHit && this._healthPoint != 0) // if the player is hit and he's not dead
+
+            if (this._isHit) // if the player is hit 
             {
                 this.color = new Color(255, 100, 100); // red
-                this._hitEffectTime -= gameTime.ElapsedGameTime.Milliseconds;
+                this._effectTime -= gameTime.ElapsedGameTime.Milliseconds;
 
-                if (this._hitEffectTime <= 0)
+                if (this._effectTime <= 0)
                 {
-                    this._hitEffectTime = 100;
+                    this._effectTime = 100;
                     this._isHit = false;
                 }
-            }else
+            }
+            else if (this._isCured) // if the player is cured 
+            {
+                this.color = new Color(55, 255, 55); // red
+                this._effectTime -= gameTime.ElapsedGameTime.Milliseconds;
+
+                if (this._effectTime <= 0)
+                {
+                    this._effectTime = 100;
+                    this._isCured = false;
+                }
+            }
+            else
                 this.color = Color.White;
+
+            
+            if (this.healthPoint == 0) // if the player is dead
+            {
+                // remove the effects
+                this.color = Color.White;
+            }
 
             isCollidingWitObject(listObjects);
         }
@@ -284,8 +309,6 @@ namespace BugsDestroyer
         {            
             foreach (Object decorObject in listObjects)
             {
-
-                // continuer
                 if (this.position.X + this.walkingSprites[0].Height / 2 > decorObject.position.X - decorObject.texture.Width * decorObject.size / 2 &&
                     this.position.X - this.walkingSprites[0].Height / 2 < decorObject.position.X - decorObject.texture.Width * decorObject.size / 2 &&
                     this.position.Y + this.walkingSprites[0].Height / 2 - 10 > decorObject.position.Y - decorObject.texture.Height * decorObject.size / 2 &&
@@ -327,18 +350,12 @@ namespace BugsDestroyer
             if (this.healthPoint > 0)
             {
                 // Draw health bar border
-<<<<<<< HEAD
-                healthBarBorderTexture.SetData(new Color[] { Color.Black });
-                _spriteBatch.Draw(healthBarBorderTexture, new Rectangle(this.healthBarRectangle.X - 2, this.healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
-                // Draw health bar
-                _spriteBatch.Draw(healthBarTexture, this.healthBarRectangle, Color.White);
-=======
                 healthBarTexture.SetData(new Color[] { Color.Black });
                 _spriteBatch.Draw(healthBarTexture, new Rectangle(healthBarRectangle.X - 2, healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
+
                 // Draw health bar
                 healthBarTexture.SetData(new Color[] { Color.FromNonPremultiplied(34, 177, 76, 255) });
                 _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
->>>>>>> af4b1bbc7ac12af5cd9a560498c99a496a839c59
             }
         }
 

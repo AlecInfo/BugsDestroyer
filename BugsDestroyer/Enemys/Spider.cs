@@ -13,7 +13,6 @@ namespace BugsDestroyer
     class Spider : Enemy
     {
         // Attributs
-        public Vector2 direction;
         public bool hasCalculatedDirection = false;
         private Texture2D[] _Frames;
         private int _health = 2;
@@ -23,7 +22,6 @@ namespace BugsDestroyer
         private float _jumpDelay = 0.5f;
         private bool _isAttacking = false;
         private int _damage = 50;
-        private float _speed = 12f;
 
         // Knockback
         private int _knockbackAmount = 5;
@@ -42,12 +40,13 @@ namespace BugsDestroyer
 
             this._Frames = cockroachFrames;
             this.CurrentFrame = _Frames[0];
+            this.speed = 12;
         }
 
 
 
         // Methods
-        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
+        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion, List<Object> objects)
         {
             this.mobPlayers.Clear();
             foreach (Player player in players)
@@ -67,8 +66,8 @@ namespace BugsDestroyer
                 {
                     if (!this._hasDealtDamage)
                     {
-                        FollowPlayer(this.mobPlayers);
-                        playerCollision(players, enemies);
+                        FollowPlayer(this.mobPlayers, objects);
+                        playerCollision(mobPlayers, enemies);
                     }
                 }
 
@@ -138,7 +137,7 @@ namespace BugsDestroyer
                 this._knockbackCpt -= this._knockbackSpeed;
 
                 this.direction.Normalize();
-                Vector2 velocity = this.direction * this._knockbackAmount;
+                velocity = this.direction * this._knockbackAmount;
                 this.position -= velocity;
                 this._knockbackJumpTime -= 1;
 
@@ -154,7 +153,7 @@ namespace BugsDestroyer
             }
         }
 
-        private void FollowPlayer(List<Player> players)
+        private void FollowPlayer(List<Player> players, List<Object> objects)
         {
             Player playerToFollow = players[0];
             float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - this.position.X), 2) + Math.Pow((players[0].position.Y - this.position.Y), 2)); // calculate distance to player 1
@@ -200,8 +199,10 @@ namespace BugsDestroyer
 
             // Move enemy towards player
             this.direction.Normalize();
-            Vector2 velocity = this.direction * this._speed;
+            velocity = this.direction * this.speed;
             this.position += velocity;
+
+            objectCollision(objects);
         }
 
         public void projectileCollision(List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
@@ -218,7 +219,7 @@ namespace BugsDestroyer
                     if (this._health == 1)
                     {
                         this.color = new Color(200, 100, 100);
-                        this._speed = 17f; 
+                        this.speed = 17f; 
                     }
 
                     // if theres no more health remove enemy

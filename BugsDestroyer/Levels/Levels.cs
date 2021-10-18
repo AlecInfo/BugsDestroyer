@@ -19,11 +19,12 @@ namespace BugsDestroyer
 
         public List<Enemy> listEnemies = new List<Enemy>();
         public List<Object> listObjects = new List<Object>();
+        public List<Item> listItems = new List<Item>();
 
         public bool ready = false;
 
 
-        public Levels(Texture2D background, List<Enemy> listEnemy, List<Decor> listDecor, Trapdoor trapdoor)
+        public Levels(Texture2D background, List<Enemy> listEnemy, List<Decor> listDecor, List<Item> listItem,Trapdoor trapdoor)
         {
             this._background = background;
             this._trapdoor = trapdoor;
@@ -36,6 +37,11 @@ namespace BugsDestroyer
             foreach (var item in listDecor)
             {
                 listObjects.Add(item);
+            }
+
+            foreach (var item in listItem)
+            {
+                listItems.Add(item);
             }
         }
 

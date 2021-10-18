@@ -13,9 +13,7 @@ namespace BugsDestroyer
     class Beetle : Enemy
     {
         // attributs
-        public Vector2 direction;
         private Texture2D[] _Frames;
-        private int _speed = 2;
         private int _damage = 25;
         private int _health = 3;
         private List<Player> mobPlayers = new List<Player>();
@@ -39,11 +37,12 @@ namespace BugsDestroyer
             this.CurrentFrame = _Frames[0];
 
             this.position = initialPos;
+            this.speed = 2;
         }
 
 
 
-        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
+        public override void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion, List<Object> objects)
         {
             this.mobPlayers.Clear();
             foreach (Player player in players)
@@ -73,7 +72,7 @@ namespace BugsDestroyer
             {
                 if (!this._hasDealtDamage)
                 {
-                    FollowPlayer(this.mobPlayers);
+                    FollowPlayer(this.mobPlayers, enemies, objects);
                     playerCollision(players, enemies);
                 }
                 else
@@ -98,10 +97,9 @@ namespace BugsDestroyer
             }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
-            enemyCollision(enemies);
         }
 
-        private void FollowPlayer(List<Player> players)
+        private void FollowPlayer(List<Player> players, List<Enemy> enemies, List<Object> objects)
         {
             Player playerToFollow = players[0];
             float distancePlayer1 = (float)Math.Sqrt(Math.Pow((players[0].position.X - this.position.X), 2) + Math.Pow((players[0].position.Y - this.position.Y), 2)); // calculate distance to player 1
@@ -143,8 +141,12 @@ namespace BugsDestroyer
 
             // Move enemy towards player
             this.direction.Normalize();
-            Vector2 velocity = this.direction * this._speed;
+            velocity = this.direction * this.speed;
             this.position += velocity;
+
+            // Collisions
+            enemyCollision(enemies);
+            objectCollision(objects);
         }
 
         public void Knockback(GameTime gameTime)
@@ -155,7 +157,7 @@ namespace BugsDestroyer
                 this._knockbackCpt -= this._knockbackSpeed;
 
                 this.direction.Normalize();
-                Vector2 velocity = this.direction * this._knockbackAmount;
+                velocity = this.direction * this._knockbackAmount;
                 this.position -= velocity;
                 this._knockbackJumpTime -= 1;
 
@@ -182,7 +184,7 @@ namespace BugsDestroyer
                 {
                     // small knockback
                     this.direction.Normalize();
-                    Vector2 velocity = this.direction * 50;
+                    velocity = this.direction * 50;
                     this.position -= velocity;
 
                     // change color to indicate damage (more red = more damage)
@@ -220,48 +222,6 @@ namespace BugsDestroyer
                 {
                     player.healthPoint -= this._damage;
                     this._hasDealtDamage = true;
-                }
-            }
-        }
-
-        public void enemyCollision(List<Enemy> enemies)
-        {
-            foreach (Enemy enemy in enemies)
-            {
-                if (this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
-                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X - enemy.CurrentFrame.Width / 2 &&
-                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
-                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2) // Left
-                {
-                    this.position.X = (enemy.position.X - enemy.CurrentFrame.Width / 2) - (this.CurrentFrame.Width / 2);
-                    //this.position.X = 0;
-                }
-
-                if (this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2 &&
-                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X + enemy.CurrentFrame.Width / 2 &&
-                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
-                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2) // Right
-                {
-                    this.position.X = (enemy.position.X + enemy.CurrentFrame.Width / 2) + (this.CurrentFrame.Width / 2);
-                    //this.position.X = 0;
-                }
-
-                if (this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
-                    this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y - enemy.CurrentFrame.Height / 2 &&
-                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
-                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2)  // Top
-                {
-                    this.position.Y = (enemy.position.Y - enemy.CurrentFrame.Height / 2) - (this.CurrentFrame.Height / 2);
-                    //this.position.Y = 0;
-                }
-
-                if (this.position.Y - this.CurrentFrame.Height / 2 < enemy.position.Y + enemy.CurrentFrame.Height / 2 &&
-                    this.position.Y + this.CurrentFrame.Height / 2 > enemy.position.Y + enemy.CurrentFrame.Height / 2 &&
-                    this.position.X + this.CurrentFrame.Width / 2 > enemy.position.X - enemy.CurrentFrame.Width / 2 &&
-                    this.position.X - this.CurrentFrame.Width / 2 < enemy.position.X + enemy.CurrentFrame.Width / 2) // Botton
-                {
-                    this.position.Y = (enemy.position.Y + enemy.CurrentFrame.Height / 2) + (this.CurrentFrame.Height / 2);
-                    //this.position.Y = 0;
                 }
             }
         }

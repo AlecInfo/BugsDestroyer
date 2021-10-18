@@ -12,21 +12,26 @@ namespace BugsDestroyer
     {
         protected void LevelLoad()
         {
-            // Level 1g
+            // Level 1
             listLevels.Add(
                 new Levels(
                     Sol[0],
                     new List<Enemy>
                     {
                         new Cockroach(new Vector2(100, 100), cockroachSprites),
-                        new Cockroach(new Vector2(100, 500), cockroachSprites),
-                        new Cockroach(new Vector2(100, 1000), cockroachSprites),
-                        new Cockroach(new Vector2(500, 500), cockroachSprites),
-                        new Spider(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), spiderSprites)
+                        //new Cockroach(new Vector2(100, 500), cockroachSprites),
+                        //new Cockroach(new Vector2(100, 1000), cockroachSprites),
+                        //new Cockroach(new Vector2(500, 500), cockroachSprites),
+                        //new Spider(new Vector2(rnd.Next(0, 1950), rnd.Next(0, 1080)), spiderSprites)
                     },
                     new List<Decor> {
                         new Decor(Processeur, new Vector2(800, 360), 1.2f)
                     },
+                    new List<Item>
+                    {
+                        new Health(healthItem, new Vector2(750, 500))
+                    }
+                    ,
                     new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
@@ -46,6 +51,8 @@ namespace BugsDestroyer
                         new Decor(PCI, new Vector2(650, 550), 3f),
                         new Decor(PCI, new Vector2(650, 650), 3f) 
                     },
+                    new List<Item> { }
+                    ,
                     new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
@@ -68,6 +75,10 @@ namespace BugsDestroyer
                         new Decor(PCI, new Vector2(650, 650), 3f),
                         new Decor(MiniPCI, new Vector2(600, 750), 3f)
                     },
+                    new List<Item> {
+                        new Health(healthItem, new Vector2(750, 500))
+                    }
+                    ,
                     new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
@@ -96,6 +107,8 @@ namespace BugsDestroyer
                         new Decor(Ram, new Vector2(1100, 400), 3f),
                         new Decor(Ram, new Vector2(1150, 400), 3f)
                     },
+                    new List<Item> { }
+                    ,
                     new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
                 );
