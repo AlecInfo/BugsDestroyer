@@ -97,7 +97,7 @@ namespace BugsDestroyer
             _spriteBatch.Draw(_menuImages[6], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0f);
 
             // Titre
-            _spriteBatch.DrawString(font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, 200), Color.White, 0f, new Vector2(font.MeasureString("bugs destroyer").X / 2, font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(font.MeasureString("bugs destroyer").X / 2, font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);
 
             // Choix du joueur
             if (!selectedPlayer1)

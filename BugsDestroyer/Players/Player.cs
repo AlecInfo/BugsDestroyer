@@ -269,16 +269,17 @@ namespace BugsDestroyer
                 this.color = Color.White;
         }
 
-        public void Draw(SpriteBatch _spriteBatch, Texture2D healthBarBorderTexture, Texture2D healthBarTexture)
+        public void Draw(SpriteBatch _spriteBatch, Texture2D healthBarTexture)
         {
             _spriteBatch.Draw(currentSprite, position, null, color, rotation, new Vector2(currentSprite.Width / 2, currentSprite.Height / 2), 1f, SpriteEffects.None, 0f);
             
             if (healthPoint > 0)
             {
                 // Draw health bar border
-                healthBarBorderTexture.SetData(new Color[] { Color.Black });
-                _spriteBatch.Draw(healthBarBorderTexture, new Rectangle(healthBarRectangle.X - 2, healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
+                healthBarTexture.SetData(new Color[] { Color.Black });
+                _spriteBatch.Draw(healthBarTexture, new Rectangle(healthBarRectangle.X - 2, healthBarRectangle.Y - 2, Player.HEALTH_POINT_MAX / 2 + 4, 7 + 4), Color.Black * 0.5f);
                 // Draw health bar
+                healthBarTexture.SetData(new Color[] { Color.FromNonPremultiplied(34, 177, 76, 255) });
                 _spriteBatch.Draw(healthBarTexture, healthBarRectangle, Color.White);
             }
         }

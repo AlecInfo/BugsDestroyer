@@ -35,6 +35,7 @@ namespace BugsDestroyer
             // si le joueur a appuié sur pause
             if (isPause)
             {
+                // quand le joueur est dans le menu pause
                 MediaPlayer.Volume = 0.5f;
                 
 
@@ -52,6 +53,7 @@ namespace BugsDestroyer
             }
             else
             {
+                // quand il ne l est plus
                 MediaPlayer.Volume = 1f;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
@@ -76,7 +78,7 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * 0.5f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
                 // Titre
-                _spriteBatch.DrawString(font, "pause", new Vector2(_graphics.PreferredBackBufferWidth / 2, 200), Color.White, 0f, new Vector2(font.MeasureString("PAUSE").X / 2, font.MeasureString("PAUSE").Y / 2), 2f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, "pause", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(font.MeasureString("PAUSE").X / 2, font.MeasureString("PAUSE").Y / 2), 2f, SpriteEffects.None, 0f);
 
                 //Controle
                 _spriteBatch.Draw(_menuPauseImages[1], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 150, 720), null, Color.White, 0f, Vector2.Zero, 1.7f, SpriteEffects.None, 0f);
