@@ -233,7 +233,6 @@ namespace BugsDestroyer
             #endregion
 
 
-
             #region Items
 
             healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
@@ -389,7 +388,7 @@ namespace BugsDestroyer
                         if (players.Count <= 0)
                         {
                             players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(1500, 400))
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
                             );
                         }
                     } // sinon si deux joueurs séléctionnés
@@ -399,12 +398,12 @@ namespace BugsDestroyer
                         {
                             // Player 1
                             players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(400, 400))
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
                             );
 
                             // Player 2
                             players.Add(
-                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(400, 600))
+                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
                             );
                         }
                     }
