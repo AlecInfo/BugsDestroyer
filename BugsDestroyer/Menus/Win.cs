@@ -26,6 +26,8 @@ namespace BugsDestroyer
         private bool keyRight = true;
         private bool isOnChooseName = false;
         private bool validate = false;
+        private bool _timeInTop = false;
+        private bool _alreadyValidateName = false;
 
 
         private float currentTimeMiliWin = 0f;
@@ -55,8 +57,8 @@ namespace BugsDestroyer
         private int arrowX;
 
         private List<Score> tabScore = new List<Score>();
-        private Dictionary<double, string> tabScoreTemp = new Dictionary<double, string>();
-        HighScore highScore;
+        private List<HighScore> listhighScore = new List<HighScore>();
+        private bool _listScoreCreate = false;
         private int cpt = 1;
         private int posY;
         private int posX;
@@ -77,33 +79,26 @@ namespace BugsDestroyer
 
 
 
-            // ajout des scores dans le dico
+            // Recupération des données du fichier xml
             posY = _graphics.PreferredBackBufferHeight / 3;
             posX = _graphics.PreferredBackBufferWidth / 8;
-
-            //tabScoreTemp.Add(30.22, "ptt");
-            //tabScoreTemp.Add(38.37, "mar");
-            //tabScoreTemp.Add(39.21, "jrm");
-            //tabScoreTemp.Add(41.43, "and");
-            //tabScoreTemp.Add(48.19, "cau");
-            //tabScoreTemp.Add(49.03, "zip");
-            //tabScoreTemp.Add(49.59, "bit");
-            //tabScoreTemp.Add(59.98, "css");
-            //tabScoreTemp.Add(60.42, "php");
-            //tabScoreTemp.Add(67.74, "xml");
 
 
             if (File.Exists(FILE))
             {
-                List<HighScore> listTemp = new List<HighScore>();
-                XmlSerializer restore = new XmlSerializer(typeof(HighScore));
+                ListHighScore listTemp;
+                XmlSerializer restore = new XmlSerializer(typeof(ListHighScore));
 
                 using (StreamReader scorePlayer = new StreamReader(FILE))
                 {
-                    while ((HighScore)restore.Deserialize(scorePlayer) = !null)
-                    {
+                    // recupération de la liste highscore
+                    listTemp = (ListHighScore)restore.Deserialize(scorePlayer);
+                }
 
-                    }
+                // parcourir la liste recupérer pour créer les objets
+                for (int i = 0; i < listTemp._listHighScore.Count; i++)
+                {
+                    listhighScore.Add(new HighScore(listTemp._listHighScore[i].Name, listTemp._listHighScore[i].Score));
                 }
             }
 
@@ -119,6 +114,7 @@ namespace BugsDestroyer
                 {
                     #region menu Win
 
+                    #region animation 
                     // timer pour faire un effet avec un cercle qui est de plus en plus grand
                     currentTimeMiliWin += (float)game.ElapsedGameTime.TotalMilliseconds;
 
@@ -145,26 +141,34 @@ namespace BugsDestroyer
                         timerMiliWin = 0;
                     }
 
+                    #endregion
 
                     // si la transition est finie
                     if (winTransition)
                     {
+                        #region creation du tableau des scores
                         // insertion des scores dans la liste de score
-                        foreach (var item in tabScoreTemp)
+                        if (!_listScoreCreate)
                         {
-                            if (cpt <= 10)
+                            for (int i = 0; i < listhighScore.Count; i++)
                             {
-                                tabScore.Add(new Score(item.Value, item.Key, new Vector2(posX, posY), cpt));
-                            }
+                                if (i <= 10)
+                                {
+                                    tabScore.Add(new Score(listhighScore[i].Name, listhighScore[i].Score, new Vector2(posX, posY), i + 1));
+                                }
 
-                            posY += 60;
+                                posY += 60;
 
-                            cpt++;
-                            if (cpt >= 10)
-                            {
-                                posX -= 30;
+                                if (i >= 10)
+                                {
+                                    posX -= 30;
+                                }
                             }
+                            _listScoreCreate = true; ;
                         }
+                        #endregion
+
+                        #region changement de séléction des boutons
 
                         // si la touche S ou la flèche du bas est pressée
                         if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
@@ -225,6 +229,10 @@ namespace BugsDestroyer
                         // changement de la couleur du bouton courrent en plus foncée
                         listButton[_selectedButton]._color = choose;
 
+                        #endregion
+
+                        #region séléction du bouton
+
                         // quand la touch 8 (dollar sur la borne)
                         if (Keyboard.GetState().IsKeyDown(Keys.D8))
                         {
@@ -232,8 +240,34 @@ namespace BugsDestroyer
                             switch (_selectedButton)
                             {
                                 case 0:
-                                    // affichage de la page pour choisir son nom
-                                    isOnChooseName = true;
+                                    // verrification si le score est dans le top 
+                                    if (tabScore.Count == 10)
+                                    {
+                                        foreach (var item in tabScore)
+                                        {
+                                            if (_timerPrincipal < item.TimeScore)
+                                            {
+                                                _timeInTop = true;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _timeInTop = true;
+                                    }
+
+
+                                    if (_timeInTop && !_alreadyValidateName)
+                                    {
+                                        // affichage de la page pour choisir son nom
+                                        isOnChooseName = true;
+                                        _timeInTop = false;
+                                    }
+                                    else
+                                    {
+                                        // pas la posibilite de mettre son nom
+                                        listButton[0]._color = Color.Red;
+                                    }
                                     break;
                                 case 1:
                                     // restart du programme
@@ -251,6 +285,8 @@ namespace BugsDestroyer
                                     break;
                             }
                         }
+
+                        #endregion
                     }
 
                     #endregion
@@ -259,6 +295,7 @@ namespace BugsDestroyer
                 {
                     #region choose name
 
+                    #region animation 
                     // timer pour faire un effect sur l'écriture verte
 
                     currentTimeSecondText += (float)game.ElapsedGameTime.TotalSeconds;
@@ -274,7 +311,9 @@ namespace BugsDestroyer
                         timerSecondText = 0;
                         textDraw = !textDraw;
                     }
+                    #endregion
 
+                    #region changement de séléction de lettre
                     // quand D est presser
                     if (Keyboard.GetState().IsKeyDown(Keys.D))
                     {
@@ -334,6 +373,9 @@ namespace BugsDestroyer
                             letter3 = changeLetter(letter3);
                             break;
                     }
+                    #endregion
+
+                    #region validation du pseudo
 
                     // si touche G est presser 
                     if (Keyboard.GetState().IsKeyDown(Keys.G))
@@ -349,63 +391,96 @@ namespace BugsDestroyer
                         validate = false;
 
                         // enregistrement des scores
-                        List<HighScore> listTemp = new List<HighScore>();
                         bool breakAdd = true;
 
-                        if (tabScore.Count == 10)
+                        // actualisation de la liste de meilleur score
+                        if (tabScore.Count <= 10)
                         {
-                            cpt = 1;
-                            foreach (var item in tabScore)
+                            if (tabScore.Count == 0)
                             {
-                                if (cpt <= 10)
+                                // si la liste est vide ajout direct du score du joueur
+                                listhighScore.Add(new HighScore(name, Math.Round(_timerPrincipal, 2)));
+                            }
+                            else
+                            {
+                                List<HighScore> listTemp = new List<HighScore>();
+                                cpt = 1;
+                                
+                                // parcourir la liste pour verrifier l'emplacement du score du joueur
+                                foreach (var item in tabScore)
                                 {
-                                    if (_timerPrincipale < item.TimeScore && breakAdd)
+                                    if (cpt <= 10)
                                     {
-                                        listTemp.Add(new HighScore(name, Math.Round(_timerPrincipale, 2)));
-                                        breakAdd = false;
+                                        // si le score du joueur est mieu que l'item
+                                        if (_timerPrincipal < item.TimeScore && breakAdd)
+                                        {
+                                            // ajout de score du joueur 
+                                            listTemp.Add(new HighScore(name, Math.Round(_timerPrincipal, 2)));
+                                            // si la liste est plus petite que 10 pour eviter de mettre plus de  10 score dans la liste
+                                            if (cpt < 10)
+                                            {
+                                                // ajout du score de l'item
+                                                listTemp.Add(new HighScore(item.Name, item.TimeScore));
+                                            }
+                                            breakAdd = false;
+                                        }
+                                        // sinon si la liste est plus petite que 10 et que le score du joueur est plus grand que le dernier score
+                                        else if (_timerPrincipal > tabScore[tabScore.Count - 1].TimeScore && cpt == tabScore.Count)
+                                        {
+                                            // ajout en permier du dernier score
+                                            listTemp.Add(new HighScore(item.Name, item.TimeScore));
+                                            // ajout du score du joueur
+                                            listTemp.Add(new HighScore(name, Math.Round(_timerPrincipal, 2)));
+                                        }
+                                        else
+                                        {
+                                            // ajout de l'item
+                                            listTemp.Add(new HighScore(item.Name, item.TimeScore));
+                                        }
+
+                                        cpt++;
                                     }
-                                    else
-                                    {
-                                        listTemp.Add(new HighScore(item.Name, item.TimeScore));
-                                    }
-                                    cpt++;
                                 }
+                                // acctualisation de la liste "listhighScore" avec la liste temporaire
+                                listhighScore.Clear();
+                                listhighScore = listTemp;
                             }
                         }
-                        else if (tabScore.Count < 10)
+
+                        posY = _graphics.PreferredBackBufferHeight / 3;
+                        posX = _graphics.PreferredBackBufferWidth / 8;
+                        tabScore.Clear();
+
+                        // acctualisation de la liste "tabScore" avec les valeurs de la liste des meilleurs score en donnant une position
+                        for (int i = 0; i < listhighScore.Count; i++)
                         {
-                            cpt = 1;
-                            foreach (var item in tabScore)
+                            if (i <= 10)
                             {
-                                if (cpt <= 10)
-                                {
-                                    if (_timerPrincipale < item.TimeScore && breakAdd)
-                                    {
-                                        listTemp.Add(new HighScore(name, Math.Round(_timerPrincipale, 2)));
-                                        breakAdd = false;
-                                    }
-                                    else
-                                    {
-                                        listTemp.Add(new HighScore(item.Name, item.TimeScore));
-                                    }
-                                    cpt++;
-                                }
+                                tabScore.Add(new Score(listhighScore[i].Name, listhighScore[i].Score, new Vector2(posX, posY), i + 1));
+                            }
+
+                            posY += 60;
+
+                            if (i >= 10)
+                            {
+                                posX -= 30;
                             }
                         }
 
 
-                        XmlSerializer sauver = new XmlSerializer(typeof(HighScore));
+                        // enregistrement de la liste de score
+                        XmlSerializer sauver = new XmlSerializer(typeof(ListHighScore));
                         using (StreamWriter f = new StreamWriter(FILE))
                         {
-                            for (int i = 0; i < listTemp.Count; i++)
-                            {
-                                sauver.Serialize(f, listTemp[i]);
-                            }
+                            sauver.Serialize(f, new ListHighScore(listhighScore));
                         }
 
                         // retour dans le menu Win
+                        _alreadyValidateName = true;
                         isOnChooseName = false;
                     }
+
+                    #endregion
 
                     Char changeLetter(char letter)
                     { 
@@ -494,7 +569,7 @@ namespace BugsDestroyer
                         _spriteBatch.DrawString(font, "you win", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(font.MeasureString("you win").X / 2, font.MeasureString("you win").Y / 2), 2f, SpriteEffects.None, 0f);
 
                         // score
-                        _spriteBatch.DrawString(font, "your score : " + Convert.ToString(Math.Round(_timerPrincipale, 2).ToString()), new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 1.16f), Color.DarkOrange, 0f, new Vector2(font.MeasureString("your score : ").X / 2, font.MeasureString("your score : ").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                        _spriteBatch.DrawString(font, "your score : " + Convert.ToString(Math.Round(_timerPrincipal, 2).ToString()), new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 1.16f), Color.DarkOrange, 0f, new Vector2(font.MeasureString("your score : ").X / 2, font.MeasureString("your score : ").Y / 2), 0.5f, SpriteEffects.None, 0f);
 
                         // tableau des scores
                         foreach (var item in tabScore)

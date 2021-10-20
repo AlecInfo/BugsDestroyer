@@ -12,35 +12,34 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
-        //Timer
-        private float _timerPrincipale = 0f;
-
+        // Game
+        Random rnd = new Random();
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        // Sound
-        Song song;
-        private SoundEffect keyboardSfx;
-        public int music = 0;
+        // Game objects (Lists)
+        private List<Player> players = new List<Player>();
+        private List<Levels> listLevels = new List<Levels>();
+        public List<Projectiles> listProjectiles = new List<Projectiles>();
+        private List<Explosion> listExplosion = new List<Explosion>();
 
-        // Game
-        Random rnd = new Random();
+        // Textures Autres
         private Texture2D[] player1walkingSprites = new Texture2D[7];
         private Texture2D[] player1shotSprites = new Texture2D[3];
         private Texture2D player1DeadSprite;
-        private Texture2D player2DeadSprite;
         private Texture2D[] player2walkingSprites = new Texture2D[7];
         private Texture2D[] player2shotSprites = new Texture2D[3];
-        public List<Projectiles> listProjectiles = new List<Projectiles>();
-        private List<Explosion> listExplosion = new List<Explosion>();
+        private Texture2D player2DeadSprite;
         private Texture2D[] mobExplosion = new Texture2D[3];
         private Texture2D shotExplosion;
-        private static int level = 0;
         private Texture2D[] cockroachSprites = new Texture2D[2];
         private Texture2D[] beetleSprites = new Texture2D[2];
         private Texture2D[] spiderSprites = new Texture2D[2];
+        private Texture2D[] projectileSprite = new Texture2D[2];
+        private Texture2D healthBarTexture;
+        private Texture2D healthItem;
 
-        // Decor
+        // Textures Decor
         public List<Texture2D> Sol = new List<Texture2D>();
         private Texture2D Murs;
         private Texture2D Glass;
@@ -57,31 +56,30 @@ namespace BugsDestroyer
         private bool isOnMenu = true;
         private bool isPause = false;
 
+        // Sound
+        Song song;
+        private SoundEffect keyboardSfx;
+        public int music = 0;
+
         // Sfx
         private List<SoundEffect> _listSfx = new List<SoundEffect>();
         SoundEffect MenuSfx;
         SoundEffect StartSfx;
 
-        // Players
-        private List<Player> players = new List<Player>();
-        private Player player1;
-        private Player player2;
+        //Timer
+        public float _timerPrincipal = 0f;
 
         // Levels
-        private List<Levels> listLevels = new List<Levels>();
+        private static int level = 0;
         private bool isOpacityDark = true;
-
         private bool startTransitionDark = false;
         private bool startTransitionLight = false;
-
         private float opacityTrasition = 1f;
-
         private float currentTimeMiliTrasition = 0f;
         private float countDurationMiliTrasition = 1f;
         private int timerMiliTrasition = 0;
 
 
-        private Texture2D[] projectileSprite = new Texture2D[2];
         public enum direction
         {
             N,
@@ -91,11 +89,9 @@ namespace BugsDestroyer
             S,
             SW,
             W,
-            NW,
+            NW
         }
 
-        // Health bar
-        private Texture2D healthBarTexture;
 
 
         public Game1()
@@ -236,6 +232,14 @@ namespace BugsDestroyer
 
             #endregion
 
+
+
+            #region Items
+
+            healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
+
+            #endregion
+
             LevelLoad(_listSfx);
 
             menuLoad();
@@ -264,7 +268,10 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     #region Timer
-                    _timerPrincipale += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (!isDead && !isWin) // if all player aren't dead
+                    {
+                        _timerPrincipal += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
 
 
                     #endregion
@@ -307,7 +314,7 @@ namespace BugsDestroyer
                     {
                         if (!isOpacityDark)
                         {
-                            players[i].playerUpdate(gameTime, listProjectiles);
+                            players[i].playerUpdate(gameTime, listProjectiles, listLevels[level].listObjects);
 
                             // recuperation de la taille du joueur avec un plus grande HIT BOX
                             float radius = players[i].currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
@@ -381,18 +388,24 @@ namespace BugsDestroyer
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(1500, 400));
-                            players.Add(player1);
+                            players.Add(
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(1500, 400))
+                            );
                         }
                     } // sinon si deux joueurs séléctionnés
                     else if (!selectedPlayer1)
                     {
                         if (players.Count <= 0)
                         {
-                            player1 = new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(400, 400));
-                            player2 = new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(400, 600));
-                            players.Add(player1);
-                            players.Add(player2);
+                            // Player 1
+                            players.Add(
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(400, 400))
+                            );
+
+                            // Player 2
+                            players.Add(
+                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(400, 600))
+                            );
                         }
                     }
                     #endregion
@@ -406,10 +419,20 @@ namespace BugsDestroyer
                     {
                         for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
                         {
-                            listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList());
+                            listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList(), listLevels[level].listObjects);
                         }
                     }
 
+                    #endregion
+
+                    #region Items
+                    if (!isOpacityDark)
+                    {
+                        for (int i = listLevels[level].listItems.Count - 1; i >= 0; i--)
+                        {
+                            listLevels[level].listItems[i].Update(gameTime, listLevels[level].listItems, players); 
+                        }
+                    }
                     #endregion
 
                     #region Projectiles
@@ -427,7 +450,7 @@ namespace BugsDestroyer
                         for (int i = listProjectiles.Count -1; i >= 0; i--)
                         {
                             // acctualisation du projectile
-                            listProjectiles[i].projectileUpdate(gameTime, listProjectiles, listExplosion, shotExplosion);
+                            listProjectiles[i].Update(gameTime, listProjectiles, listExplosion, shotExplosion);
                         }
                     }
                     #endregion
@@ -439,7 +462,12 @@ namespace BugsDestroyer
                 winUpdate(gameTime);
 
                 // acctualisation du menu pause
-                menuPauseUpdate(gameTime);
+
+                if (!isDead) // if all player aren't dead
+                {
+                    // acctualisation du menu pause
+                    menuPauseUpdate(gameTime);
+                }
             }
             
             base.Update(gameTime);
@@ -460,7 +488,6 @@ namespace BugsDestroyer
             } // sinon si il n'est pas dans le menu
             else if (!isOnMenu)
             {
-
                 #region Decor
                 // affichage du sol ( multiplier )
                 for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
@@ -471,11 +498,13 @@ namespace BugsDestroyer
                     }
                 }
 
+
                 // Décor
                 foreach (Object item in listLevels[level].listObjects)
                 {
                     item.Draw(_spriteBatch);
                 }
+
 
                 listLevels[level]._trapdoor.Draw(_spriteBatch);
 
@@ -483,23 +512,46 @@ namespace BugsDestroyer
                 _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 #endregion
-
+                
                 #region Player 
                 // si le un joueur est sélectionnée
                 if (players.Count > 0)
                 {
+                    List<Player> playerDrawOrder = new List<Player>();
                     foreach (Player player in players)
+                    {
+                        playerDrawOrder.Add(player);
+
+                        if (player.healthPoint <= 0 && playerDrawOrder.Count == 2) // if a dead player ...
+                        {
+                            if (player == playerDrawOrder[1]) // ... is beeing drawn infront
+                            {
+                                // inverse the draw order
+                                playerDrawOrder[1] = playerDrawOrder[0];
+                                playerDrawOrder[0] = player;
+                            }
+                        }
+                    }
+
+                    foreach (Player player in playerDrawOrder)
                     {
                         player.Draw(_spriteBatch, healthBarTexture);
                     }
                 }
                 #endregion
-
+                
                 #region Enemys
                 // affichage des enemies
                 foreach (Enemy enemy in listLevels[level].listEnemies)
                 {
                     enemy.Draw(_spriteBatch);
+                }
+                #endregion
+
+                #region Items
+                // affichage des items
+                foreach (Item item in listLevels[level].listItems){
+                    item.Draw(_spriteBatch);
                 }
                 #endregion
 
@@ -515,7 +567,7 @@ namespace BugsDestroyer
                     // affichage de tous les éléments de la liste 
                     foreach (Projectiles projectile in listProjectiles)
                     {
-                        projectile.projectileDraw(_spriteBatch);
+                        projectile.Draw(_spriteBatch);
                     }
                 }
 
@@ -527,7 +579,7 @@ namespace BugsDestroyer
 
                 #region timer
 
-                _spriteBatch.DrawString(font, Math.Round(_timerPrincipale, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(font, Math.Round(_timerPrincipal, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
                 #endregion
 
                 _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);

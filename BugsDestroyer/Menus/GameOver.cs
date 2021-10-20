@@ -17,7 +17,6 @@ namespace BugsDestroyer
         private float opacity = 0f;
         private Song songGameOver;
         private bool isGOSongPlaying = false;
-        private bool isChangeSelect = true;
 
         // images
         private List<Texture2D> _listGameOver;
@@ -57,9 +56,19 @@ namespace BugsDestroyer
         protected void gameOverUpdate(GameTime gameTime)
         {
             // si le player est mort
-            if ((selectedPlayer1 && player1.healthPoint <= 0) || (!selectedPlayer1 && player1.healthPoint <= 0 && player2.healthPoint <= 0))
+            if (players.Count == 2)
             {
-                isDead = true;
+                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0 && players[1].healthPoint <= 0))
+                {
+                    isDead = true;
+                }
+            }
+            else
+            {
+                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0))
+                {
+                    isDead = true;
+                }
             }
 
             if (isDead)
@@ -114,14 +123,12 @@ namespace BugsDestroyer
                     }
 
                     // changement de selection
-
                     if (!isYes && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
                     {
                         MenuSfx.Play();
                         onYes = Color.Lime;
                         onNo = Color.White * 0.4f;
                         isYes = true;
-                        isChangeSelect = false;
                     }
                     else if (isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                     {
@@ -129,7 +136,6 @@ namespace BugsDestroyer
                         onYes = Color.White * 0.4f;
                         onNo = Color.Lime;
                         isYes = false;
-                        isChangeSelect = false;
                     }
 
 

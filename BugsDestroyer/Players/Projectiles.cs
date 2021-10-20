@@ -36,7 +36,7 @@ namespace BugsDestroyer
             this._wallHurt = wallHurt;
         }
 
-        public void projectileUpdate(GameTime gameTime, List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion)
+        public void Update(GameTime gameTime, List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion)
         {
             // acctualisation de l'image du projectile dans chaque direction
             if (_direction == Game1.direction.NW)
@@ -86,37 +86,38 @@ namespace BugsDestroyer
             if (position.X < 250) // Left
             {
                 position.X = 250;
-
-                listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt));
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt,0f);
             }
             else if (position.X > 1670) // Right
             {
                 position.X = 1670;
-
-                listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI));
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI);
             }
             if (position.Y < 125) // Top
             {
                 position.Y = 125;
 
-                listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI / 2));
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI / 2);
             }
             else if (position.Y > 945) // Bottom
             {
                 position.Y = 945;
 
-                listProjectiles.Remove(this);
-                listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, _wallHurt, (float)Math.PI * 3 / 2));
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI * 3/2);
             }
+
         }
 
-        public void projectileDraw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             // affichage du projectile
             spriteBatch.Draw(texture, new Vector2(position.X, position.Y), null, Color.White, _rotation, new Vector2(texture.Width / 2, texture.Height / 2), 2f, SpriteEffects.None, 0f);
+        }
+
+        private void RemoveAndExplode(List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion, SoundEffect sfx, float angle)
+        {
+            listProjectiles.Remove(this);
+            listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, sfx, angle));
         }
     }
 }

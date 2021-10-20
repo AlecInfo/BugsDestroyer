@@ -21,7 +21,7 @@ namespace BugsDestroyer
         // sfx var
 
         // Ctor
-        public Explosion(Vector2 position, List<Texture2D> animationSprites, SoundEffect sfx = null, float rotation = 0, float size = 1.5f)
+        public Explosion(Vector2 position, List<Texture2D> animationSprites, SoundEffect sfx, float rotation = 0, float size = 1.5f)
         {
             _position = position;
             _rotation = rotation;
