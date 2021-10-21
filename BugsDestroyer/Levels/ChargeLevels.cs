@@ -378,7 +378,7 @@ namespace BugsDestroyer
                          new Health(healthItem, new Vector2(_graphics.PreferredBackBufferWidth / 5f, _graphics.PreferredBackBufferHeight / 6f)),
                           new Health(healthItem, new Vector2(_graphics.PreferredBackBufferWidth / 1.2f, _graphics.PreferredBackBufferHeight / 1.2f))
                     },
-                    new Trapdoor(trapdoor, new Vector2(_graphics.PreferredBackBufferWidth / 1.3f, _graphics.PreferredBackBufferHeight / 3f), 2.3f, listSfx[NUMTRAPDOORSFX])
+                    new Trapdoor(trapdoor, new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 1.4f), 2.3f, listSfx[NUMTRAPDOORSFX])
                     )
                 );
             // Boss Level

@@ -111,12 +111,6 @@ namespace BugsDestroyer
 
             KeyboardState kbdState = Keyboard.GetState();
 
-            // Just for test the health system
-            if (kbdState.IsKeyDown(Keys.M))
-            {
-                this.healthPoint -= 5;
-            }
-
             Mouvement(kbdState, gameTime, listObjects);
 
             // animation du joueur
