@@ -44,10 +44,5 @@ namespace BugsDestroyer
                 listItems.Add(item);
             }
         }
-
-        public void Update(GameTime gameTime1)
-        {
-            
-        }
     }
 }

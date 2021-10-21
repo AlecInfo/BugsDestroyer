@@ -22,7 +22,9 @@ namespace BugsDestroyer
 
         private int _speed;
 
-        public Projectiles(Texture2D[] texture, Vector2 position, float rotation, Game1.direction currentDirection, int speed = 14)
+        private SoundEffect _wallHurt;
+
+        public Projectiles(Texture2D[] texture, Vector2 position, float rotation, Game1.direction currentDirection, SoundEffect wallHurt, int speed = 14)
         {
             // Récupération des données
             this.texture = texture[rnd.Next(0, 2)];
@@ -30,6 +32,8 @@ namespace BugsDestroyer
             this._rotation = rotation;
             this._direction = currentDirection;
             this._speed = speed;
+
+            this._wallHurt = wallHurt;
         }
 
         public void Update(GameTime gameTime, List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion)
@@ -82,30 +86,24 @@ namespace BugsDestroyer
             if (position.X < 250) // Left
             {
                 position.X = 250;
-                //listProjectiles.Remove(this);
-                //listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }));
-                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, 0f);
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt,0f);
             }
             else if (position.X > 1670) // Right
             {
                 position.X = 1670;
-                //listProjectiles.Remove(this);
-                //listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI));
-                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, (float)Math.PI);
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI);
             }
             if (position.Y < 125) // Top
             {
                 position.Y = 125;
-                //listProjectiles.Remove(this);
-                //listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI / 2));
-                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, (float)Math.PI / 2);
+
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI / 2);
             }
             else if (position.Y > 945) // Bottom
             {
                 position.Y = 945;
-                //listProjectiles.Remove(this);
-                //listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, (float)Math.PI * 3 / 2));
-                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, (float)Math.PI * 3/2);
+
+                RemoveAndExplode(listProjectiles, listExplosions, shotExplosion, _wallHurt, (float)Math.PI * 3/2);
             }
 
         }
@@ -116,10 +114,10 @@ namespace BugsDestroyer
             spriteBatch.Draw(texture, new Vector2(position.X, position.Y), null, Color.White, _rotation, new Vector2(texture.Width / 2, texture.Height / 2), 2f, SpriteEffects.None, 0f);
         }
 
-        private void RemoveAndExplode(List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion, float angle)
+        private void RemoveAndExplode(List<Projectiles> listProjectiles, List<Explosion> listExplosions, Texture2D shotExplosion, SoundEffect sfx, float angle)
         {
             listProjectiles.Remove(this);
-            listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, angle));
+            listExplosions.Add(new Explosion(position, new List<Texture2D> { shotExplosion, shotExplosion }, sfx, angle));
         }
     }
 }

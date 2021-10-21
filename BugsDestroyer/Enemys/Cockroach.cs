@@ -28,12 +28,19 @@ namespace BugsDestroyer
         private int _knockbackJumpTime = 22;
         private bool _hasDealtDamage = false;
 
+        // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
+        private const int NUMENEMYSHURTSFX = 1;
+        private const int NUMPLAYERHURTSFX = 2;
+
 
         // ctor
-        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Cockroach(Vector2 initialPos, Texture2D[] cockroachFrames, List<SoundEffect> listSfx)
         {
             this._Frames = cockroachFrames;
             this.CurrentFrame = _Frames[0];
+
+            this._listSfx = listSfx;
 
             this.position = initialPos;
             this.speed = 3;
@@ -92,7 +99,10 @@ namespace BugsDestroyer
                 this.position.Y = 940;
             }
 
+            // Collisions
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
+            enemyCollision(enemies);
+            objectCollision(objects);
         }
 
         private void FollowPlayer(List<Player> players, List<Enemy> enemies, List<Object> objects)
@@ -121,7 +131,7 @@ namespace BugsDestroyer
 
             float rotationDegrees = 0;
 
-            // calculate rotation angle to mqake enemy look at player (degrees)
+            // calculate rotation angle to make enemy look at player (degrees)
             if ((this.direction.X > 0 && this.direction.Y < 0) || (this.direction.X > 0 && this.direction.Y > 0)) // NE or SE
             {
                 rotationDegrees = (float)Math.Atan(this.direction.Y / this.direction.X);
@@ -134,15 +144,30 @@ namespace BugsDestroyer
             // Convert degrees to radians 
             this.rotation = (float)(rotationDegrees+90 * (Math.PI / 180));
 
+            if (playerToFollow.position.X == this.position.X) // if the enemy is aligned with the player on x or y (parallel bug)
+            {
+                if (playerToFollow.position.Y < this.position.Y)
+                {
+                    this.rotation = 0;
+                }
+                else
+                    this.rotation = (float)Math.PI;
+
+            }else if (playerToFollow.position.Y == this.position.Y)
+            {
+                if (playerToFollow.position.X < this.position.X)
+                {
+                    this.rotation = (float)Math.PI*3/2;
+                }
+                else
+                    this.rotation = (float)Math.PI/2;
+            }
+
 
             // Move enemy towards player
             this.direction.Normalize();
             this.velocity = this.direction * this.speed;
             this.position += velocity;
-
-            // Collisions
-            enemyCollision(enemies);
-            objectCollision(objects);
         }
 
         public void Knockback(GameTime gameTime)
@@ -178,7 +203,8 @@ namespace BugsDestroyer
                 {
                     enemies.Remove(this); // remove enemy
                     projectiles.Remove(projectiles[i]); // remove projectile
-                    explosions.Add(new Explosion(this.position, mobExplosion, size:2));
+
+                    explosions.Add(new Explosion(this.position, mobExplosion, _listSfx[NUMENEMYSHURTSFX], size:2));
                 }
             }
         }
@@ -191,6 +217,8 @@ namespace BugsDestroyer
 
                 if (Vector2.DistanceSquared(player.position, this.position) < Math.Pow(radius, 2)) // if is colliding
                 {
+                    _listSfx[NUMPLAYERHURTSFX].Play();
+
                     player.healthPoint -= this._damage;
                     this._hasDealtDamage = true;
                 }

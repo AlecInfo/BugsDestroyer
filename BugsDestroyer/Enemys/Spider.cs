@@ -30,15 +30,22 @@ namespace BugsDestroyer
         private int _knockbackJumpTime = 22;
         private bool _hasDealtDamage = false;
 
-
+        // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
+        private const int NUMWALLHURTSFX = 0;
+        private const int NUMENEMYSHURTSFX = 1;
+        private const int NUMPLAYERHURTSFX = 2;
 
         // Ctor
-        public Spider(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Spider(Vector2 initialPos, Texture2D[] cockroachFrames, List<SoundEffect> listSfx)
         {
             this.position = initialPos;
             this.color = new Color(200, 200, 200);
 
             this._Frames = cockroachFrames;
+
+            this._listSfx = listSfx;
+
             this.CurrentFrame = _Frames[0];
             this.speed = 12;
         }
@@ -123,6 +130,7 @@ namespace BugsDestroyer
             }
 
             projectileCollision(projectiles, enemies, explosions, mobExplosion);
+            objectCollision(objects);
         }
 
         #region update methods
@@ -192,7 +200,28 @@ namespace BugsDestroyer
                     rotationDegrees = (float)Math.Atan(this.direction.Y / this.direction.X) - 135;
                 }
 
+                // Convert degrees to radians 
                 this.rotation = (float)(rotationDegrees + 90 * (Math.PI / 180));
+
+                if (playerToFollow.position.X == this.position.X) // if the enemy is aligned with the player on x or y (parallel bug)
+                {
+                    if (playerToFollow.position.Y < this.position.Y)
+                    {
+                        this.rotation = 0;
+                    }
+                    else
+                        this.rotation = (float)Math.PI;
+
+                }
+                else if (playerToFollow.position.Y == this.position.Y)
+                {
+                    if (playerToFollow.position.X < this.position.X)
+                    {
+                        this.rotation = (float)Math.PI * 3 / 2;
+                    }
+                    else
+                        this.rotation = (float)Math.PI / 2;
+                }
 
                 this.hasCalculatedDirection = true;
             }
@@ -201,8 +230,6 @@ namespace BugsDestroyer
             this.direction.Normalize();
             velocity = this.direction * this.speed;
             this.position += velocity;
-
-            objectCollision(objects);
         }
 
         public void projectileCollision(List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion)
@@ -226,7 +253,12 @@ namespace BugsDestroyer
                     if (this._health == 0)
                     {
                         enemies.Remove(this); // remove enemy
-                        explosions.Add(new Explosion(this.position, mobExplosion, size: 2));
+                        explosions.Add(new Explosion(this.position, mobExplosion, _listSfx[NUMENEMYSHURTSFX], size: 2));
+                    }
+                    else
+                    {
+                        _listSfx[NUMWALLHURTSFX].Play();
+                        explosions.Add(new Explosion(this.position, mobExplosion, _listSfx[NUMWALLHURTSFX], size: 2));
                     }
 
                     projectiles.Remove(projectiles[i]); // remove projectile

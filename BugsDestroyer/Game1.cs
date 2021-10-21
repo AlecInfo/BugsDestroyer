@@ -64,11 +64,12 @@ namespace BugsDestroyer
         public int music = 0;
 
         // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
         SoundEffect MenuSfx;
         SoundEffect StartSfx;
 
         //Timer
-        private float _timerPrincipal = 0f;
+        public float _timerPrincipal = 0f;
 
         // Levels
         private static int level = 0;
@@ -117,13 +118,21 @@ namespace BugsDestroyer
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            #region Music
+            #region Music / SoundEffect
 
             // musique
             this.song = Content.Load<Song>("Sounds/Music/Danger Escape");
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 1f;
+
+            // sound effect
+            _listSfx.Add(Content.Load<SoundEffect>("Sounds/Sfx/wallHurt"));
+            _listSfx.Add(Content.Load<SoundEffect>("Sounds/Sfx/enemysHurt"));
+            _listSfx.Add(Content.Load<SoundEffect>("Sounds/Sfx/playersHurt"));
+            _listSfx.Add(Content.Load<SoundEffect>("Sounds/Sfx/tir"));
+            _listSfx.Add(Content.Load<SoundEffect>("Sounds/Sfx/trapdoor"));
+
 
             #endregion
 
@@ -184,10 +193,6 @@ namespace BugsDestroyer
 
             #region Projectiles
 
-            // load sfx
-            keyboardSfx = Content.Load<SoundEffect>("Sounds/Sfx/tir");
-
-
             // load projectile sprite
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
@@ -239,19 +244,22 @@ namespace BugsDestroyer
 
             #endregion
 
+
             #region Items
 
             healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
 
             #endregion
 
-            LevelLoad();
+            LevelLoad(_listSfx);
 
             menuLoad();
 
             menuPauseLoad();
 
             gameOverLoad();
+
+            winLoad();
         }
 
         protected override void Update(GameTime gameTime)
@@ -271,7 +279,7 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     #region Timer
-                    if (!isDead) // if all player aren't dead
+                    if (!isDead && !isWin) // if all player aren't dead
                     {
                         _timerPrincipal += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
@@ -285,68 +293,7 @@ namespace BugsDestroyer
                     if (listLevels[level].listEnemies.Count <= 0)
                     {
                         // update de la liste de niveau et de la trap
-                        listLevels[level].Update(gameTime);
                         listLevels[level]._trapdoor.Update(gameTime, players, listLevels[level].listEnemies);
-
-                        // si un joueur
-                        /*if (selectedPlayer1)
-                        {
-                            // recuperation de la taille du joueur avec un plus grande HIT BOX
-                            float radiusP1 = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
-
-                            // si la HIT BOX est dans la trapdoor alors
-                            if (Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2))
-                            {
-                                // si le joueur appuie sur G
-                                if (Keyboard.GetState().IsKeyDown(Keys.G))
-                                {
-                                    // lancement de l'animation de changement de niveau
-                                    startTransitionDark = true;
-                                }
-                            }
-                        }
-                        else if (!selectedPlayer1)
-                        {
-                            // recuperation de la taille des joueurs avec un plus grande IT BOX
-                            float radiusP1 = player1.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
-                            float radiusP2 = player2.currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
-
-                            // si les deux joueurs ont de la vie
-                            if (player1.healthPoint > 0 && player2.healthPoint > 0)
-                            {
-                                // si les HIT BOX est dans la trapdoor alors
-                                if ((Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2)) && (Vector2.DistanceSquared(player2.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP2, 2)))
-                                {
-                                    // si les joueurs appuie sur G ou NUMPAD 5
-                                    if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
-                                    {
-                                        // lancement de l'animation de changement de niveau
-                                        startTransitionDark = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                // si l'une des deux HIT BOX est dans la trapdoor alors
-                                if ((Vector2.DistanceSquared(player1.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP1, 2)) || (Vector2.DistanceSquared(player2.position, listLevels[level]._trapdoor._position) < Math.Pow(radiusP2, 2)))
-                                {
-                                    if (Keyboard.GetState().IsKeyDown(Keys.G) || Keyboard.GetState().IsKeyDown(Keys.NumPad5))
-                                    {
-                                        startTransitionDark = true;
-
-                                        if (player1.healthPoint <= 0)
-                                        {
-                                            players.Remove(player1);
-                                        }
-
-                                        if (player2.healthPoint <= 0)
-                                        {
-                                            players.Remove(player2);
-                                        }
-                                    }
-                                }
-                            }
-                        }*/
                     }
                     else
                     {
@@ -370,6 +317,9 @@ namespace BugsDestroyer
                     #endregion
 
                     #region Players
+
+                    #region Update
+
                     // Mettre a jour les players
                     for (int i = players.Count - 1; i >= 0; i--)
                     {
@@ -403,7 +353,7 @@ namespace BugsDestroyer
                     for (int i = players.Count - 1; i >= 0; i--)
                     {
                         if (Keyboard.GetState().IsKeyDown(players[i].interactKey) && players[i].healthPoint > 0) {
-                            if (players.Count >= 2 && (players[0].isOnTrapdoor && players[1].isOnTrapdoor))
+                            if (players.Count >= 2 && players[0].isOnTrapdoor && players[1].isOnTrapdoor)
                             {
                                 changeLevel();
                             }
@@ -420,18 +370,28 @@ namespace BugsDestroyer
 
                     void changeLevel()
                     {
-                        for (int y = players.Count - 1; y >= 0; y--)
+                        if (listLevels.Count - 1 != level)
                         {
-                            if (players[y].healthPoint <= 0)
+                            for (int y = players.Count - 1; y >= 0; y--)
                             {
-                                players.Remove(players[y]);
+                                if (players[y].healthPoint <= 0)
+                                {
+                                    players.Remove(players[y]);
+                                }
                             }
+                            startTransitionDark = true;
                         }
-                        startTransitionDark = true;
+                        else
+                        {
+                            isWin = true;
+                        }
+
+
                     }
 
-                    
+                    #endregion
 
+                    #region Create 
 
                     // creer les players, et les ajouter dans la liste players
                     if (selectedPlayer1) // si un joueur est séléctonné
@@ -439,7 +399,7 @@ namespace BugsDestroyer
                         if (players.Count <= 0)
                         {
                             players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(1500, 400))
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
                             );
                         }
                     } // sinon si deux joueurs séléctionnés
@@ -449,15 +409,17 @@ namespace BugsDestroyer
                         {
                             // Player 1
                             players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, keyboardSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(400, 400))
+                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
                             );
 
                             // Player 2
                             players.Add(
-                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, keyboardSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(400, 600))
+                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
                             );
                         }
                     }
+                    #endregion
+
                     #endregion
 
                     #region Enemys
@@ -504,7 +466,12 @@ namespace BugsDestroyer
                     #endregion
 
                     gameOverUpdate(gameTime);
+
                 }
+
+                winUpdate(gameTime);
+
+                // acctualisation du menu pause
 
                 if (!isDead) // if all player aren't dead
                 {
@@ -633,6 +600,9 @@ namespace BugsDestroyer
 
                 // affichage du gameOver
                 gameOverDraw(gameTime);
+
+                // affichage de la page de win
+                winDraw();
 
             }
 

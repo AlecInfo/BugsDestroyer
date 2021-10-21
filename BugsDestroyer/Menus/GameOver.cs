@@ -34,7 +34,7 @@ namespace BugsDestroyer
         // question
         private bool isYes = true;
         private Color onYes = Color.Lime;
-        private Color onNo = Color.White * 0.6f;
+        private Color onNo = Color.White * 0.4f;
 
 
         protected void gameOverLoad()
@@ -56,9 +56,19 @@ namespace BugsDestroyer
         protected void gameOverUpdate(GameTime gameTime)
         {
             // si le player est mort
-            if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0 && players[1].healthPoint <= 0))
+            if (players.Count == 2)
             {
-                isDead = true;
+                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0 && players[1].healthPoint <= 0))
+                {
+                    isDead = true;
+                }
+            }
+            else
+            {
+                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0))
+                {
+                    isDead = true;
+                }
             }
 
             if (isDead)
@@ -117,13 +127,13 @@ namespace BugsDestroyer
                     {
                         MenuSfx.Play();
                         onYes = Color.Lime;
-                        onNo = Color.White * 0.6f;
+                        onNo = Color.White * 0.4f;
                         isYes = true;
                     }
                     else if (isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                     {
                         MenuSfx.Play();
-                        onYes = Color.White * 0.6f;
+                        onYes = Color.White * 0.4f;
                         onNo = Color.Lime;
                         isYes = false;
                     }

@@ -17,14 +17,16 @@ namespace BugsDestroyer
         private Vector2 _position;
         private float _rotation;
         private float _size;
+        private SoundEffect _sfx;
         // sfx var
 
         // Ctor
-        public Explosion(Vector2 position, List<Texture2D> animationSprites, float rotation = 0, float size = 1.5f)
+        public Explosion(Vector2 position, List<Texture2D> animationSprites, SoundEffect sfx, float rotation = 0, float size = 1.5f)
         {
             _position = position;
             _rotation = rotation;
             _size = size;
+            this._sfx = sfx;
 
             _animationSprites = animationSprites;
             _currentSpriteNb = 0;
@@ -35,6 +37,11 @@ namespace BugsDestroyer
         public void Update(GameTime gametime, List<Explosion> listExplosions)
         {
             _currentSpriteNb += 1;
+
+            if (_currentSpriteNb == 1)
+            {
+                _sfx.Play(0.5f, 0f, 0f);
+            }
 
             if (_currentSpriteNb == _animationSprites.Count)
             {

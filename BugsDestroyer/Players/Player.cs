@@ -66,7 +66,8 @@ namespace BugsDestroyer
         public int millisecondsPerFrame = 100;
 
         // Sfx
-        private SoundEffect _keyboardSfx;
+        private List<SoundEffect> _listSfx;
+        private const int NUMWALLHURTSFX = 0;
 
         // Projectiles
         private Texture2D[] _projectileSprite = new Texture2D[2];
@@ -74,7 +75,7 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, SoundEffect keyboardSfx, Keys[] directionalKeys, Keys shootkey, Keys interactKey, Texture2D[] projectileSprite, Vector2 position)
+        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, List<SoundEffect> listSfx, Keys[] directionalKeys, Keys shootkey, Keys interactKey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
             this._gameTime = gametime;
@@ -84,7 +85,7 @@ namespace BugsDestroyer
 
             this._deadSprite = deadSprite;
 
-            this._keyboardSfx = keyboardSfx;
+            this._listSfx = listSfx;
 
             this._directionalKeys = directionalKeys;
             this._shootKey = shootkey;
@@ -169,6 +170,8 @@ namespace BugsDestroyer
 
                 if (this._effectTime <= 0)
                 {
+                    _listSfx[2].Play(volume: 0.3f, 0f, 0f); // play hurt sfx with 30% volume
+
                     this._effectTime = 100;
                     this._isHit = false;
                 }
@@ -286,17 +289,17 @@ namespace BugsDestroyer
                 this.currentStep = 0; // reset anim
                 this.hasReleasedShootingkey = false;
                 this.isShooting = true;
-                this._keyboardSfx.Play(volume: 0.3f, 0f, 0f); // play keybord sfx with 30% volume
+                _listSfx[3].Play(volume: 0.3f, 0f, 0f); // play tir sfx with 30% volume
 
                 // Create a projectile
-                if (kbdState.IsKeyDown(this._directionalKeys[0]) || kbdState.IsKeyDown(this._directionalKeys[1]) || kbdState.IsKeyDown(this._directionalKeys[2]) || kbdState.IsKeyDown(this._directionalKeys[3]))
+                if (kbdState.IsKeyDown(_directionalKeys[0]) || kbdState.IsKeyDown(_directionalKeys[1]) || kbdState.IsKeyDown(_directionalKeys[2]) || kbdState.IsKeyDown(_directionalKeys[3]))
                 {
-                    listProjectiles.Add(new Projectiles(this._projectileSprite, this.position, this.rotation, this.currentDirection, 20));
+                    listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection, _listSfx[NUMWALLHURTSFX], 20));
                 }
                 else
-                    listProjectiles.Add(new Projectiles(this._projectileSprite, this.position, this.rotation, this.currentDirection));
-
+                    listProjectiles.Add(new Projectiles(_projectileSprite, position, rotation, currentDirection, _listSfx[NUMWALLHURTSFX]));
             }
+
             // if has released shoot key (F)
             if (kbdState.IsKeyUp(Keys.F) && !this.hasReleasedShootingkey)
             {

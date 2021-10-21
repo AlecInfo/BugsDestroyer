@@ -34,7 +34,7 @@ namespace BugsDestroyer
         private int _smallCircleSpeed = 5;
         private int _smallCircleSize = 100;
 
-        private float _bigCircleAnimTimer;
+        private float _bigCircleAnimTimer = -8f; //  -8f pour que le papillon spawn sur le cocoon
         private float _bigCircleSpeed = 0.15f;
         private int _bigCircleSizeX = 500;
         private int _bigCircleSizeY = 250;
@@ -60,13 +60,20 @@ namespace BugsDestroyer
             }
         }
 
+        // Sfx
+        private List<SoundEffect> _listSfx = new List<SoundEffect>();
+        private const int NUMWALLHURTSFX = 0;
+        private const int NUMENEMYSHURTSFX = 1;
+        private const int NUMPLAYERHURTSFX = 2;
+
 
         // Ctor
-        public Butterfly(Vector2 initialPos, Texture2D[] butterflyFrames, Texture2D butterflyProjectile)
+        public Butterfly(Vector2 initialPos, Texture2D[] butterflyFrames, Texture2D butterflyProjectile, List<SoundEffect> listSfx)
         {
             this._Frames = butterflyFrames;
             this._butterflyProjectile = butterflyProjectile;
             this.CurrentFrame = _Frames[0];
+            this._listSfx = listSfx;
 
             this.position = initialPos;
             this._centralPos = initialPos;
@@ -235,8 +242,9 @@ namespace BugsDestroyer
                         if (this._healthPoint == 0)
                         {
                             enemies.Remove(this); // remove enemy
-                            explosions.Add(new Explosion(this.position, mobExplosion, size: 3.2f));
-                        }
+                            explosions.Add(new Explosion(this.position, mobExplosion, _listSfx[NUMENEMYSHURTSFX], size: 3.2f));
+                        } else
+                            _listSfx[NUMWALLHURTSFX].Play();
                     }
 
 
@@ -253,6 +261,7 @@ namespace BugsDestroyer
                 if (Vector2.DistanceSquared(player.position, this.position) < Math.Pow(radius, 2)) // if is colliding
                 {
                     player.healthPoint -= this._damage; // damage the player
+                    _listSfx[NUMPLAYERHURTSFX].Play();
                 }
             }
         }
