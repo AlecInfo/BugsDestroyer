@@ -163,8 +163,8 @@ namespace BugsDestroyer
 
                         new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 2f), 3f),
                         new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 1.6f, _graphics.PreferredBackBufferHeight / 2f), 3f),
-                        new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 1.8f), 3f),
-                        new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 1.6f, _graphics.PreferredBackBufferHeight / 1.8f), 3f),
+                        new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 1.85f), 3f),
+                        new Decor(PCI, new Vector2(_graphics.PreferredBackBufferWidth / 1.6f, _graphics.PreferredBackBufferHeight / 1.85f), 3f),
 
                         new Decor(Ram, new Vector2(_graphics.PreferredBackBufferWidth / 1.42f, _graphics.PreferredBackBufferHeight / 1.65f), 3f),
                         new Decor(Ram, new Vector2(_graphics.PreferredBackBufferWidth / 1.37f, _graphics.PreferredBackBufferHeight / 1.65f), 3f),
@@ -285,7 +285,7 @@ namespace BugsDestroyer
                         new Beetle(new Vector2(_graphics.PreferredBackBufferWidth / 5f, _graphics.PreferredBackBufferHeight / 1.3f), beetleSprites, listSfx),
                         new Beetle(new Vector2(_graphics.PreferredBackBufferWidth / 1.4f, _graphics.PreferredBackBufferHeight / 1.4f), beetleSprites, listSfx),
                         new Cockroach(new Vector2(_graphics.PreferredBackBufferWidth / 5f, _graphics.PreferredBackBufferHeight / 4.3f), cockroachSprites, listSfx),
-                        new Cockroach(new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 1.4f), cockroachSprites, listSfx),
+                        new Cockroach(new Vector2(_graphics.PreferredBackBufferWidth / 2f, _graphics.PreferredBackBufferHeight / 5f), cockroachSprites, listSfx),
                         new Cockroach(new Vector2(_graphics.PreferredBackBufferWidth / 1.2f, _graphics.PreferredBackBufferHeight / 5f), cockroachSprites, listSfx),
                     },
                     new List<Decor> {

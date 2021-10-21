@@ -161,7 +161,7 @@ namespace BugsDestroyer
 
             #region Players Walking 
 
-            // load walking sprites
+            // recupération des images des joueur en marche
             for (int x = 0; x < 7; x++)
             {
                 player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
@@ -171,7 +171,7 @@ namespace BugsDestroyer
 
             #region Players Shooting
 
-            // load shooting sprites
+            // récupération des images en tire
             player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
             player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
             player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
@@ -180,20 +180,20 @@ namespace BugsDestroyer
 
             #region Players Dead
 
-            // load dead sprite
+            // récupération des images (mort)
             player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
             player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
             #endregion
 
             #region Players Health Bar
 
-            // load health bar
+            // création de la texture de la barre de vie
             healthBarTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             #endregion
 
             #region Projectiles
 
-            // load projectile sprite
+            // récupération des projectiles
             projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
             projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
             shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
@@ -201,31 +201,34 @@ namespace BugsDestroyer
             #endregion
 
             #region Enemys
+            // images des enemys
 
-            #region Cockroach
-
-            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
-            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
-
-            #endregion
-            
             #region Enemys Explosion
 
+            // récupération des images de  la destruction des enemys
             mobExplosion[0] = Content.Load<Texture2D>("Img/Mobs/Mort/mort0");
             mobExplosion[1] = Content.Load<Texture2D>("Img/Mobs/Mort/mort1");
             mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
 
             #endregion
 
-            #region Beetle
+            #region Cockroach
 
+            // récupération des images du caffard
+            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
+            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+
+            #endregion           
+
+            #region Beetle
+            // récupération des images du scarabe
             beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
             beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
 
             #endregion
 
             #region Spider
-
+            // récupération des images de l'araignée
             spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
             spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
 
@@ -244,13 +247,13 @@ namespace BugsDestroyer
 
             #endregion
 
-
             #region Items
 
             healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
 
             #endregion
 
+            // chargement des méthodes load des classes
             LevelLoad(_listSfx);
 
             menuLoad();
@@ -279,8 +282,9 @@ namespace BugsDestroyer
                 if (!isPause)
                 {
                     #region Timer
-                    if (!isDead && !isWin) // if all player aren't dead
+                    if (!isDead && !isWin) // si les joueurs ne sont pas mort
                     {
+                        // le timer fonctionne
                         _timerPrincipal += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
 
@@ -350,26 +354,35 @@ namespace BugsDestroyer
                         }
                     }
 
+
                     for (int i = players.Count - 1; i >= 0; i--)
                     {
+                        // si l un des joueurs presse le bouton pour intéragire et que l un des deux est en vie
                         if (Keyboard.GetState().IsKeyDown(players[i].interactKey) && players[i].healthPoint > 0) {
+                            // si les joueurs sont sur la trapdoor
                             if (players.Count >= 2 && players[0].isOnTrapdoor && players[1].isOnTrapdoor)
                             {
+                                // changement du niveau
                                 changeLevel();
-                            }
+                            } 
+                            // si le joueur est sur la trapdoor
                             else if (players.Count == 1 && players[0].isOnTrapdoor)
                             {
+                                // changement de niveau
                                 changeLevel();
                             }
                         }
+                        // si le joueur est mort 
                         else if (players[i].healthPoint <= 0)
                         {
+                            // enlever l'interaction
                             players[i].interactKey = Keys.None;
                         }
                     }
 
                     void changeLevel()
                     {
+                        // fonction pour changer de niveau
                         if (listLevels.Count - 1 != level)
                         {
                             for (int y = players.Count - 1; y >= 0; y--)
@@ -436,6 +449,7 @@ namespace BugsDestroyer
                     #endregion
 
                     #region Items
+                    //  update des items (bonnus de vie)
                     if (!isOpacityDark)
                     {
                         for (int i = listLevels[level].listItems.Count - 1; i >= 0; i--)
