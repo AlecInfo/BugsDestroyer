@@ -18,49 +18,49 @@ namespace BugsDestroyer
         private SpriteBatch _spriteBatch;
 
         // Game objects (Lists)
-        private List<Player> players = new List<Player>();
-        private List<Levels> listLevels = new List<Levels>();
+        private List<Player> _players = new List<Player>();
+        private List<Levels> _listLevels = new List<Levels>();
         public List<Projectiles> listProjectiles = new List<Projectiles>();
-        private List<Explosion> listExplosion = new List<Explosion>();
+        private List<Explosion> _listExplosion = new List<Explosion>();
 
         // Textures Autres
-        private Texture2D[] player1walkingSprites = new Texture2D[7];
-        private Texture2D[] player1shotSprites = new Texture2D[3];
-        private Texture2D player1DeadSprite;
-        private Texture2D[] player2walkingSprites = new Texture2D[7];
-        private Texture2D[] player2shotSprites = new Texture2D[3];
-        private Texture2D player2DeadSprite;
-        private Texture2D[] mobExplosion = new Texture2D[3];
-        private Texture2D shotExplosion;
-        private Texture2D[] cockroachSprites = new Texture2D[2];
-        private Texture2D[] beetleSprites = new Texture2D[2];
-        private Texture2D[] spiderSprites = new Texture2D[2];
-        private Texture2D[] butterflySprites = new Texture2D[4];
-        private Texture2D butterflyProjectile;
-        private Texture2D[] projectileSprite = new Texture2D[2];
-        private Texture2D healthBarTexture;
-        private Texture2D healthItem;
+        private Texture2D[] _player1walkingSprites = new Texture2D[7];
+        private Texture2D[] _player1shotSprites = new Texture2D[3];
+        private Texture2D _player1DeadSprite;
+        private Texture2D[] _player2walkingSprites = new Texture2D[7];
+        private Texture2D[] _player2shotSprites = new Texture2D[3];
+        private Texture2D _player2DeadSprite;
+        private Texture2D[] _mobExplosion = new Texture2D[3];
+        private Texture2D _shotExplosion;
+        private Texture2D[] _cockroachSprites = new Texture2D[2];
+        private Texture2D[] _beetleSprites = new Texture2D[2];
+        private Texture2D[] _spiderSprites = new Texture2D[2];
+        private Texture2D[] _butterflySprites = new Texture2D[4];
+        private Texture2D _butterflyProjectile;
+        private Texture2D[] _projectileSprite = new Texture2D[2];
+        private Texture2D _healthBarTexture;
+        private Texture2D _healthItem;
 
         // Textures Decor
         public List<Texture2D> Sol = new List<Texture2D>();
-        private Texture2D Murs;
-        private Texture2D Glass;
-        private Texture2D Ombre;
-        private Texture2D Processeur;
-        private Texture2D MiniPCI;
-        private Texture2D PCI;
-        private Texture2D PileBios;
-        private Texture2D Ram;
-        private List<Texture2D> trapdoor = new List<Texture2D>();
+        private Texture2D _murs;
+        private Texture2D _glass;
+        private Texture2D _ombre;
+        private Texture2D _processeur;
+        private Texture2D _miniPci;
+        private Texture2D _pci;
+        private Texture2D _pileBios;
+        private Texture2D _ram;
+        private List<Texture2D> _trapdoor = new List<Texture2D>();
 
         // Menu
-        private SpriteFont font;
-        private bool isOnMenu = true;
-        private bool isPause = false;
+        private SpriteFont _font;
+        private bool _isOnMenu = true;
+        private bool _isPause = false;
 
         // Sound
         Song song;
-        private SoundEffect keyboardSfx;
+        private SoundEffect _keyboardSfx;
         public int music = 0;
 
         // Sfx
@@ -69,17 +69,17 @@ namespace BugsDestroyer
         SoundEffect StartSfx;
 
         //Timer
-        public float _timerPrincipal = 0f;
+        public float timerPrincipal = 0f;
 
         // Levels
-        private static int level = 0;
-        private bool isOpacityDark = true;
-        private bool startTransitionDark = false;
-        private bool startTransitionLight = false;
-        private float opacityTrasition = 1f;
-        private float currentTimeMiliTrasition = 0f;
-        private float countDurationMiliTrasition = 1f;
-        private int timerMiliTrasition = 0;
+        private static int _level = 0;
+        private bool _isOpacityDark = true;
+        private bool _startTransitionDark = false;
+        private bool _startTransitionLight = false;
+        private float _opacityTrasition = 1f;
+        private float _currentTimeMiliTrasition = 0f;
+        private float _countDurationMiliTrasition = 1f;
+        private int _timerMiliTrasition = 0;
 
         public enum direction
         {
@@ -144,18 +144,18 @@ namespace BugsDestroyer
             Sol.Add(Content.Load<Texture2D>("Img/Decor/Sol2"));
             Sol.Add(Content.Load<Texture2D>("Img/Decor/Sol3"));
 
-            Murs = Content.Load<Texture2D>("Img/Decor/mur0");
-            Glass = Content.Load<Texture2D>("Img/Decor/Glass");
-            Ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
+            _murs = Content.Load<Texture2D>("Img/Decor/mur0");
+            _glass = Content.Load<Texture2D>("Img/Decor/Glass");
+            _ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
 
-            Processeur = Content.Load<Texture2D>("Img/Decor/Processeur");
-            MiniPCI = Content.Load<Texture2D>("Img/Decor/MiniPCI");
-            PCI = Content.Load<Texture2D>("Img/Decor/PCI");
-            PileBios = Content.Load<Texture2D>("Img/Decor/PileBios");
-            Ram = Content.Load<Texture2D>("Img/Decor/Ram");
+            _processeur = Content.Load<Texture2D>("Img/Decor/Processeur");
+            _miniPci = Content.Load<Texture2D>("Img/Decor/MiniPCI");
+            _pci = Content.Load<Texture2D>("Img/Decor/PCI");
+            _pileBios = Content.Load<Texture2D>("Img/Decor/PileBios");
+            _ram = Content.Load<Texture2D>("Img/Decor/Ram");
 
-            trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor0"));
-            trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor1"));
+            _trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor0"));
+            _trapdoor.Add(Content.Load<Texture2D>("Img/Decor/trapdoor1"));
 
             #endregion
 
@@ -164,39 +164,39 @@ namespace BugsDestroyer
             // recupération des images des joueur en marche
             for (int x = 0; x < 7; x++)
             {
-                player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
-                player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso2/walking/walking" + x.ToString());
+                _player1walkingSprites[x] = Content.Load<Texture2D>("Img/Perso/walking/walking" + x.ToString());
+                _player2walkingSprites[x] = Content.Load<Texture2D>("Img/Perso2/walking/walking" + x.ToString());
             }
             #endregion
 
             #region Players Shooting
 
             // récupération des images en tire
-            player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
-            player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
-            player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
-            player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso2/shot/shot1");
+            _player1shotSprites[0] = Content.Load<Texture2D>("Img/Perso/shot/shot0");
+            _player1shotSprites[1] = Content.Load<Texture2D>("Img/Perso/shot/shot1");
+            _player2shotSprites[0] = Content.Load<Texture2D>("Img/Perso2/shot/shot0");
+            _player2shotSprites[1] = Content.Load<Texture2D>("Img/Perso2/shot/shot1");
             #endregion
 
             #region Players Dead
 
             // récupération des images (mort)
-            player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
-            player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
+            _player1DeadSprite = Content.Load<Texture2D>("Img/Perso/mort");
+            _player2DeadSprite = Content.Load<Texture2D>("Img/Perso2/mort");
             #endregion
 
             #region Players Health Bar
 
             // création de la texture de la barre de vie
-            healthBarTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            _healthBarTexture = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             #endregion
 
             #region Projectiles
 
             // récupération des projectiles
-            projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
-            projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
-            shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
+            _projectileSprite[0] = Content.Load<Texture2D>("Img/Perso/tir/balle2");
+            _projectileSprite[1] = Content.Load<Texture2D>("Img/Perso/tir/balle1");
+            _shotExplosion = Content.Load<Texture2D>("Img/Perso/tir/shotParticle");
 
             #endregion
 
@@ -206,42 +206,42 @@ namespace BugsDestroyer
             #region Enemys Explosion
 
             // récupération des images de  la destruction des enemys
-            mobExplosion[0] = Content.Load<Texture2D>("Img/Mobs/Mort/mort0");
-            mobExplosion[1] = Content.Load<Texture2D>("Img/Mobs/Mort/mort1");
-            mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
+            _mobExplosion[0] = Content.Load<Texture2D>("Img/Mobs/Mort/mort0");
+            _mobExplosion[1] = Content.Load<Texture2D>("Img/Mobs/Mort/mort1");
+            _mobExplosion[2] = Content.Load<Texture2D>("Img/Mobs/Mort/mort2");
 
             #endregion
 
             #region Cockroach
 
             // récupération des images du caffard
-            cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
-            cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
+            _cockroachSprites[0] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard0");
+            _cockroachSprites[1] = Content.Load<Texture2D>("Img/Mobs/Cafard/cafard1");
 
             #endregion           
 
             #region Beetle
             // récupération des images du scarabe
-            beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
-            beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
+            _beetleSprites[0] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe0");
+            _beetleSprites[1] = Content.Load<Texture2D>("Img/Mobs/Scarabe/scarabe1");
 
             #endregion
 
             #region Spider
             // récupération des images de l'araignée
-            spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
-            spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
+            _spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
+            _spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
 
             #endregion
 
             #region Butterfly
 
-            butterflySprites[0] = Content.Load<Texture2D>("Img/Mobs/Papillon/cocon");
-            butterflySprites[1] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon0");
-            butterflySprites[2] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon1");
-            butterflySprites[3] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon2");
+            _butterflySprites[0] = Content.Load<Texture2D>("Img/Mobs/Papillon/cocon");
+            _butterflySprites[1] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon0");
+            _butterflySprites[2] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon1");
+            _butterflySprites[3] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon2");
 
-            butterflyProjectile = Content.Load<Texture2D>("Img/Mobs/butterflyProjectile");
+            _butterflyProjectile = Content.Load<Texture2D>("Img/Mobs/butterflyProjectile");
 
             #endregion
 
@@ -249,7 +249,7 @@ namespace BugsDestroyer
 
             #region Items
 
-            healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
+            _healthItem = Content.Load<Texture2D>("Img/Items/healthItem");
 
             #endregion
 
@@ -271,21 +271,21 @@ namespace BugsDestroyer
                 Exit();
 
             // si le joueur est dans le menu de bienvenu
-            if (isOnMenu)
+            if (_isOnMenu)
             {
                 menuUpdate(gameTime);
             } // sinon si il est pas dans le menu
-            else if (!isOnMenu)
+            else if (!_isOnMenu)
             {
 
                 // si le joueur est pas dans le menu pause
-                if (!isPause)
+                if (!_isPause)
                 {
                     #region Timer
-                    if (!isDead && !isWin) // si les joueurs ne sont pas mort
+                    if (!_isDead && !_isWin) // si les joueurs ne sont pas mort
                     {
                         // le timer fonctionne
-                        _timerPrincipal += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        timerPrincipal += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
 
 
@@ -294,26 +294,26 @@ namespace BugsDestroyer
                     #region Levels
 
                     // update des niveaux
-                    if (listLevels[level].listEnemies.Count <= 0)
+                    if (_listLevels[_level].listEnemies.Count <= 0)
                     {
                         // update de la liste de niveau et de la trap
-                        listLevels[level]._trapdoor.Update(gameTime, players, listLevels[level].listEnemies);
+                        _listLevels[_level].trapdoor.Update(gameTime, _players, _listLevels[_level].listEnemies);
                     }
                     else
                     {
                         // debut de l'animation plus claire automatiquement
-                        startTransitionLight = true;
+                        _startTransitionLight = true;
                     }
 
                     // appel de la fonction dark
-                    if (startTransitionDark)
+                    if (_startTransitionDark)
                     {
                         opacityDark(gameTime);
 
                     }
 
                     // appel de la fonction light
-                    if (startTransitionLight)
+                    if (_startTransitionLight)
                     {
                         opacityLight(gameTime);
                     }
@@ -325,78 +325,78 @@ namespace BugsDestroyer
                     #region Update
 
                     // Mettre a jour les players
-                    for (int i = players.Count - 1; i >= 0; i--)
+                    for (int i = _players.Count - 1; i >= 0; i--)
                     {
-                        if (!isOpacityDark)
+                        if (!_isOpacityDark)
                         {
-                            players[i].playerUpdate(gameTime, listProjectiles, listLevels[level].listObjects);
+                            _players[i].playerUpdate(gameTime, listProjectiles, _listLevels[_level].listObjects);
 
                             // recuperation de la taille du joueur avec un plus grande HIT BOX
-                            float radius = players[i].currentSprite.Width + listLevels[level]._trapdoor.currentFrame.Width * 2 / 3;
+                            float radius = _players[i].currentSprite.Width + _listLevels[_level].trapdoor.currentFrame.Width * 2 / 3;
 
 
-                            if (players[i].healthPoint > 0)
+                            if (_players[i].healthPoint > 0)
                             {
                                 // si la HIT BOX est dans la trapdoor alors
-                                if (Vector2.DistanceSquared(players[i].position, listLevels[level]._trapdoor._position) < Math.Pow(radius, 2) && listLevels[level]._trapdoor.trapdoorIsOpen)
+                                if (Vector2.DistanceSquared(_players[i].position, _listLevels[_level].trapdoor.position) < Math.Pow(radius, 2) && _listLevels[_level].trapdoor.trapdoorIsOpen)
                                 {
-                                    players[i].isOnTrapdoor = true;
+                                    _players[i].isOnTrapdoor = true;
                                 }
                                 else 
                                 {
-                                    players[i].isOnTrapdoor = false;
+                                    _players[i].isOnTrapdoor = false;
                                 }
                             }
                             else
                             {
-                                players[i].isOnTrapdoor = true;
+                                _players[i].isOnTrapdoor = true;
                             }
                         }
                     }
 
 
-                    for (int i = players.Count - 1; i >= 0; i--)
+                    for (int i = _players.Count - 1; i >= 0; i--)
                     {
                         // si l un des joueurs presse le bouton pour intéragire et que l un des deux est en vie
-                        if (Keyboard.GetState().IsKeyDown(players[i].interactKey) && players[i].healthPoint > 0) {
+                        if (Keyboard.GetState().IsKeyDown(_players[i].interactKey) && _players[i].healthPoint > 0) {
                             // si les joueurs sont sur la trapdoor
-                            if (players.Count >= 2 && players[0].isOnTrapdoor && players[1].isOnTrapdoor)
+                            if (_players.Count >= 2 && _players[0].isOnTrapdoor && _players[1].isOnTrapdoor)
                             {
                                 // changement du niveau
                                 changeLevel();
                             } 
                             // si le joueur est sur la trapdoor
-                            else if (players.Count == 1 && players[0].isOnTrapdoor)
+                            else if (_players.Count == 1 && _players[0].isOnTrapdoor)
                             {
                                 // changement de niveau
                                 changeLevel();
                             }
                         }
                         // si le joueur est mort 
-                        else if (players[i].healthPoint <= 0)
+                        else if (_players[i].healthPoint <= 0)
                         {
                             // enlever l'interaction
-                            players[i].interactKey = Keys.None;
+                            _players[i].interactKey = Keys.None;
                         }
                     }
 
                     void changeLevel()
                     {
                         // fonction pour changer de niveau
-                        if (listLevels.Count - 1 != level)
+                        if (_listLevels.Count - 1 != _level)
                         {
-                            for (int y = players.Count - 1; y >= 0; y--)
+                            for (int y = _players.Count - 1; y >= 0; y--)
                             {
-                                if (players[y].healthPoint <= 0)
+                                if (_players[y].healthPoint <= 0)
                                 {
-                                    players.Remove(players[y]);
+                                    _players.Remove(_players[y]);
                                 }
                             }
-                            startTransitionDark = true;
+                            _startTransitionDark = true;
                         }
                         else
                         {
-                            isWin = true;
+                            _isWin = true;
                         }
 
 
@@ -407,27 +407,27 @@ namespace BugsDestroyer
                     #region Create 
 
                     // creer les players, et les ajouter dans la liste players
-                    if (selectedPlayer1) // si un joueur est séléctonné
+                    if (_selectedPlayer1) // si un joueur est séléctonné
                     {
-                        if (players.Count <= 0)
+                        if (_players.Count <= 0)
                         {
-                            players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
+                            _players.Add(
+                                new Player(gameTime, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
                             );
                         }
                     } // sinon si deux joueurs séléctionnés
-                    else if (!selectedPlayer1)
+                    else if (!_selectedPlayer1)
                     {
-                        if (players.Count <= 0)
+                        if (_players.Count <= 0)
                         {
                             // Player 1
-                            players.Add(
-                                new Player(gameTime, player1walkingSprites, player1shotSprites, player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
+                            _players.Add(
+                                new Player(gameTime, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
                             );
 
                             // Player 2
-                            players.Add(
-                                new Player(gameTime, player2walkingSprites, player2shotSprites, player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
+                            _players.Add(
+                                new Player(gameTime, _player2walkingSprites, _player2shotSprites, _player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
                             );
                         }
                     }
@@ -438,11 +438,11 @@ namespace BugsDestroyer
                     #region Enemys
 
                     // update des enemies
-                    if (!isOpacityDark)
+                    if (!_isOpacityDark)
                     {
-                        for (int i = listLevels[level].listEnemies.Count - 1; i >= 0; i--)
+                        for (int i = _listLevels[_level].listEnemies.Count - 1; i >= 0; i--)
                         {
-                            listLevels[level].listEnemies[i].Update(gameTime, players, listProjectiles, listLevels[level].listEnemies, listExplosion, mobExplosion.ToList(), listLevels[level].listObjects);
+                            _listLevels[_level].listEnemies[i].Update(gameTime, _players, listProjectiles, _listLevels[_level].listEnemies, _listExplosion, _mobExplosion.ToList(), _listLevels[_level].listObjects);
                         }
                     }
 
@@ -450,11 +450,11 @@ namespace BugsDestroyer
 
                     #region Items
                     //  update des items (bonnus de vie)
-                    if (!isOpacityDark)
+                    if (!_isOpacityDark)
                     {
-                        for (int i = listLevels[level].listItems.Count - 1; i >= 0; i--)
+                        for (int i = _listLevels[_level].listItems.Count - 1; i >= 0; i--)
                         {
-                            listLevels[level].listItems[i].Update(gameTime, listLevels[level].listItems, players); 
+                            _listLevels[_level].listItems[i].Update(gameTime, _listLevels[_level].listItems, _players); 
                         }
                     }
                     #endregion
@@ -462,9 +462,9 @@ namespace BugsDestroyer
                     #region Projectiles
 
                     // update des projectiles
-                    for (int i = listExplosion.Count - 1; i >= 0; i--)
+                    for (int i = _listExplosion.Count - 1; i >= 0; i--)
                     {
-                        listExplosion[i].Update(gameTime, listExplosion);
+                        _listExplosion[i].Update(gameTime, _listExplosion);
                     }
 
                     // si la liste du nombre de projectile n'est pas à zero
@@ -474,7 +474,7 @@ namespace BugsDestroyer
                         for (int i = listProjectiles.Count -1; i >= 0; i--)
                         {
                             // acctualisation du projectile
-                            listProjectiles[i].Update(gameTime, listProjectiles, listExplosion, shotExplosion);
+                            listProjectiles[i].Update(gameTime, listProjectiles, _listExplosion, _shotExplosion);
                         }
                     }
                     #endregion
@@ -487,7 +487,7 @@ namespace BugsDestroyer
 
                 // acctualisation du menu pause
 
-                if (!isDead) // if all player aren't dead
+                if (!_isDead) // if all player aren't dead
                 {
                     // acctualisation du menu pause
                     menuPauseUpdate(gameTime);
@@ -505,44 +505,44 @@ namespace BugsDestroyer
 
 
             // si le joueur est dans le menu de bienvenu
-            if (isOnMenu)
+            if (_isOnMenu)
             {
                 // affichage du menu
-                menuDraw(gameTime);
+                menuDraw();
             } // sinon si il n'est pas dans le menu
-            else if (!isOnMenu)
+            else if (!_isOnMenu)
             {
                 #region Decor
                 // affichage du sol ( multiplier )
-                for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += listLevels[level]._background.Height / 2)
+                for (int y = 0; y < _graphics.PreferredBackBufferHeight; y += _listLevels[_level].background.Height / 2)
                 {
-                    for (int x = 0; x < _graphics.PreferredBackBufferWidth; x += listLevels[level]._background.Width / 2)
+                    for (int x = 0; x < _graphics.PreferredBackBufferWidth; x += _listLevels[_level].background.Width / 2)
                     {
-                        _spriteBatch.Draw(listLevels[level]._background, new Vector2(x, y), null, Color.White * 0.75f, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+                        _spriteBatch.Draw(_listLevels[_level].background, new Vector2(x, y), null, Color.White * 0.75f, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
                     }
                 }
 
 
                 // Décor
-                foreach (Object item in listLevels[level].listObjects)
+                foreach (Object item in _listLevels[_level].listObjects)
                 {
                     item.Draw(_spriteBatch);
                 }
 
 
-                listLevels[level]._trapdoor.Draw(_spriteBatch);
+                _listLevels[_level].trapdoor.Draw(_spriteBatch);
 
                 // affichage des murs
-                _spriteBatch.Draw(Murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
 
                 #endregion
                 
                 #region Player 
                 // si le un joueur est sélectionnée
-                if (players.Count > 0)
+                if (_players.Count > 0)
                 {
                     List<Player> playerDrawOrder = new List<Player>();
-                    foreach (Player player in players)
+                    foreach (Player player in _players)
                     {
                         playerDrawOrder.Add(player);
 
@@ -559,14 +559,14 @@ namespace BugsDestroyer
 
                     foreach (Player player in playerDrawOrder)
                     {
-                        player.Draw(_spriteBatch, healthBarTexture);
+                        player.Draw(_spriteBatch, _healthBarTexture);
                     }
                 }
                 #endregion
                 
                 #region Enemys
                 // affichage des enemies
-                foreach (Enemy enemy in listLevels[level].listEnemies)
+                foreach (Enemy enemy in _listLevels[_level].listEnemies)
                 {
                     enemy.Draw(_spriteBatch, _graphics.GraphicsDevice);
                 }
@@ -574,14 +574,14 @@ namespace BugsDestroyer
 
                 #region Items
                 // affichage des items
-                foreach (Item item in listLevels[level].listItems){
+                foreach (Item item in _listLevels[_level].listItems){
                     item.Draw(_spriteBatch);
                 }
                 #endregion
 
                 #region Ombre
                 // affichage d'une ombre à coté des murs
-                _spriteBatch.Draw(Ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
                 #endregion
 
                 #region Projectiles
@@ -595,7 +595,7 @@ namespace BugsDestroyer
                     }
                 }
 
-                foreach (Explosion explosion in listExplosion)
+                foreach (Explosion explosion in _listExplosion)
                 {
                     explosion.Draw(_spriteBatch);
                 }
@@ -603,17 +603,17 @@ namespace BugsDestroyer
 
                 #region timer
 
-                _spriteBatch.DrawString(font, Math.Round(_timerPrincipal, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, Math.Round(timerPrincipal, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
                 #endregion
 
-                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * _opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
 
                 // affichage du menu pause
-                menuPauseDraw(gameTime);
+                menuPauseDraw();
 
                 // affichage du gameOver
-                gameOverDraw(gameTime);
+                gameOverDraw();
 
                 // affichage de la page de win
                 winDraw();
@@ -624,63 +624,74 @@ namespace BugsDestroyer
             base.Draw(gameTime);
         }
 
+
+        /// <summary>
+        /// Confection de l'animation qui va de plus en plus sombre et puis change de niveau
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="game"></param>
         void opacityDark(GameTime game)
         {
             // timer pour faire un effet de plus en plus sombre
-            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+            _currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
 
-            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            if (_currentTimeMiliTrasition >= _countDurationMiliTrasition)
             {
-                timerMiliTrasition++;
-                currentTimeMiliTrasition -= countDurationMiliTrasition;
+                _timerMiliTrasition++;
+                _currentTimeMiliTrasition -= _countDurationMiliTrasition;
             }
 
-            if (timerMiliTrasition >= 1.5)
+            if (_timerMiliTrasition >= 1.5)
             {
-                isOpacityDark = true;
+                _isOpacityDark = true;
 
-                if (opacityTrasition >= 1f)
+                if (_opacityTrasition >= 1f)
                 {   
-                    startTransitionDark = false;
-                    opacityTrasition = 1f;
+                    _startTransitionDark = false;
+                    _opacityTrasition = 1f;
 
-                    if (listLevels.Count - 1 != level)
+                    if (_listLevels.Count - 1 != _level)
                     {
-                        level++;
+                        _level++;
                     }
                     else
                     {
-                        startTransitionLight = true;
+                        _startTransitionLight = true;
                     }
                 }
 
-                opacityTrasition = opacityTrasition + 0.1f;
-                timerMiliTrasition = 0;
+                _opacityTrasition = _opacityTrasition + 0.1f;
+                _timerMiliTrasition = 0;
             }
         }
 
+        /// <summary>
+        /// Confection de l'animation qui va de plus en plus claire
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="game"></param>
         void opacityLight(GameTime game)
         {
             // timer pour faire un effet de plus en plus clair
-            currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
+            _currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
 
-            if (currentTimeMiliTrasition >= countDurationMiliTrasition)
+            if (_currentTimeMiliTrasition >= _countDurationMiliTrasition)
             {
-                timerMiliTrasition++;
-                currentTimeMiliTrasition -= countDurationMiliTrasition;
+                _timerMiliTrasition++;
+                _currentTimeMiliTrasition -= _countDurationMiliTrasition;
             }
 
-            if (timerMiliTrasition >= 1.5)
+            if (_timerMiliTrasition >= 1.5)
             {
-                if (opacityTrasition <= 0f)
+                if (_opacityTrasition <= 0f)
                 {
-                    isOpacityDark = false;
-                    startTransitionLight = false;
-                    opacityTrasition = 0f;
+                    _isOpacityDark = false;
+                    _startTransitionLight = false;
+                    _opacityTrasition = 0f;
                 }
 
-                opacityTrasition = opacityTrasition - 0.1f;
-                timerMiliTrasition = 0;
+                _opacityTrasition = _opacityTrasition - 0.1f;
+                _timerMiliTrasition = 0;
             }
         }
     }

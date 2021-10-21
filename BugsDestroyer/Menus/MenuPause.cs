@@ -13,8 +13,12 @@ namespace BugsDestroyer
     {
         // Varriables
         private List<Texture2D> _menuPauseImages;
-        private bool DollarKeyIsUp = false;
+        private bool _dollarKeyIsUp = false;
 
+        /// <summary>
+        /// Récupération de tous les éléments (images) du menu Pause
+        /// (Alec Piette)
+        /// </summary>
         protected void menuPauseLoad()
         {
             // Listes de Sprites
@@ -26,29 +30,34 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Menu/panelBleu"),
             };
 
-            font = Content.Load<SpriteFont>("Fonts/GameBoy30");
+            _font = Content.Load<SpriteFont>("Fonts/GameBoy30");
 
         }
 
+        /// <summary>
+        /// Update du menu Pause
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected void menuPauseUpdate(GameTime gameTime)
         {
             // si le joueur a appuié sur pause
-            if (isPause)
+            if (_isPause)
             {
                 // quand le joueur est dans le menu pause
                 MediaPlayer.Volume = 0.5f;
                 
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
+                if (Keyboard.GetState().IsKeyDown(Keys.D8) && _dollarKeyIsUp)
                 {
-                    DollarKeyIsUp = false;
-                    isPause = false;
+                    _dollarKeyIsUp = false;
+                    _isPause = false;
                 }
 
-                if (Keyboard.GetState().IsKeyUp(Keys.D8) && DollarKeyIsUp == false)
+                if (Keyboard.GetState().IsKeyUp(Keys.D8) && _dollarKeyIsUp == false)
                 {
-                    isPause = true;
-                    DollarKeyIsUp = true;
+                    _isPause = true;
+                    _dollarKeyIsUp = true;
                 }
             }
             else
@@ -56,34 +65,38 @@ namespace BugsDestroyer
                 // quand il ne l est plus
                 MediaPlayer.Volume = 1f;
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D8) && DollarKeyIsUp)
+                if (Keyboard.GetState().IsKeyDown(Keys.D8) && _dollarKeyIsUp)
                 {
-                    DollarKeyIsUp = false;
-                    isPause = true;
+                    _dollarKeyIsUp = false;
+                    _isPause = true;
                 }
 
-                if (Keyboard.GetState().IsKeyUp(Keys.D8) && DollarKeyIsUp == false)
+                if (Keyboard.GetState().IsKeyUp(Keys.D8) && _dollarKeyIsUp == false)
                 {
-                    isPause = false;
-                    DollarKeyIsUp = true;
+                    _isPause = false;
+                    _dollarKeyIsUp = true;
                 }
             }
         }
 
-        protected void menuPauseDraw(GameTime gameTime)
+        /// <summary>
+        /// Affichages des éléments pour le menu pause
+        /// (Alec Piette)
+        /// </summary>
+        protected void menuPauseDraw()
         {
-            if (isPause)
+            if (_isPause)
             {
                 // background
                 _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * 0.5f, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
                 // Titre
-                _spriteBatch.DrawString(font, "pause", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(font.MeasureString("PAUSE").X / 2, font.MeasureString("PAUSE").Y / 2), 2f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "pause", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(_font.MeasureString("PAUSE").X / 2, _font.MeasureString("PAUSE").Y / 2), 2f, SpriteEffects.None, 0f);
 
                 //Controle
                 _spriteBatch.Draw(_menuPauseImages[1], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 150, 720), null, Color.White, 0f, Vector2.Zero, 1.7f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "play-pause", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 53, 700), Color.White, 0f, new Vector2(0, 0), 0.30f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "quit", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 95, 700), Color.White, 0f, new Vector2(0, 0), 0.30f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "play-pause", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 53, 700), Color.White, 0f, new Vector2(0, 0), 0.30f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "quit", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 95, 700), Color.White, 0f, new Vector2(0, 0), 0.30f, SpriteEffects.None, 0f);
             }
         }  
     }

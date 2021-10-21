@@ -12,10 +12,11 @@ namespace BugsDestroyer
 {
     public class Levels
     {
-        Random rnd = new Random();
+        // varriables
+        private Random _rnd = new Random();
 
-        public Texture2D _background;
-        public Trapdoor _trapdoor;
+        public Texture2D background;
+        public Trapdoor trapdoor;
 
         public List<Enemy> listEnemies = new List<Enemy>();
         public List<Object> listObjects = new List<Object>();
@@ -23,11 +24,19 @@ namespace BugsDestroyer
 
         public bool ready = false;
 
-
+        /// <summary>
+        /// Création d'un niveau
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="background"></param>
+        /// <param name="listEnemy"></param>
+        /// <param name="listDecor"></param>
+        /// <param name="listItem"></param>
+        /// <param name="trapdoor"></param>
         public Levels(Texture2D background, List<Enemy> listEnemy, List<Decor> listDecor, List<Item> listItem,Trapdoor trapdoor)
         {
-            this._background = background;
-            this._trapdoor = trapdoor;
+            this.background = background;
+            this.trapdoor = trapdoor;
 
             foreach (var item in listEnemy)
             {

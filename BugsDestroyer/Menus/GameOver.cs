@@ -10,33 +10,36 @@ namespace BugsDestroyer
 {
     public partial class Game1 : Game
     {
-
-        private bool isDead = false;
-        private bool isOnMenuGameOver = false;
-        private bool gameOver = true;
-        private float opacity = 0f;
-        private Song songGameOver;
-        private bool isGOSongPlaying = false;
+        // varriables
+        private bool _isDead = false;
+        private bool _isOnMenuGameOver = false;
+        private bool _gameOver = true;
+        private float _opacity = 0f;
+        private Song _songGameOver;
+        private bool _isGOSongPlaying = false;
 
         // images
         private List<Texture2D> _listGameOver;
 
         // timer seconds
-        private float currentTimeSecond = 0f;
-        private float countDurationSecond = 1f;
-        private int timerSecond = 0;
+        private float _currentTimeSecond = 0f;
+        private float _countDurationSecond = 1f;
+        private int _timerSecond = 0;
 
-        // timer milisecond
-        private float currentTimeMili = 0f;
-        private float countDurationMili = 1f;
-        private int timerMili = 0;
+        // timer miliseconde
+        private float _currentTimeMili = 0f;
+        private float _countDurationMili = 1f;
+        private int _timerMili = 0;
 
         // question
-        private bool isYes = true;
-        private Color onYes = Color.Lime;
-        private Color onNo = Color.White * 0.4f;
+        private bool _isYes = true;
+        private Color _onYes = Color.Lime;
+        private Color _onNo = Color.White * 0.4f;
 
-
+        /// <summary>
+        /// Récupération de toutes les images pour le menu GameOver
+        /// (Alec Piette)
+        /// </summary>
         protected void gameOverLoad()
         {
             // load img gameOver
@@ -47,110 +50,115 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Logo/logo_espaceEntreprise"),
             };
 
-            this.songGameOver = Content.Load<Song>("Sounds/Music/Funeral March");
+            this._songGameOver = Content.Load<Song>("Sounds/Music/Funeral March");
 
             MenuSfx = Content.Load<SoundEffect>("Sounds/Sfx/MenuSfx");
             StartSfx = Content.Load<SoundEffect>("Sounds/Sfx/StartSfx");
         }
 
+        /// <summary>
+        /// Update du menu GameOver
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected void gameOverUpdate(GameTime gameTime)
         {
             // si le player est mort
-            if (players.Count == 2)
+            if (_players.Count == 2)
             {
-                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0 && players[1].healthPoint <= 0))
+                if ((_selectedPlayer1 && _players[0].healthPoint <= 0) || (!_selectedPlayer1 && _players[0].healthPoint <= 0 && _players[1].healthPoint <= 0))
                 {
-                    isDead = true;
+                    _isDead = true;
                 }
             }
             else
             {
-                if ((selectedPlayer1 && players[0].healthPoint <= 0) || (!selectedPlayer1 && players[0].healthPoint <= 0))
+                if ((_selectedPlayer1 && _players[0].healthPoint <= 0) || (!_selectedPlayer1 && _players[0].healthPoint <= 0))
                 {
-                    isDead = true;
+                    _isDead = true;
                 }
             }
 
-            if (isDead)
+            if (_isDead)
             {
-                if (!isOnMenuGameOver)
+                if (!_isOnMenuGameOver)
                 {
                     // timer pour faire un effet de plus en plus sombre
-                    currentTimeMili += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    _currentTimeMili += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                    if (currentTimeMili >= countDurationMili)
+                    if (_currentTimeMili >= _countDurationMili)
                     {
-                        timerMili++;
-                        currentTimeMili -= countDurationMili;
+                        _timerMili++;
+                        _currentTimeMili -= _countDurationMili;
                     }
 
-                    if (timerMili >= 10)
+                    if (_timerMili >= 10)
                     {
-                        if (opacity >= 1f)
+                        if (_opacity >= 1f)
                         {
-                            isOnMenuGameOver = true;
+                            _isOnMenuGameOver = true;
                         }
 
-                        opacity = opacity + 0.1f;
-                        timerMili = 0;
+                        _opacity = _opacity + 0.1f;
+                        _timerMili = 0;
                     }
 
                 }
-                else if (isOnMenuGameOver)
+                else if (_isOnMenuGameOver)
                 {
-                    if (!isGOSongPlaying)
+                    if (!_isGOSongPlaying)
                     { 
                         MediaPlayer.Stop();
-                        MediaPlayer.Play(songGameOver);
+                        MediaPlayer.Play(_songGameOver);
                         MediaPlayer.IsRepeating = false;
                         MediaPlayer.Volume = 0.5f;
-                        isGOSongPlaying = true;
+                        _isGOSongPlaying = true;
                     }
 
                     // timer pour faire un effect sur l'img game over
-                    currentTimeSecond += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    _currentTimeSecond += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    if (currentTimeSecond >= countDurationSecond)
+                    if (_currentTimeSecond >= _countDurationSecond)
                     {
-                        timerSecond++;
-                        currentTimeSecond -= countDurationSecond;
+                        _timerSecond++;
+                        _currentTimeSecond -= _countDurationSecond;
                     }
 
-                    if (timerSecond >= 1)
+                    if (_timerSecond >= 1)
                     {
-                        timerSecond = 0;
-                        gameOver = !gameOver;
+                        _timerSecond = 0;
+                        _gameOver = !_gameOver;
                     }
 
                     // changement de selection
-                    if (!isYes && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
+                    if (!_isYes && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)))
                     {
                         MenuSfx.Play();
-                        onYes = Color.Lime;
-                        onNo = Color.White * 0.4f;
-                        isYes = true;
+                        _onYes = Color.Lime;
+                        _onNo = Color.White * 0.4f;
+                        _isYes = true;
                     }
-                    else if (isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
+                    else if (_isYes && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)))
                     {
                         MenuSfx.Play();
-                        onYes = Color.White * 0.4f;
-                        onNo = Color.Lime;
-                        isYes = false;
+                        _onYes = Color.White * 0.4f;
+                        _onNo = Color.Lime;
+                        _isYes = false;
                     }
 
 
 
                     // reponse au question si oui 
-                    if (isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
+                    if (_isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
                     {
-                        level = 0;
+                        _level = 0;
 
                         StartSfx.Play();
                         this.Exit();
                         Game1 game = new Game1();
                         game.Run();
                     }// si non
-                    else if (!isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
+                    else if (!_isYes && Keyboard.GetState().IsKeyDown(Keys.D8))
                     {
                         StartSfx.Play();
                         this.Exit();
@@ -159,17 +167,21 @@ namespace BugsDestroyer
             }
         }
 
-        protected void gameOverDraw(GameTime gameTime)
+        /// <summary>
+        /// Affichage des éléments du menu GameOver
+        /// (Alec Piette)
+        /// </summary>
+        protected void gameOverDraw()
         {
-            if (isDead)
+            if (_isDead)
             {
                 // background
-                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * opacity, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * _opacity, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
 
-                if (isOnMenuGameOver)
+                if (_isOnMenuGameOver)
                 {
-                    if (gameOver)
+                    if (_gameOver)
                     {
                         // affichage de l'image game over
                         _spriteBatch.Draw(_listGameOver[0], new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 3), null, Color.White, 0f, new Vector2(_listGameOver[0].Width / 2, _listGameOver[0].Height / 2), 1.5f, SpriteEffects.None, 0f);
@@ -180,10 +192,10 @@ namespace BugsDestroyer
                     _spriteBatch.Draw(_listGameOver[2], new Vector2(1830, 1000), null, Color.White * 0.4f, 0f, new Vector2(_listGameOver[2].Width / 2, _listGameOver[2].Height / 2), 1.5f, SpriteEffects.None, 0f);
 
                     // affichge de la question reponse
-                    _spriteBatch.DrawString(font, "do you want to continue ?", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 50), Color.White * 0.8f, 0f, new Vector2(font.MeasureString("DO YOU WANT TO CONTINUE ?").X / 2, font.MeasureString("DO YOU WANT TO CONTINUE ?").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(_font, "do you want to continue ?", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 50), Color.White * 0.8f, 0f, new Vector2(_font.MeasureString("DO YOU WANT TO CONTINUE ?").X / 2, _font.MeasureString("DO YOU WANT TO CONTINUE ?").Y / 2), 0.5f, SpriteEffects.None, 0f);
                     
-                    _spriteBatch.DrawString(font, "yes", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, _graphics.PreferredBackBufferHeight / 2 + 100), onYes, 0f, new Vector2(font.MeasureString("YES").X / 2, font.MeasureString("YES").Y / 2), 0.5f, SpriteEffects.None, 0f);
-                    _spriteBatch.DrawString(font, "no", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 50, _graphics.PreferredBackBufferHeight / 2 + 100), onNo, 0f, new Vector2(font.MeasureString("NO").X / 2, font.MeasureString("NO").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(_font, "yes", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, _graphics.PreferredBackBufferHeight / 2 + 100), _onYes, 0f, new Vector2(_font.MeasureString("YES").X / 2, _font.MeasureString("YES").Y / 2), 0.5f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(_font, "no", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 50, _graphics.PreferredBackBufferHeight / 2 + 100), _onNo, 0f, new Vector2(_font.MeasureString("NO").X / 2, _font.MeasureString("NO").Y / 2), 0.5f, SpriteEffects.None, 0f);
                 }
             }
         }
