@@ -36,7 +36,7 @@ namespace BugsDestroyer
                     )
                 );
 
-            // Level 2
+            /*// Level 2
             listLevels.Add(
                 new Levels(
                     Sol[1],
@@ -111,7 +111,23 @@ namespace BugsDestroyer
                     ,
                     new Trapdoor(trapdoor, new Vector2(1200, 800), 2.3f)
                     )
-                );
+                );*/
+            // Boss Level
+            listLevels.Add(
+                new Levels(
+                    Sol[3],
+                    new List<Enemy>
+                    {
+                        new Butterfly(new Vector2(_graphics.PreferredBackBufferWidth / 2, 200), butterflySprites, butterflyProjectile)
+                    },
+                    new List<Decor>
+                    {
+
+                    },
+                    new List<Item> { },
+                    new Trapdoor(trapdoor, new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2), 2.3f)
+                )       
+            );
         }
     }
 }

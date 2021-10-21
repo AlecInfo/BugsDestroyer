@@ -31,9 +31,9 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Beetle(Vector2 initialPos, Texture2D[] cockroachFrames)
+        public Beetle(Vector2 initialPos, Texture2D[] beetleFrames)
         {
-            this._Frames = cockroachFrames;
+            this._Frames = beetleFrames;
             this.CurrentFrame = _Frames[0];
 
             this.position = initialPos;

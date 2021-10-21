@@ -12,10 +12,14 @@ namespace BugsDestroyer
 {
     public abstract class Enemy
     {
+        // Draw Attr
         public Vector2 position;
         public Texture2D CurrentFrame;
         public Color color = Color.White;
         public float rotation = 0f;
+        public float size = 2f;
+
+        // Update Attr
         public float speed;
         public Vector2 velocity = Vector2.Zero;
         public Vector2 direction;
@@ -23,9 +27,9 @@ namespace BugsDestroyer
 
         public abstract void Update(GameTime gameTime, List<Player> players, List<Projectiles> projectiles, List<Enemy> enemies, List<Explosion> explosions, List<Texture2D> mobExplosion, List<Object> objects);
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            spriteBatch.Draw(this.CurrentFrame, this.position, null, this.color, this.rotation, new Vector2(this.CurrentFrame.Width / 2, this.CurrentFrame.Height / 2), 2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(this.CurrentFrame, this.position, null, this.color, this.rotation, new Vector2(this.CurrentFrame.Width / 2, this.CurrentFrame.Height / 2), this.size, SpriteEffects.None, 0f);
         }
 
         public void enemyCollision(List<Enemy> enemies)

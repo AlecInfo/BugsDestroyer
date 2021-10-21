@@ -35,6 +35,8 @@ namespace BugsDestroyer
         private Texture2D[] cockroachSprites = new Texture2D[2];
         private Texture2D[] beetleSprites = new Texture2D[2];
         private Texture2D[] spiderSprites = new Texture2D[2];
+        private Texture2D[] butterflySprites = new Texture2D[4];
+        private Texture2D butterflyProjectile;
         private Texture2D[] projectileSprite = new Texture2D[2];
         private Texture2D healthBarTexture;
         private Texture2D healthItem;
@@ -77,7 +79,6 @@ namespace BugsDestroyer
         private float currentTimeMiliTrasition = 0f;
         private float countDurationMiliTrasition = 1f;
         private int timerMiliTrasition = 0;
-
 
         public enum direction
         {
@@ -222,6 +223,17 @@ namespace BugsDestroyer
 
             spiderSprites[0] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira0");
             spiderSprites[1] = Content.Load<Texture2D>("Img/Mobs/Armadeira/armadeira1");
+
+            #endregion
+
+            #region Butterfly
+
+            butterflySprites[0] = Content.Load<Texture2D>("Img/Mobs/Papillon/cocon");
+            butterflySprites[1] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon0");
+            butterflySprites[2] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon1");
+            butterflySprites[3] = Content.Load<Texture2D>("Img/Mobs/Papillon/papillon2");
+
+            butterflyProjectile = Content.Load<Texture2D>("Img/Mobs/butterflyProjectile");
 
             #endregion
 
@@ -394,7 +406,7 @@ namespace BugsDestroyer
                             if (players.Count >= 2 && (players[0].isOnTrapdoor && players[1].isOnTrapdoor))
                             {
                                 changeLevel();
-                            } 
+                            }
                             else if (players.Count == 1 && players[0].isOnTrapdoor)
                             {
                                 changeLevel();
@@ -575,7 +587,7 @@ namespace BugsDestroyer
                 // affichage des enemies
                 foreach (Enemy enemy in listLevels[level].listEnemies)
                 {
-                    enemy.Draw(_spriteBatch);
+                    enemy.Draw(_spriteBatch, _graphics.GraphicsDevice);
                 }
                 #endregion
 
@@ -665,7 +677,7 @@ namespace BugsDestroyer
 
         void opacityLight(GameTime game)
         {
-            // timer pour faire un effet de plus en plus claire
+            // timer pour faire un effet de plus en plus clair
             currentTimeMiliTrasition += (float)game.ElapsedGameTime.TotalMilliseconds;
 
             if (currentTimeMiliTrasition >= countDurationMiliTrasition)
