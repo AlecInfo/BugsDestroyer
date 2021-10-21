@@ -16,6 +16,11 @@ namespace BugsDestroyer
         public Texture2D texture;
         public float size;
 
+        /// <summary>
+        /// Affichage d'un objet
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public abstract void Draw(SpriteBatch spriteBatch);
 
     }

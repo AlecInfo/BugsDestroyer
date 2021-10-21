@@ -14,15 +14,18 @@ namespace BugsDestroyer
         // Varriables
         private List<Texture2D> _menuImages;
 
-        private Color colorSectionPlayer = Color.White;
-        private Color colorSectionGame = Color.White * 0.4f;
-        private bool isSectionPlayer = true;
+        private Color _colorSectionPlayer = Color.White;
+        private Color _colorSectionGame = Color.White * 0.4f;
+        private bool _isSectionPlayer = true;
 
-        private string selectedPlayerText = "1 player";
-        private bool selectedPlayer1 = true;
+        private string _selectedPlayerText = "1 player";
+        private bool _selectedPlayer1 = true;
 
 
-
+        /// <summary>
+        /// Récupération de touts les éléments don le menu a besoin
+        /// (Alec Piette)
+        /// </summary>
         protected void menuLoad()
         {
             // liste de sprite 
@@ -38,103 +41,112 @@ namespace BugsDestroyer
                 Content.Load<Texture2D>("Img/Menu/backgroundMenuTemp2"),
             };
 
-            font = Content.Load<SpriteFont>("Fonts/GameBoy30");
+            _font = Content.Load<SpriteFont>("Fonts/GameBoy30");
 
             MenuSfx = Content.Load<SoundEffect>("Sounds/Sfx/MenuSfx");
             StartSfx = Content.Load<SoundEffect>("Sounds/Sfx/StartSfx");
         }
 
+        /// <summary>
+        /// Update du menu Principal
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected void menuUpdate(GameTime gameTime)
         {
             // modification de couleur et d'opacitiée entre la sélection de player et play
-            if (isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)))
+            if (_isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)))
             {
                 MenuSfx.Play();
-                isSectionPlayer = false;
-                colorSectionPlayer = Color.LightGray * 0.5f;
-                colorSectionGame = Color.White;
+                _isSectionPlayer = false;
+                _colorSectionPlayer = Color.LightGray * 0.5f;
+                _colorSectionGame = Color.White;
                 
             }
-            else if (!isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)))
+            else if (!_isSectionPlayer && (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)))
             {
                 MenuSfx.Play();
-                isSectionPlayer = true;
-                colorSectionGame = Color.LightGray * 0.5f;
-                colorSectionPlayer = Color.White;
+                _isSectionPlayer = true;
+                _colorSectionGame = Color.LightGray * 0.5f;
+                _colorSectionPlayer = Color.White;
             }
 
             
-            if (isSectionPlayer)
+            if (_isSectionPlayer)
             {
                 // Les sélections 1 player ou 2 player
-                if (selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D9)))
+                if (_selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D9)))
                 {
                     MenuSfx.Play();
-                    selectedPlayer1 = false;
-                    selectedPlayerText = "2 players";
+                    _selectedPlayer1 = false;
+                    _selectedPlayerText = "2 players";
                 }
-                else if (!selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.D7)))
+                else if (!_selectedPlayer1 && (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.D7)))
                 {
                     MenuSfx.Play();
-                    selectedPlayer1 = true;
-                    selectedPlayerText = "1 player";
+                    _selectedPlayer1 = true;
+                    _selectedPlayerText = "1 player";
                 }
             }
-            else if (!isSectionPlayer)
+            else if (!_isSectionPlayer)
             {
                 // lencement du jeu
-                if (isOnMenu && (Keyboard.GetState().IsKeyDown(Keys.D8)))
+                if (_isOnMenu && (Keyboard.GetState().IsKeyDown(Keys.D8)))
                 {
                     StartSfx.Play();
-                    isOnMenu = false;
+                    _isOnMenu = false;
                 }
             }
         }
 
-        protected void menuDraw(GameTime gameTime)
+        /// <summary>
+        /// Affichage du menu Principal
+        /// (Alec Piette)
+        /// </summary>
+        protected void menuDraw()
         {
             // background
             _spriteBatch.Draw(_menuImages[6], new Vector2(0, -100), null, Color.White * 0.7f, 0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0f);
 
             // Titre
-            _spriteBatch.DrawString(font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(font.MeasureString("bugs destroyer").X / 2, font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, "bugs destroyer", new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 7.25f), Color.White, 0f, new Vector2(_font.MeasureString("bugs destroyer").X / 2, _font.MeasureString("bugs destroyer").Y / 2), 2f, SpriteEffects.None, 0f);
 
             // Choix du joueur
-            if (!selectedPlayer1)
+            if (!_selectedPlayer1)
             {
-                _spriteBatch.Draw(_menuImages[2], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 175, 430), null, colorSectionPlayer, 0f, Vector2.Zero, 2.75f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_menuImages[2], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 175, 430), null, _colorSectionPlayer, 0f, Vector2.Zero, 2.75f, SpriteEffects.None, 0f);
             }
-            _spriteBatch.DrawString(font, selectedPlayerText, new Vector2(_graphics.PreferredBackBufferWidth / 2, 450), colorSectionPlayer, 0f, new Vector2(font.MeasureString(selectedPlayerText).X / 2, font.MeasureString(selectedPlayerText).Y / 2), 0.75f, SpriteEffects.None, 0f);
-            if (selectedPlayer1)
+            _spriteBatch.DrawString(_font, _selectedPlayerText, new Vector2(_graphics.PreferredBackBufferWidth / 2, 450), _colorSectionPlayer, 0f, new Vector2(_font.MeasureString(_selectedPlayerText).X / 2, _font.MeasureString(_selectedPlayerText).Y / 2), 0.75f, SpriteEffects.None, 0f);
+            if (_selectedPlayer1)
             {
-                _spriteBatch.Draw(_menuImages[1], new Vector2(_graphics.PreferredBackBufferWidth / 2 + 130, 430), null, colorSectionPlayer, 0f, Vector2.Zero, 2.75f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_menuImages[1], new Vector2(_graphics.PreferredBackBufferWidth / 2 + 130, 430), null, _colorSectionPlayer, 0f, Vector2.Zero, 2.75f, SpriteEffects.None, 0f);
             }
 
             // Jeux
-            _spriteBatch.DrawString(font, "Play", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, 520), colorSectionGame, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, "Play", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 50, 520), _colorSectionGame, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
 
             //Controle
             _spriteBatch.Draw(_menuImages[3], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 130, 720), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, "play-pause", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 43, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-            _spriteBatch.DrawString(font, "quit", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 90, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-            if (selectedPlayer1)
+            _spriteBatch.DrawString(_font, "play-pause", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 43, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            _spriteBatch.DrawString(_font, "quit", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 90, 700), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+            if (_selectedPlayer1)
             {
                 _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 -145, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 48, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 10, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 -145, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 48, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 10, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
             }
             else
             {
                 _spriteBatch.Draw(_menuImages[4], new Vector2(_graphics.PreferredBackBufferWidth / 2 - 300, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 325, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 225, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 190, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 325, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 225, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 - 190, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
 
                 _spriteBatch.Draw(_menuImages[5], new Vector2(_graphics.PreferredBackBufferWidth / 2 + 70, 810), null, Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 40, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 145, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
-                _spriteBatch.DrawString(font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 180, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "mouvement", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 40, 905), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "shot", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 145, 810), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
+                _spriteBatch.DrawString(_font, "interact", new Vector2(_graphics.PreferredBackBufferWidth / 2 + 180, 795), Color.White, 0f, new Vector2(0, 0), 0.25f, SpriteEffects.None, 0f);
             }
         }
 

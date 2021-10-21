@@ -8,16 +8,26 @@ namespace BugsDestroyer
     [Serializable]
     public class ListHighScore
     {
-        public List<HighScore> _listHighScore = new List<HighScore>();
+        // varriable
+        public List<HighScore> listHighScore = new List<HighScore>();
 
+        /// <summary>
+        /// Création de la liste des meilleurs score
+        /// (Alec Piette)
+        /// </summary>
+        /// <param name="listHighScore"></param>
         public ListHighScore(List<HighScore> listHighScore)
         {
-            this._listHighScore = listHighScore;
+            this.listHighScore = listHighScore;
         }
         
+        /// <summary>
+        /// Constructeur pour la serialisation
+        /// (Alec Piette)
+        /// </summary>
         public ListHighScore()
         {
-
+            // constructor pour serializer
         }
     }
 }
