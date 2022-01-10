@@ -113,7 +113,6 @@ namespace BugsDestroyer
 
             KeyboardState kbdState = Keyboard.GetState();
 
-
             Mouvement(kbdState, gameTime, listObjects);
 
             // animation du joueur

@@ -560,13 +560,6 @@ namespace BugsDestroyer
                 }
                 #endregion
                 
-                #region Enemys
-                // affichage des enemies
-                foreach (Enemy enemy in _listLevels[_level].listEnemies)
-                {
-                    enemy.Draw(_spriteBatch, _graphics.GraphicsDevice);
-                }
-                #endregion
 
                 #region Items
                 // affichage des items
@@ -611,6 +604,14 @@ namespace BugsDestroyer
 
 
                 _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * _opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
+
+                #region Enemys
+                // affichage des enemies
+                foreach (Enemy enemy in _listLevels[_level].listEnemies)
+                {
+                    enemy.Draw(_spriteBatch, _graphics.GraphicsDevice);
+                }
+                #endregion
 
                 // affichage du menu pause
                 menuPauseDraw();
