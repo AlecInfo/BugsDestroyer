@@ -19,6 +19,7 @@ namespace BugsDestroyer
 
         // attributs
         private GameTime _gameTime;
+        private GraphicsDeviceManager _graphics;
         private int[] walkAnimSteps = { 1, 2, 3, 2, 1, 4, 5, 6, 5, 4 };
         public Texture2D[] walkingSprites = new Texture2D[7];
         public int[] shotAnimSteps = { 0, 0, 1, 0};
@@ -75,10 +76,11 @@ namespace BugsDestroyer
 
 
         // ctor
-        public Player(GameTime gametime,Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, List<SoundEffect> listSfx, Keys[] directionalKeys, Keys shootkey, Keys interactKey, Texture2D[] projectileSprite, Vector2 position)
+        public Player(GameTime gametime, GraphicsDeviceManager graphics, Texture2D[] walkingSprites, Texture2D[] shotSprites, Texture2D deadSprite, List<SoundEffect> listSfx, Keys[] directionalKeys, Keys shootkey, Keys interactKey, Texture2D[] projectileSprite, Vector2 position)
         {
             // Récuperation des données
             this._gameTime = gametime;
+            this._graphics = graphics;
             this.walkingSprites = walkingSprites;
             this._shotSprites = shotSprites;
             this.currentSprite = this.walkingSprites[0];
@@ -256,22 +258,22 @@ namespace BugsDestroyer
 
 
             // Collision des murs
-            if (this.position.X < 280) // Left
+            if (this.position.X < _graphics.PreferredBackBufferWidth / 5.7f) // Left
             {
-                this.position.X = 280;
+                this.position.X = _graphics.PreferredBackBufferWidth / 5.7f;
             }
-            else if (this.position.X > 1640) // Right
+            else if (this.position.X > _graphics.PreferredBackBufferWidth / 1.17f) // Right
             {
-                this.position.X = 1640;
+                this.position.X = _graphics.PreferredBackBufferWidth / 1.17f;
             }
 
-            if (this.position.Y < 155) // Top
+            if (this.position.Y < _graphics.PreferredBackBufferHeight / 5.6f) // Top
             {
-                this.position.Y = 155;
+                this.position.Y = _graphics.PreferredBackBufferHeight / 5.6f;
             }
-            else if (this.position.Y > 915) // Bottom
+            else if (this.position.Y > _graphics.PreferredBackBufferHeight / 1.18f) // Bottom
             {
-                this.position.Y = 915;
+                this.position.Y = _graphics.PreferredBackBufferHeight / 1.18f;
             }
         }
 

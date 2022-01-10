@@ -144,7 +144,7 @@ namespace BugsDestroyer
             Sol.Add(Content.Load<Texture2D>("Img/Decor/Sol2"));
             Sol.Add(Content.Load<Texture2D>("Img/Decor/Sol3"));
 
-            _murs = Content.Load<Texture2D>("Img/Decor/mur0");
+            _murs = Content.Load<Texture2D>("Img/Decor/mur1");
             _glass = Content.Load<Texture2D>("Img/Decor/Glass");
             _ombre = Content.Load<Texture2D>("Img/Decor/Ombre");
 
@@ -412,7 +412,7 @@ namespace BugsDestroyer
                         if (_players.Count <= 0)
                         {
                             _players.Add(
-                                new Player(gameTime, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
+                                new Player(gameTime, _graphics, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2))
                             );
                         }
                     } // sinon si deux joueurs séléctionnés
@@ -422,12 +422,12 @@ namespace BugsDestroyer
                         {
                             // Player 1
                             _players.Add(
-                                new Player(gameTime, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
+                                new Player(gameTime, _graphics, _player1walkingSprites, _player1shotSprites, _player1DeadSprite, _listSfx, new Keys[] { Keys.W, Keys.A, Keys.S, Keys.D }, Keys.F, Keys.G, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 2.25f))
                             );
 
                             // Player 2
                             _players.Add(
-                                new Player(gameTime, _player2walkingSprites, _player2shotSprites, _player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
+                                new Player(gameTime, _graphics, _player2walkingSprites, _player2shotSprites, _player2DeadSprite, _listSfx, new Keys[] { Keys.Up, Keys.Left, Keys.Down, Keys.Right }, Keys.NumPad4, Keys.NumPad5, _projectileSprite, new Vector2(_graphics.PreferredBackBufferWidth / 5, _graphics.PreferredBackBufferHeight / 1.75f))
                             );
                         }
                     }
@@ -531,12 +531,8 @@ namespace BugsDestroyer
 
 
                 _listLevels[_level].trapdoor.Draw(_spriteBatch);
-
-                // affichage des murs
-                _spriteBatch.Draw(_murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-
                 #endregion
-                
+
                 #region Player 
                 // si le un joueur est sélectionnée
                 if (_players.Count > 0)
@@ -579,9 +575,16 @@ namespace BugsDestroyer
                 }
                 #endregion
 
-                #region Ombre
+                #region Murs / Ombre
                 // affichage d'une ombre à coté des murs
-                _spriteBatch.Draw(_ombre, new Vector2(245, 121), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                //_spriteBatch.Draw(_ombre, new Vector2(_graphics.PreferredBackBufferWidth / 7, _graphics.PreferredBackBufferHeight / 8), null, Color.White * 0.75f, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                
+                // affichage des murs
+                //_spriteBatch.Draw(_murs, new Vector2(-70, -42), null, Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(_murs,
+                   new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height),
+                   new Rectangle(0, 0, _murs.Width, _murs.Height),
+                   Color.White);
                 #endregion
 
                 #region Projectiles
@@ -606,8 +609,8 @@ namespace BugsDestroyer
                 _spriteBatch.DrawString(_font, Math.Round(timerPrincipal, 2).ToString(), new Vector2(25, 1020), Color.White, 0f, new Vector2(0, 0), 0.75f, SpriteEffects.None, 0f);
                 #endregion
 
-                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * _opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
+                _spriteBatch.Draw(_menuPauseImages[0], new Vector2(0, -100), null, Color.Black * _opacityTrasition, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0f);
 
                 // affichage du menu pause
                 menuPauseDraw();
