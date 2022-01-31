@@ -10,7 +10,6 @@ Bugs Destroyer est un jeu conçu en C.# Monogame. Il a été programmé pour la 
 2. Éditeur MGCB
 > MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour créer du 
 contenu.
-
 [Télécharger](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
 
 ```shell
@@ -28,25 +27,7 @@ mgcb-editor
 mgcb-editor --register
 ```
 
-## Usage
+3. Récupérer le code source 
 
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+4. Installez la police d'écriture
+> Qui ce trouve dans ***\BugsDestroyer\Content\Fonts***
