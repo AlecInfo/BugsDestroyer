@@ -9,8 +9,9 @@ Bugs Destroyer est un jeu conçu en C.# Monogame. Il a été programmé pour la 
 
 2. Éditeur MGCB
 > MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour créer du 
-contenu. 
-Télécharger[Monogame pages](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
+contenu.
+
+[Télécharger](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
 
 ```shell
 # Générateur de contenu MonoGame (MGCB)
