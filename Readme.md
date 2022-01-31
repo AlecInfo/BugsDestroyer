@@ -43,3 +43,4 @@ mgcb-editor --register
 > :bulb: Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
 
 - Menu
+### Menu
