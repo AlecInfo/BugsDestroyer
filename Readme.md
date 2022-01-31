@@ -37,3 +37,9 @@ mgcb-editor --register
 
 4. Installez la police d'écriture
 > :bulb: *Early GameBoy.ttf* ce trouve dans ***\BugsDestroyer\Content\Fonts***
+
+## Contrôles
+
+> :bulb: Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
+
+- Menu
