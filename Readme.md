@@ -43,24 +43,24 @@ mgcb-editor --register
 > :bulb: Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
 
 ### Menu
-- 1 joueur: 7
-- 2 joueur: 9
-- Entrer / Pause: 8
-- Quitter: 0
+- 1 joueur : 7
+- 2 joueur : 9
+- Entrer / Pause : 8
+- Quitter : 0
 
 ### Joueur 1
-- Haut: W
-- Gauche: A
-- Bas: S
-- Droite: D
-- Tir: F
-- Entrer: G
+- Haut : W
+- Gauche : A
+- Bas : S
+- Droite : D
+- Tir : F
+- Entrer : G
 
 ### Joueur 2
-- Haut: Flèche du Haut
-- Gauche: Flèche du Gauche
-- Bas: Flèche du Bas
-- Droite: Flèche du Droite
-- Tir: 4
+- Haut : Flèche du Haut
+- Gauche : Flèche du Gauche
+- Bas : Flèche du Bas
+- Droite : Flèche du Droite
+- Tir : 4
 - Entrer: 5
 
