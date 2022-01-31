@@ -4,8 +4,11 @@ Bugs Destroyer est un jeu conçu en C.# Monogame. Il a été programmé pour la 
 
 ## Installation
 
-:green_circle:  Vous devrez installer l'extension **Monogame** dans Visual Studio 2019, qui peut être installée à partir de 
-**Extensions -> Gérer les extensions** dans la barre de menus de Visual Studio. 
+1. Vous devrez installer l'extension ***Monogame*** dans Visual Studio 2019.
+> Qui peut être installée à partir de ***Extensions -> Gérer les extensions*** dans la barre de menus de  Visual Studio. 
+
+2. Éditeur MGCB
+
 
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
