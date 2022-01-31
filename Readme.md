@@ -54,7 +54,7 @@ mgcb-editor --register
 - Entrer : G
 
 ### Joueur 2
-- Mouvement : Féèches directionnelles
+- Mouvement : Flèches directionnelles
 - Tir : 4
 - Entrer : 5
 
