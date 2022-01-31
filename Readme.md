@@ -42,5 +42,14 @@ mgcb-editor --register
 
 > :bulb: Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
 
-- Menu
 ### Menu
+- 1 joueur: 7
+- 2 joueur: 9
+- Entrer / Pause: 8
+- Quitter: 0
+
+### Joueur 1
+- 
+
+### Joueur 2
+
