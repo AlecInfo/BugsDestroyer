@@ -12,10 +12,17 @@ Bugs Destroyer est un jeu conçu en C.# Monogame. Il a été programmé pour la 
 contenu. 
 Télécharger[Monogame pages](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
 
-```bash
+```shell
+# Générateur de contenu MonoGame (MGCB)
 dotnet tool install -g dotnet-mgcb
+
+#  Éditeur MGCB (anciennement outil Pipeline)
 dotnet tool install -g dotnet-mgcb-editor
+
+# Compilateur d'effets MonoGame (MGFXC ; auparavant 2MGFX)
 dotnet tool install -g dotnet-mgfxc
+
+# Après installation
 mgcb-editor
 mgcb-editor --register
 ```
