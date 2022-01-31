@@ -560,7 +560,6 @@ namespace BugsDestroyer
                 }
                 #endregion
                 
-
                 #region Items
                 // affichage des items
                 foreach (Item item in _listLevels[_level].listItems){
