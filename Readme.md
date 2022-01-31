@@ -2,7 +2,7 @@
 
 Bugs Destroyer est un jeu conçu en C.# [Monogame](https://www.monogame.net/). Il a été programmé pour la cité des métiers 2021. Il a pour but de réincarner un informaticien dans un ordinateur et son objectif à lui est de détruire tous les Bugs / Insects :ant:. Le jeu peut se jouer tous seul ou a deux, il y a un nombre de 12 niveaux qui augmente de difficulté plus un boss à la fin. Une fois le boss vaincu vous aurez la possibilité d'enregistrer votre score.
 
-[Gameplay](https://github.com/AlecInfo/BugsDestroyer/blob/master/Doc/GifTroKoul.gif)
+[Gameplay](![image](https://user-images.githubusercontent.com/57799894/151775261-e447f1fc-2d6e-42b0-9a28-2f3446235f4e.png))
 
 ## Installation
 
