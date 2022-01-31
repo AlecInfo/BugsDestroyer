@@ -62,5 +62,5 @@ mgcb-editor --register
 - Bas : Flèche du Bas
 - Droite : Flèche du Droite
 - Tir : 4
-- Entrer: 5
+- Entrer : 5
 
