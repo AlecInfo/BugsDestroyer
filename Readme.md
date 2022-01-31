@@ -5,12 +5,13 @@ Bugs Destroyer est un jeu conçu en C.# Monogame. Il a été programmé pour la 
 ## Installation
 
 1. Vous devrez installer l'extension ***Monogame*** dans Visual Studio 2019.
-> Qui peut être installée à partir de ***Extensions -> Gérer les extensions*** dans la barre de menus de  Visual Studio. 
+> :warning: Qui peut être installée à partir de ***Extensions -> Gérer les extensions*** dans la barre de menus de  Visual Studio. 
 
 2. Éditeur MGCB
-> MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour créer du 
+> :bulb: MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour créer du 
 contenu.
-[Télécharger](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
+
+> :warning: [Télécharger](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
 
 ```shell
 # Générateur de contenu MonoGame (MGCB)
@@ -30,4 +31,4 @@ mgcb-editor --register
 3. Récupérer le code source 
 
 4. Installez la police d'écriture
-> Qui ce trouve dans ***\BugsDestroyer\Content\Fonts***
+> :warning: Qui ce trouve dans ***\BugsDestroyer\Content\Fonts***
