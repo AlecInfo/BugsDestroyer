@@ -8,8 +8,8 @@ Bugs Destroyer est un jeu conçu en C.# [Monogame](https://www.monogame.net/). I
 > :bulb: Qui peut être installée à partir de ***Extensions -> Gérer les extensions*** dans la barre de menus de  Visual Studio. 
 
 2. Éditeur MGCB
-> :bulb: MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour créer du 
-contenu.
+> :bulb: MGCB Editor est un outil d'édition de fichiers .mgcb, qui sont utilisés pour mettre du 
+contenu comme des images, des vidéos ou même des musiques.
 [Télécharger](https://docs.monogame.net/articles/tools/mgcb_editor.html) le dans l'invite de commande.
 
 ```shell
