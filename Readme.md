@@ -49,7 +49,18 @@ mgcb-editor --register
 - Quitter: 0
 
 ### Joueur 1
-- 
+- Haut: W
+- Gauche: A
+- Bas: S
+- Droite: D
+- Tir: F
+- Entrer: G
 
 ### Joueur 2
+- Haut: Flèche du Haut
+- Gauche: Flèche du Gauche
+- Bas: Flèche du Bas
+- Droite: Flèche du Droite
+- Tir: 4
+- Entrer: 5
 
