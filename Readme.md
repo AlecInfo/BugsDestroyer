@@ -48,7 +48,7 @@ Mais si vous ne voulez pas ou pouvez pas alors le programme se trouve dans les f
 ### Créer un Publish
 Pour créer ce dossier App/Publish qui permet de concevoir un .exe de votre application, il suffit d'aller dans le terminal de commande, aller dans le dossier de votre programme et faire la commande suivante.
 
-> 💡 Le dossier publish créé est un dossier temporaire pour cela vous deverez aller dans le dossier de votre application, exemple [BugsDestroyer/BugsDestroyer/](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer). Et chercher le dossier publish dans la barre de recherche. 
+> 💡 Le dossier publish créé est un dossier temporaire pour cela vous deverez aller dans le dossier de votre application, exemple: [BugsDestroyer/BugsDestroyer/](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer). Et chercher le dossier publish dans la barre de recherche. 
 
 ```shell
 # Windows
