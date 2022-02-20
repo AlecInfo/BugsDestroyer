@@ -36,7 +36,7 @@ mgcb-editor --register
 3. Récupérer le code source 
 
 4. Installez la police d'écriture
-> :bulb: *Early GameBoy.ttf* ce trouve dans [***\BugsDestroyer\Content\Fonts***](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer/Content/Fonts)
+> :bulb: *Early GameBoy.ttf* ce trouve dans [\BugsDestroyer\Content\Fonts](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer/Content/Fonts)
 
 ## Contrôles
 
