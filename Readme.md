@@ -53,10 +53,14 @@ Pour créer ce dossier App/Publish qui permet de concevoir un .exe de votre appl
 ```shell
 # Windows
 dotnet publish -c Release -r win-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
+```
 
+```shell
 # Linux
 dotnet publish -c Release -r linux-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
+```
 
+```shell
 # macOs
 dotnet publish -c Release -r osx-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
 ```
