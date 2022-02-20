@@ -36,16 +36,16 @@ mgcb-editor --register
 3. Récupérer le code source 
 
 4. Installez la police d'écriture
-> :bulb: *Early GameBoy.ttf* ce trouve dans [\BugsDestroyer\Content\Fonts](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer/Content/Fonts)
+> :bulb: *Early GameBoy.ttf* ce trouve dans [/BugsDestroyer/Content/Fonts](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer/Content/Fonts)
 
 ## Jouer
+### Lancement du jeu
 Si vous avez télécharger le code source vous pouvez directement compiler le programme pour jouer.
 Mais si vous ne voulez pas ou pouvez pas alors le programme se trouve dans les fichiers du jeu.
 
-> :bulb: Le programme est dans le dossier [Doc/App/](https://github.com/AlecInfo/BugsDestroyer/tree/master/Doc/App), il ne vous restera plus qu'à lancer le ficher ***BugsDestroyer.exe***.
+> :bulb: Le programme est dans le dossier [/Doc/App/](https://github.com/AlecInfo/BugsDestroyer/tree/master/Doc/App), il ne vous restera plus qu'à lancer le ficher ***BugsDestroyer.exe***.
 
-
-
+### Créer un Publish
 Pour créer ce dossier App/Publish qui permet de concevoir un .exe de votre application, il suffit d'aller dans le terminal de commande, aller dans le dossier de votre programme et faire la commande suivante.
 
 > 💡 Le dossier publish créé est un dossier temporaire pour cela vous deverez aller dans le dossier de votre application, exemple [BugsDestroyer/BugsDestroyer/](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer). Et chercher le dossier publish dans la barre de recherche. 
