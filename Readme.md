@@ -42,7 +42,23 @@ mgcb-editor --register
 Si vous avez télécharger le code source vous pouvez directement compiler le programme pour jouer.
 Mais si vous ne voulez pas ou pouvez pas alors le programme se trouve dans les fichiers du jeu.
 
-> :blub: Le programme est dans le dossier [Doc/App/](https://github.com/AlecInfo/BugsDestroyer/tree/master/Doc/App) il ne vous restera plus qu'à lancer le ficher ***BugsDestroyer.exe***.
+> :bulb: Le programme est dans le dossier [Doc/App/](https://github.com/AlecInfo/BugsDestroyer/tree/master/Doc/App), il ne vous restera plus qu'à lancer le ficher ***BugsDestroyer.exe***.
+
+Pour créer ce dossier App/Publish qui permet de concevoir un .exe de votre application, il sufit d'aller dans le terminal de commande, aller dans le dossier de votre programme et faire la commande suivante.
+
+> 💡 Le dossier publish créer est un dossier temporaire pour cela vous deverez aller dans le dossier de votre application, exemple [BugsDestroyer/BugsDestroyer/](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer). Et chercher le dossier publish dans la bar de recherche. 
+
+```shell
+# Windows
+dotnet publish -c Release -r win-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
+
+# Linux
+dotnet publish -c Release -r linux-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
+
+# macOs
+dotnet publish -c Release -r osx-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained
+```
+
 
 ## Contrôles
 
