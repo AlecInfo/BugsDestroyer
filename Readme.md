@@ -38,6 +38,12 @@ mgcb-editor --register
 4. Installez la police d'écriture
 > :bulb: *Early GameBoy.ttf* ce trouve dans [\BugsDestroyer\Content\Fonts](https://github.com/AlecInfo/BugsDestroyer/tree/master/BugsDestroyer/Content/Fonts)
 
+## Jouer
+Si vous avez télécharger le code source vous pouvez directement compiler le programme pour jouer.
+Mais si vous ne voulez pas ou pouvez pas alors le programme se trouve dans les fichiers du jeu.
+
+> :blub: Le programme est dans le dossier [Doc/App/](https://github.com/AlecInfo/BugsDestroyer/tree/master/Doc/App) il ne vous restera plus qu'à lancer le ficher ***BugsDestroyer.exe***.
+
 ## Contrôles
 
 > :bulb: Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
