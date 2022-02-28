@@ -16,6 +16,10 @@ namespace BugsDestroyer
         Random rnd = new Random();
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private RenderTarget2D _renderTarget2D;
+
+        // Size Screen
+        private float _screenScale = 0.44444f;
 
         // Game objects (Lists)
         private List<Player> _players = new List<Player>();
@@ -117,6 +121,8 @@ namespace BugsDestroyer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _renderTarget2D = new RenderTarget2D(GraphicsDevice, 1920, 1080);
 
             #region Music / SoundEffect
 
@@ -499,6 +505,9 @@ namespace BugsDestroyer
 
         protected override void Draw(GameTime gameTime)
         {
+            this._screenScale = 1f / ((float)this._renderTarget2D.Height / GraphicsDevice.Viewport.Height);
+
+            GraphicsDevice.SetRenderTarget(this._renderTarget2D);
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
@@ -624,6 +633,16 @@ namespace BugsDestroyer
             }
 
             _spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Black);
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(this._renderTarget2D, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, this._screenScale, SpriteEffects.None, 0f);
+
+            _spriteBatch.End();
+
             base.Draw(gameTime);
         }
 
