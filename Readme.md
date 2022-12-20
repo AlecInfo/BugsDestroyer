@@ -68,7 +68,7 @@ dotnet publish -c Release -r osx-x64 /p:PublishReadyToRun=false /p:TieredCompila
 
 ## Contrôles
 
-> 💡 Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières
+> 💡 Je jeu a été conçu pour être joué sur une borne d'arcade, c'est pour ça que les touches peuvent être un peu particullières. De plus il a été fait pour un ecran 1920x1080, il ne sera pas adapter pour un ecran plus grand pour plus petit.
 
 ### Menu
 - 1 joueur : 7
