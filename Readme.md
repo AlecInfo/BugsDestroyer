@@ -10,6 +10,8 @@ Bugs Destroyer est un jeu conçu en C# [Monogame](https://www.monogame.net/). Il
 
 ## Installation
 
+> 💡 Si votre but est juste de jouer alors vour pouvez installer just l'executable [ici](https://github.com/AlecInfo/BugsDestroyer/releases/download/v1.0.0/BugsDestroyer.zip)
+
 1. Vous devrez installer l'extension ***Monogame*** dans Visual Studio 2019.
 > 💡 Qui peut être installée à partir de ***Extensions -> Gérer les extensions*** dans la barre de menus de  Visual Studio. 
 
